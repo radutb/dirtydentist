@@ -183,10 +183,14 @@ function checkbox(self, action_id, action, node, enabled)
 	return dd[selected]
 end
 
-function clear_checkbox(node)
+function clear_checkbox(node, preset)
 	local bgNode = gui.get_node(node .. "/bg")
 	local selected  = node .. "selected"
-	dd[selected] = false
+	if preset == nil then
+		dd[selected] = false
+	else
+		dd[selected] = preset
+	end
 	gui.play_flipbook(bgNode, "bg_checkbox")
 	dd.activeNode = nil
 	gui.set_color(bgNode, colors.active)

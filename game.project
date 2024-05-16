@@ -10,7 +10,7 @@ height = 800
 
 [project]
 title = DirtyDentist
-version = 0.1.3
+version = 0.1.4
 publisher = Skogsheden
 developer = Nils Gustafsson
 bundle_resources = /dirtydentist/
