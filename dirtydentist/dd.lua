@@ -238,23 +238,31 @@ function button_touch(self, action_id, action, node, enabled)
 end
 
 -- Textinput takes actions, node and if it is enabled
-function text_input(self, action_id, action, node, enabled)	
+function text_input(self, action_id, action, node, enabled, tab_to)	
 	-- Check if can be activated
 	local bgNode = gui.get_node(node .. "/bg")
 	local textNode = gui.get_node(node .. "/text")
-	
 	if dd.activeNode == nil and gui.pick_node(bgNode, action.x, action.y) and enabled then
 		dd.activeNode = node -- Active node if touched and no other is active
 	elseif not enabled then
 		gui.set_color(bgNode, colors.inactive) -- Set color to inactive
+	end
+	if dd.tabToNode == node then
+		dd.activeNode = node
 	end
 	-- Recieve input
 	if dd.activeNode == node then
 		-- Get the other subnodes
 		local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
 		local markerNode = gui.get_node(node .. "/marker")
-		widthmod = window.get_size()/1280	
-		
+		widthmod = window.get_size()/1280
+		-- Tab to new node
+		if action_id == hash("tab") and action.released and tab_to ~= nil and dd.tabToNode ~= node then
+			dd[node .. "isActive"] = false
+			gui.set_enabled(markerNode, false)
+			gui.set_color(bgNode, colors.active)
+			dd.tabToNode = tab_to
+		end
 		-- If button pressed on textbox
 		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) then
 			dd[node .. "isActive"] = true -- Activate text input
@@ -281,6 +289,26 @@ function text_input(self, action_id, action, node, enabled)
 			gui.set_enabled(markerNode, false)
 			gui.set_color(bgNode, colors.active)
 			dd.activeNode = nil
+		-- If activated trought tabbing
+		elseif dd.tabToNode == node then
+			dd.tabToNode = nil
+			dd[node .. "isActive"] = true -- Activate text input
+			gui.set_enabled(markerNode, true) -- Enable marker
+			gui.set_color(bgNode, colors.hover) -- Set color to hover
+			markpos = vmath.vector3(gui.get_text_metrics_from_node(hiddenText).width, 0, 0) -- Convert to local pos
+			gui.set_position(markerNode, markpos) -- Update
+			gui.set_text(hiddenText, gui.get_text(textNode))
+			if utf8.len(gui.get_text(hiddenText)) >= 2 then -- If two or more letters allow editing
+				while gui.get_text_metrics_from_node(hiddenText).width > markpos.x do -- Adjust hidden string to fit hiddenstring
+					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
+					gui.set_text(hiddenText, shortenstring)
+					if utf8.len(shortenstring) <= 2 then
+						break
+					end
+				end
+			end
+			markpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
+			gui.set_position(markerNode, markpos)
 		end
 
 		if action_id == hash("left") and action.pressed and utf8.len(gui.get_text(hiddenText)) > 0 and dd[node .. "isActive"] then
@@ -726,7 +754,7 @@ function combobox_interact(self, action_id, action, node, list, enabled)
 			gui.set_enabled(markerNode, false)
 			gui.set_color(textbox, colors.active)
 		end
-
+		
 		-- active textinput
 		if action_id == hash("touch") and action.pressed and gui.pick_node(selected_text, action.x, action.y) then
 			dd[inputActive] = true
@@ -1009,7 +1037,7 @@ end
 
 
 -- Multiline inputbox
-function textbox_input(self, action_id, action, node, enabled)	
+function textbox_input(self, action_id, action, node, enabled, tab_to)	
 	-- Check if can be activated
 	local bgNode = gui.get_node(node .. "/bg")
 	if dd.activeNode == nil and gui.pick_node(bgNode, action.x, action.y) and enabled then
@@ -1018,7 +1046,11 @@ function textbox_input(self, action_id, action, node, enabled)
 		gui.set_color(bgNode, colors.inactive)
 	end
 	local lines = node .. "lines"
-	
+	local input = node .. "input"
+
+	if dd.tabToNode == node then
+		dd.activeNode = node
+	end
 	
 	-- Recieve input
 	if dd.activeNode == node then
@@ -1038,7 +1070,6 @@ function textbox_input(self, action_id, action, node, enabled)
 		gui.set_position(dragpos, dragposx)
 
 		 -- Store all created lines
-		
 		if  dd[lines] == nil or #dd[lines] == 0 then
 			dd[lines] = {}
 			dd[lines][1] = {text = textNode, hidden = hiddenText, marker = markerNode, innerbox = innerbox, id = 1}
@@ -1151,6 +1182,42 @@ function textbox_input(self, action_id, action, node, enabled)
 			dragPos.y = valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -5)
 			gui.set_position(dragpos, dragPos)
 		end
+		-- Tab to and from
+		if action_id == hash("tab") and action.pressed and tab_to ~= nil then
+			for i = 1, #dd[lines] do -- Loop through all lines and check which one is active
+				gui.set_color(bgNode, colors.active)
+				dd[input] = false
+				gui.set_enabled(dd[lines][i].marker, false)
+				dd.activeNode = nil
+			end
+			dd.activeNode = tab_to
+			print("Tab to: " ..  tab_to)
+		end
+		if dd.tabToNode == node then
+			gui.set_color(bgNode, colors.hover) -- Set BG color to hover
+			dd[active] = #dd[lines] -- Set active to current
+
+			dd[input] = true -- Recive text input
+			gui.set_enabled(dd[lines][#dd[lines] ].marker, true) -- Enable marker
+			gui.set_screen_position(dd[lines][#dd[lines] ].marker, vmath.vector3(19999,0,0)) -- Set marker at click position
+			markpos = gui.get_position(dd[lines][#dd[lines] ].marker) -- Convert to local pos
+			markpos.y = -10 -- Set y position to 0 to keep in middle of box
+			gui.set_position(dd[lines][#dd[lines]].marker, markpos) -- Update
+			gui.set_text(dd[lines][#dd[lines]].hidden, gui.get_text(dd[lines][#dd[lines] ].text))
+			if utf8.len(gui.get_text(dd[lines][#dd[lines]].hidden)) >= 1 then -- If two or more letters allow editing
+				while gui.get_text_metrics_from_node(dd[lines][#dd[lines]].hidden).width > 10000 do -- Adjust hidden string to fit hiddenstring
+					local shortenstring = utf8.sub(gui.get_text(dd[lines][#dd[lines]].hidden), 1, -2)
+					gui.set_text(dd[lines][#dd[lines]].hidden, shortenstring)
+					if utf8.len(shortenstring) <= 1 then
+						break
+					end
+				end
+			end
+			markpos.x = gui.get_text_metrics_from_node(dd[lines][#dd[lines]].hidden).width -- Update marker to be at the end the hiddenstring
+			gui.set_position(dd[lines][#dd[lines]].marker, markpos)
+			dd.tabToNode = nil
+		end
+		
 		for i = 1, #dd[lines] do -- Loop through all lines and check which one is active
 			if action_id == hash("touch") and action.pressed and gui.pick_node(dd[lines][i].innerbox, action.x, action.y) then
 				gui.set_enabled(dd[lines][dd[active]].marker, false)
