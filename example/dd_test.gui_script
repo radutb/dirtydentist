@@ -73,7 +73,9 @@ function on_input(self, action_id, action)
 		gui.set_text(gui.get_node("buttontext"), "I'm pressed!")
 	end
 
-	checkbox(self, action_id, action, "checkEtt", true)
+	checkbox(self, action_id, action, "checkEtt", true,"Detta är en test kryssruta")
+	checkbox(self, action_id, action, "checkTva", true)
+	
 
 	radio(self, action_id, action, 1, {"radioEtt", "radioTva"}, true)
 end

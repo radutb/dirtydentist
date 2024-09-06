@@ -147,25 +147,34 @@ function radio(self, action_id, action, group, nodes, enabled)
 end
 
 -- Checkboxes takes action, current node and if it should be enabled
-function checkbox(self, action_id, action, node, enabled)
+function checkbox(self, action_id, action, node, enabled, txt)
 	-- Check if can be activated
 	local bgNode = gui.get_node(node .. "/bg")
+	local txtBox = gui.get_node(node .. "/txtbox")
+	local txtNode = gui.get_node(node .. "/txt")
 	local selected  = node .. "selected"
 	if dd[selected] == nil then
 		dd[selected] = false
+	end
+	if gui.pick_node(bgNode, action.x, action.y) then
+		gui.set_color(bgNode, colors.hover)
+		if txt ~= nil then
+			gui.set_text(txtNode, txt)
+			gui.set_enabled(txtBox, true)
+		end
 	end
 
 	if dd.activeNode == nil and gui.pick_node(bgNode, action.x, action.y) and enabled then
 		dd.activeNode = node
 	elseif gui.pick_node(bgNode, action.x, action.y) == false and enabled then
 		gui.set_color(bgNode, colors.active)
+		gui.set_enabled(txtBox, false)
 	elseif enabled == false then
 		gui.set_color(bgNode, colors.inactive)
 	end
 
 	if dd.activeNode == node then 
 		if gui.pick_node(bgNode, action.x, action.y) then
-			gui.set_color(bgNode, colors.hover)
 			if action_id == hash("touch") and action.pressed and dd[selected] then
 				dd[selected] = false
 				gui.play_flipbook(bgNode, "bg_checkbox")
