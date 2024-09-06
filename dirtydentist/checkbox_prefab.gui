@@ -20,8 +20,9 @@ nodes {
 }
 nodes {
   position {
-    x: 115.0
-    y: 28.0
+    x: 15.0
+    y: 15.0
+    z: 1.0
   }
   size {
     x: 200.0
@@ -34,13 +35,14 @@ nodes {
   }
   type: TYPE_BOX
   id: "txtbox"
+  pivot: PIVOT_W
+  layer: "marker"
   inherit_alpha: true
-  size_mode: SIZE_MODE_AUTO
   enabled: false
 }
 nodes {
   position {
-    x: -90.0
+    x: 10.0
   }
   size {
     x: 190.0

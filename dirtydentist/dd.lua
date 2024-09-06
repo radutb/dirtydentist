@@ -160,6 +160,9 @@ function checkbox(self, action_id, action, node, enabled, txt)
 		gui.set_color(bgNode, colors.hover)
 		if txt ~= nil then
 			gui.set_text(txtNode, txt)
+			local text_width = gui.get_text_metrics_from_node(txtNode).width
+			local current_size = gui.get_size(txtBox)
+			gui.set_size(txtBox, vmath.vector3(text_width + 20, current_size.y, current_size.z))
 			gui.set_enabled(txtBox, true)
 		end
 	end
