@@ -704,9 +704,14 @@ function dropdown_interact(self, action_id, action, node, list, enabled)
 	end
 	return dd[selectedValue]
 end
-
+function clearTabCombo(self)
+	-- Only clear if there was a previous tab interaction
+	if dd.prevComboTab ~= nil then
+		dd.prevComboTab = nil
+	end
+end
 -- Interaction with combobox
-function combobox_interact(self, action_id, action, node, list, enabled)
+function combobox_interact(self, action_id, action, node, list, enabled, nextcombo)
 	-- check if combobox is interatcted with
 	local textbox = gui.get_node(node .. "/textbox")
 	if gui.pick_node(textbox, action.x, action.y) and dd.activeNode == nil and action_id == hash("touch") and action.pressed and enabled then
@@ -720,7 +725,7 @@ function combobox_interact(self, action_id, action, node, list, enabled)
 	end
 
 	-- get selected value for return
-	local selectedValue = node .. "selectedValue"	
+	local selectedValue = node .. "selectedValue"
 	
 	if isActive(node) then
 		-- Values in table
@@ -753,237 +758,255 @@ function combobox_interact(self, action_id, action, node, list, enabled)
 
 		-- Calculate width modifier
 		widthmod = window.get_size()/1280	
-		
-		-- If left active area close dropdown
-		if gui.pick_node(gui.get_node(dd.activeNode .. "/safearea"), action.x, action.y) == false and gui.pick_node(gui.get_node(dd.activeNode .. "/textbox"), action.x, action.y) == false then
-			gui.set_enabled(mask, false) 
+
+		-- Inside the combobox_interact function, modify this block
+		if action_id == hash("tab") and action.released and nextcombo ~= nil and dd.prevComboTab == nil then
+			-- Handle the current combobox closing
+			gui.set_enabled(mask, false)
 			gui.set_text(selected_text, dd[selectedValue])
 			dd[isOpen] = false
 			dropdown_del(self, node)
 			dd[init] = false
-			dd.activeNode = nil
+			dd.activeNode = nil  -- Deactivate current node
 			dd[inputActive] = false
 			gui.set_enabled(markerNode, false)
 			gui.set_color(textbox, colors.active)
+
+			-- Open the next combobox
+			local nextTextbox = gui.get_node(nextcombo .. "/textbox")
+			local nextSelectedText = gui.get_node(nextcombo .. "/selecttext")
+			local nextMarkerNode = gui.get_node(nextcombo .. "/marker")
+			local nextHiddenText = gui.get_node(nextcombo .. "/hiddentext")
+
+			-- Set the next combo as active
+			gui.set_color(nextTextbox, colors.hover)
+			dd[nextcombo .. "inputActive"] = true
+			gui.set_enabled(nextMarkerNode, true)
+
+			-- Clear default text if necessary
+			if gui.get_text(nextSelectedText) == selectavalue then
+				gui.set_text(nextSelectedText, "")
+				gui.set_text(nextHiddenText, "")
+			end
+
+			-- Start text input in the next combo
+			gui.set_text(nextHiddenText, gui.get_text(nextSelectedText))
+			local widthmod = window.get_size() / 1280
+			gui.set_screen_position(nextMarkerNode, vmath.vector3(action.x * widthmod, action.y, 0))
+			local markpos = gui.get_position(nextMarkerNode)
+			markpos.y = 0
+			markpos.x = gui.get_text_metrics_from_node(nextHiddenText).width * cb_textmag - 90
+			gui.set_position(nextMarkerNode, markpos)
+			dd.prevComboTab = node  -- Mark current node for tabbed action
+			dd.activeNode = nextcombo  -- Switch active node to next combo
+			return dd[selectedValue]
 		end
 		
-		-- active textinput
-		if action_id == hash("touch") and action.pressed and gui.pick_node(selected_text, action.x, action.y) then
-			dd[inputActive] = true
-			gui.set_enabled(markerNode, true)
-			gui.set_color(textbox, colors.hover)
-			if gui.get_text(selected_text) == selectavalue then
-				gui.set_text(selected_text, "")
-				gui.set_text(hiddenText,"")
+		if isActive(node) then
+			-- If left active area close dropdown
+			if gui.pick_node(gui.get_node(dd.activeNode .. "/safearea"), action.x, action.y) == false and gui.pick_node(gui.get_node(dd.activeNode .. "/textbox"), action.x, action.y) == false and action_id == hash("touch") and action.pressed  then
+				gui.set_enabled(mask, false) 
+				gui.set_text(selected_text, dd[selectedValue])
+				dd[isOpen] = false
+				dropdown_del(self, node)
+				dd[init] = false
+				dd.activeNode = nil
+				dd[inputActive] = false
+				gui.set_enabled(markerNode, false)
+				gui.set_color(textbox, colors.active)
 			end
-			gui.set_text(hiddenText, gui.get_text(selected_text))
-			
-			-- Set marker
-			gui.set_screen_position(markerNode, vmath.vector3(action.x*widthmod,action.y,0)) 
-			local markpos = gui.get_position(markerNode)
-			markpos.y = 0 
+		
+			-- active textinput
+			if action_id == hash("touch") and action.pressed and gui.pick_node(selected_text, action.x, action.y) then
+				dd[inputActive] = true
+				gui.set_enabled(markerNode, true)
+				gui.set_color(textbox, colors.hover)
+				if gui.get_text(selected_text) == selectavalue then
+					gui.set_text(selected_text, "")
+					gui.set_text(hiddenText,"")
+				end
+				gui.set_text(hiddenText, gui.get_text(selected_text))
+				
+				-- Set marker
+				gui.set_screen_position(markerNode, vmath.vector3(action.x*widthmod,action.y,0)) 
+				local markpos = gui.get_position(markerNode)
+				markpos.y = 0 
 
-			while gui.get_text_metrics_from_node(hiddenText).width * cb_textmag - 90 > markpos.x do -- Adjust hidden string to fit hiddenstring
+				while gui.get_text_metrics_from_node(hiddenText).width * cb_textmag - 90 > markpos.x do -- Adjust hidden string to fit hiddenstring
+					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
+					gui.set_text(hiddenText, shortenstring)
+					if utf8.len(shortenstring) <= 1 then
+						break
+					end
+				end
+				markpos.x = gui.get_text_metrics_from_node(hiddenText).width * cb_textmag - 90 -- Update marker to be at the end the hiddenstring
+				gui.set_position(markerNode, markpos)
+			-- if clicked outside of textbox --> stop input
+			elseif action_id == hash("touch") and action.pressed then
+				dd[inputActive] = false
+				gui.set_color(textbox, colors.active)
+				gui.set_enabled(markerNode, false)
+			end
+			
+			if action_id == hash("left") and action.pressed and utf8.len(gui.get_text(hiddenText)) > 0 then
 				local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
 				gui.set_text(hiddenText, shortenstring)
-				if utf8.len(shortenstring) <= 1 then
-					break
-				end
-			end
-			markpos.x = gui.get_text_metrics_from_node(hiddenText).width * cb_textmag - 90 -- Update marker to be at the end the hiddenstring
-			gui.set_position(markerNode, markpos)
-		-- if clicked outside of textbox --> stop input
-		elseif action_id == hash("touch") and action.pressed then
-			dd[inputActive] = false
-			gui.set_color(textbox, colors.active)
-			gui.set_enabled(markerNode, false)
-		end
-		
-		if action_id == hash("left") and action.pressed and utf8.len(gui.get_text(hiddenText)) > 0 then
-			local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
-			gui.set_text(hiddenText, shortenstring)
-			local markerPos = gui.get_position(markerNode)
-			markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
-			gui.set_position(markerNode, markerPos)
-		elseif action_id == hash("right") and action.pressed and utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then
-			local lengthNew = utf8.len(gui.get_text(hiddenText))
-			local lenDiff = utf8.len(gui.get_text(selected_text)) - lengthNew
-			local shortenstring = utf8.sub(gui.get_text(selected_text), 1, -lenDiff)
-			gui.set_text(hiddenText, shortenstring)
-			local markerPos = gui.get_position(markerNode)
-			markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
-			gui.set_position(markerNode, markerPos)
-		end
-		
-		-- handle input of text
-		if action_id == hash("text") and dd[inputActive] then	
-			dropdown_del(self, node)
-			
-			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then -- Hidden is shorter add text for that point
-				local hiddenlength = utf8.len(gui.get_text(hiddenText))
 				local markerPos = gui.get_position(markerNode)
-				local text = gui.get_text(hiddenText)
-				text = text .. action.text
-				gui.set_text(hiddenText, text)
-				text = text .. utf8.sub(gui.get_text(selected_text), hiddenlength + 1, -1)
-				gui.set_text(selected_text, text)
 				markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
 				gui.set_position(markerNode, markerPos)
-			elseif utf8.len(gui.get_text(hiddenText)) == utf8.len(gui.get_text(selected_text)) then -- If equal add text at the end
+			elseif action_id == hash("right") and action.pressed and utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then
+				local lengthNew = utf8.len(gui.get_text(hiddenText))
+				local lenDiff = utf8.len(gui.get_text(selected_text)) - lengthNew
+				local shortenstring = utf8.sub(gui.get_text(selected_text), 1, -lenDiff)
+				gui.set_text(hiddenText, shortenstring)
 				local markerPos = gui.get_position(markerNode)
-				local text = gui.get_text(selected_text)
-				text = text .. action.text
-				gui.set_text(hiddenText, text)
-				gui.set_text(selected_text, text)
-				markerPos.x = gui.get_text_metrics_from_node(selected_text).width*cb_textmag - 90
-				gui.set_position(markerNode, markerPos)
-			end
-			
-			-- clear check if input is in list and store matching ids in foundInList
-			for i = 0, #foundInList do foundInList[i] = nil end
-			for k in pairs(list) do
-				if utf8.find(utf8.lower(list[k]),utf8.lower(gui.get_text(selected_text))) ~= nil then
-					foundInList[#foundInList+1] = list[k]
-				end
-			end	
-			dd[selectedValue] = gui.get_text(selected_text)
-			dd[count] = #foundInList
-			dropdown_crt(self, node, foundInList)
-
-			gui.set_position(dd_obj, vmath.vector3(0,0,0))
-			gui.set_enabled(mask, true)
-			dd[isOpen] = true
-		end
-		
-		if action_id == hash("backspace") and action.repeated then
-			dropdown_del(self, node)
-
-			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then -- If hidden is shorter remove text from that point
-				local hiddenlength = utf8.len(gui.get_text(hiddenText))
-				local markerPos = gui.get_position(markerNode)
-				local text = gui.get_text(hiddenText)
-				text = utf8.sub(text, 1, -2)
-				gui.set_text(hiddenText, text)
-				text = text .. utf8.sub(gui.get_text(selected_text), hiddenlength+1, -1)
-				gui.set_text(selected_text, text)
-				markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
-				gui.set_position(markerNode, markerPos)
-			elseif utf8.len(gui.get_text(hiddenText)) == utf8.len(gui.get_text(selected_text)) then -- If equal remove from the end
-				local markerPos = gui.get_position(markerNode)
-				local text = gui.get_text(hiddenText)
-				text = utf8.sub(text, 1, -2)
-				gui.set_text(hiddenText, text)
-				gui.set_text(selected_text, text)
 				markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
 				gui.set_position(markerNode, markerPos)
 			end
-
-			for i=0, #foundInList do foundInList[i]=nil end
-			for k in pairs(list) do
-				if utf8.find(utf8.lower(list[k]),utf8.lower(gui.get_text(selected_text))) ~= nil then
-					foundInList[#foundInList+1] = list[k]
+			-- handle input of text
+			if action_id == hash("text") and dd[inputActive] then	
+				dropdown_del(self, node)
+				if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then -- Hidden is shorter add text for that point
+					local hiddenlength = utf8.len(gui.get_text(hiddenText))
+					local markerPos = gui.get_position(markerNode)
+					local text = gui.get_text(hiddenText)
+					text = text .. action.text
+					gui.set_text(hiddenText, text)
+					text = text .. utf8.sub(gui.get_text(selected_text), hiddenlength + 1, -1)
+					gui.set_text(selected_text, text)
+					markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
+					gui.set_position(markerNode, markerPos)
+				elseif utf8.len(gui.get_text(hiddenText)) == utf8.len(gui.get_text(selected_text)) then -- If equal add text at the end
+					local markerPos = gui.get_position(markerNode)
+					local text = gui.get_text(selected_text)
+					text = text .. action.text
+					gui.set_text(hiddenText, text)
+					gui.set_text(selected_text, text)
+					markerPos.x = gui.get_text_metrics_from_node(selected_text).width*cb_textmag - 90
+					gui.set_position(markerNode, markerPos)
 				end
-			end	
+				-- clear check if input is in list and store matching ids in foundInList
+				for i = 0, #foundInList do foundInList[i] = nil end
+				for k in pairs(list) do
+					if utf8.find(utf8.lower(list[k]),utf8.lower(gui.get_text(selected_text))) ~= nil then
+						foundInList[#foundInList+1] = list[k]
+					end
+				end	
+				dd[selectedValue] = gui.get_text(selected_text)
+				dd[count] = #foundInList
+				dropdown_crt(self, node, foundInList)
+				gui.set_position(dd_obj, vmath.vector3(0,0,0))
+				gui.set_enabled(mask, true)
+				dd[isOpen] = true
+			end
 			
-			dd[count] = #foundInList
-			dropdown_crt(self, node, foundInList)
-			gui.set_position(dd_obj, vmath.vector3(0,0,0))
-			dd[selectedValue] = gui.get_text(selected_text)
-			gui.set_enabled(mask, true)
-			dd[isOpen] = true
-		end
+			if action_id == hash("backspace") and action.repeated then
+				dropdown_del(self, node)
 
-		if dd[count] < 7 then
-			gui.set_enabled(dragpos, false)
-		elseif dd[count] > 7 then
-			gui.set_enabled(dragpos, true)
-			-- Scrollwheel
-			if dd[isOpen] and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
+				if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then -- If hidden is shorter remove text from that point
+					local hiddenlength = utf8.len(gui.get_text(hiddenText))
+					local markerPos = gui.get_position(markerNode)
+					local text = gui.get_text(hiddenText)
+					text = utf8.sub(text, 1, -2)
+					gui.set_text(hiddenText, text)
+					text = text .. utf8.sub(gui.get_text(selected_text), hiddenlength+1, -1)
+					gui.set_text(selected_text, text)
+					markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
+					gui.set_position(markerNode, markerPos)
+				elseif utf8.len(gui.get_text(hiddenText)) == utf8.len(gui.get_text(selected_text)) then -- If equal remove from the end
+					local markerPos = gui.get_position(markerNode)
+					local text = gui.get_text(hiddenText)
+					text = utf8.sub(text, 1, -2)
+					gui.set_text(hiddenText, text)
+					gui.set_text(selected_text, text)
+					markerPos.x = gui.get_text_metrics_from_node(hiddenText).width*cb_textmag - 90
+					gui.set_position(markerNode, markerPos)
+				end
+
+				for i=0, #foundInList do foundInList[i]=nil end
+				for k in pairs(list) do
+					if utf8.find(utf8.lower(list[k]),utf8.lower(gui.get_text(selected_text))) ~= nil then
+						foundInList[#foundInList+1] = list[k]
+					end
+				end	
+				
+				dd[count] = #foundInList
+				dropdown_crt(self, node, foundInList)
+				gui.set_position(dd_obj, vmath.vector3(0,0,0))
+				dd[selectedValue] = gui.get_text(selected_text)
+				gui.set_enabled(mask, true)
+				dd[isOpen] = true
+			end
+
+			if dd[count] < 7 then
+				gui.set_enabled(dragpos, false)
+			elseif dd[count] > 7 then
+				gui.set_enabled(dragpos, true)
+				-- Scrollwheel
+				if dd[isOpen] and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
+					local currentPos = gui.get_position(dd_obj)
+					currentPos.y = valuelimit((currentPos.y - scrollspeeed),0,dd[size]-200)
+					gui.set_position(dd_obj, currentPos)
+				elseif dd[isOpen] and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
+					local currentPos = gui.get_position(dd_obj)
+					currentPos.y = valuelimit((currentPos.y + scrollspeeed),0,dd[size]-200)
+					gui.set_position(dd_obj, currentPos)
+				end
+
+				-- move indicator
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = valuelimit((currentPos.y - scrollspeeed),0,dd[size]-200)
-				gui.set_position(dd_obj, currentPos)
-			elseif dd[isOpen] and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
-				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = valuelimit((currentPos.y + scrollspeeed),0,dd[size]-200)
-				gui.set_position(dd_obj, currentPos)
+				local amountcomplete = currentPos.y / (dd[size]-200)
+				local dragposCurrent = gui.get_position(dragpos)
+				dragposCurrent.y = -190 * amountcomplete
+				gui.set_position(dragpos, dragposCurrent)
 			end
 
-			-- move indicator
-			local currentPos = gui.get_position(dd_obj)
-			local amountcomplete = currentPos.y / (dd[size]-200)
-			local dragposCurrent = gui.get_position(dragpos)
-			dragposCurrent.y = -190 * amountcomplete
-			gui.set_position(dragpos, dragposCurrent)
-		end
+			-- Add buttons to list
+			local listOfButton = {"/button"}
+			local listOfText = {"/text"}
+			for i = 1 , dd[count], 1 do 
+				listOfButton[i+1] = "/button" .. i
+				listOfText[i+1] = "/text" .. i
+			end	
 
-		-- Add buttons to list
-		local listOfButton = {"/button"}
-		local listOfText = {"/text"}
-		for i = 1 , dd[count], 1 do 
-			listOfButton[i+1] = "/button" .. i
-			listOfText[i+1] = "/text" .. i
-		end	
-
-		-- find if any is selected
-		dd[prevPos] = nil
-		for k in pairs (listOfButton) do
-			if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.hover then
-				dd[prevPos] = k
-				break
-			end
-		end	
-		if dd[prevPos] == nil then
+			-- find if any is selected
+			dd[prevPos] = nil
 			for k in pairs (listOfButton) do
-				if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.select then
+				if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.hover then
 					dd[prevPos] = k
 					break
 				end
-			end
-			if dd[prevPos] == nil then
-				dd[prevPos] = 1
-				gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.hover)
-			end
-		end
-		-- Move with keys
-		if action_id == hash("up") and action.pressed and dd[count] > 1 and dd[prevPos] > 1 and dd[isOpen] then
-			gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]-1]), colors.hover)
-			gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.active)
-			if dd[count] > 7 then
-				gui.set_position(dd_obj, vmath.vector3(0,(dd[prevPos]-1)*30-30,0))
-			end
-		elseif action_id == hash("down") and action.pressed and dd[count] > 1 and dd[prevPos] < #listOfButton and dd[isOpen] then
-			gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]+1]), colors.hover)
-			gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.active)
-			if dd[count] > 7 then
-				gui.set_position(dd_obj, vmath.vector3(0,(dd[prevPos]+1)*30-30,0))
-			end
-		end
-		--Select hovered button
-		if action_id == hash("enter") and action.pressed then
-			for k in pairs (listOfButton) do
-				if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.hover then
-					dd[selectedValue] = gui.get_text(gui.get_node(node .. listOfText[k]))
-					gui.set_text(selected_text, dd[selectedValue])
-					gui.set_color(gui.get_node(node .. listOfButton[k]), colors.select)
-
-					-- Close dropdown
-					gui.set_enabled(mask, false) 
-					gui.set_text(selected_text, dd[selectedValue])
-					dd[isOpen] = false
-					dropdown_del(self, node)
-					dd[init] = false
-					dd.activeNode = nil
-					dd[inputActive] = false
-					gui.set_enabled(markerNode, false)
-					gui.set_color(textbox, colors.active)
-				end
 			end	
-		end
-		-- Check if value pressed
-		if gui.pick_node(mask, action.x, action.y) then
-			for k in pairs (listOfButton) do
-				if action_id == hash("touch") and action.pressed and dd[isOpen] and gui.pick_node(gui.get_node(node .. listOfButton[k]), action.x, action.y) then
-					if gui.get_text(gui.get_node(node .. listOfText[k])) ~= noentries then
+			if dd[prevPos] == nil then
+				for k in pairs (listOfButton) do
+					if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.select then
+						dd[prevPos] = k
+						break
+					end
+				end
+				if dd[prevPos] == nil then
+					dd[prevPos] = 1
+					gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.hover)
+				end
+			end
+			-- Move with keys
+			if action_id == hash("up") and action.pressed and dd[count] > 1 and dd[prevPos] > 1 and dd[isOpen] then
+				gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]-1]), colors.hover)
+				gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.active)
+				if dd[count] > 7 then
+					gui.set_position(dd_obj, vmath.vector3(0,(dd[prevPos]-1)*30-30,0))
+				end
+			elseif action_id == hash("down") and action.pressed and dd[count] > 1 and dd[prevPos] < #listOfButton and dd[isOpen] then
+				gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]+1]), colors.hover)
+				gui.set_color(gui.get_node(node .. listOfButton[dd[prevPos]]), colors.active)
+				if dd[count] > 7 then
+					gui.set_position(dd_obj, vmath.vector3(0,(dd[prevPos]+1)*30-30,0))
+				end
+			end
+			--Select hovered button
+			if action_id == hash("enter") and action.pressed then
+				for k in pairs (listOfButton) do
+					if gui.get_color(gui.get_node(node .. listOfButton[k])) == colors.hover then
 						dd[selectedValue] = gui.get_text(gui.get_node(node .. listOfText[k]))
 						gui.set_text(selected_text, dd[selectedValue])
 						gui.set_color(gui.get_node(node .. listOfButton[k]), colors.select)
@@ -999,12 +1022,35 @@ function combobox_interact(self, action_id, action, node, list, enabled)
 						gui.set_enabled(markerNode, false)
 						gui.set_color(textbox, colors.active)
 					end
-				elseif dd[isOpen] and gui.pick_node(gui.get_node(node .. listOfButton[k]), action.x, action.y) and dd[selectedValue] ~= gui.get_text(gui.get_node(node .. listOfText[k])) then
-					gui.set_color(gui.get_node(node .. listOfButton[k]), colors.hover)
-				elseif dd[selectedValue] ~= gui.get_text(gui.get_node(node .. listOfText[k])) and dd[isOpen] then
-					gui.set_color(gui.get_node(node .. listOfButton[k]), colors.active)
-				end
-			end	
+				end	
+			end
+			-- Check if value pressed
+			if gui.pick_node(mask, action.x, action.y) then
+				for k in pairs (listOfButton) do
+					if action_id == hash("touch") and action.pressed and dd[isOpen] and gui.pick_node(gui.get_node(node .. listOfButton[k]), action.x, action.y) then
+						if gui.get_text(gui.get_node(node .. listOfText[k])) ~= noentries then
+							dd[selectedValue] = gui.get_text(gui.get_node(node .. listOfText[k]))
+							gui.set_text(selected_text, dd[selectedValue])
+							gui.set_color(gui.get_node(node .. listOfButton[k]), colors.select)
+
+							-- Close dropdown
+							gui.set_enabled(mask, false) 
+							gui.set_text(selected_text, dd[selectedValue])
+							dd[isOpen] = false
+							dropdown_del(self, node)
+							dd[init] = false
+							dd.activeNode = nil
+							dd[inputActive] = false
+							gui.set_enabled(markerNode, false)
+							gui.set_color(textbox, colors.active)
+						end
+					elseif dd[isOpen] and gui.pick_node(gui.get_node(node .. listOfButton[k]), action.x, action.y) and dd[selectedValue] ~= gui.get_text(gui.get_node(node .. listOfText[k])) then
+						gui.set_color(gui.get_node(node .. listOfButton[k]), colors.hover)
+					elseif dd[selectedValue] ~= gui.get_text(gui.get_node(node .. listOfText[k])) and dd[isOpen] then
+						gui.set_color(gui.get_node(node .. listOfButton[k]), colors.active)
+					end
+				end	
+			end
 		end
 
 		--Dropdown
