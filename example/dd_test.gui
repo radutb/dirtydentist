@@ -418,7 +418,7 @@ nodes {
 nodes {
   position {
     x: 908.0
-    y: 272.0
+    y: 460.0
   }
   type: TYPE_TEMPLATE
   id: "comboTva"

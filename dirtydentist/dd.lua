@@ -757,10 +757,19 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 		end
 
 		-- Calculate width modifier
-		widthmod = window.get_size()/1280	
+		widthmod = window.get_size()/1280
 
+		--Check if next combobox is inactive
+		if nextcombo ~= nil then
+			local next_txtbox = gui.get_node(nextcombo .. "/textbox")
+			if gui.get_color(next_txtbox) == colors.inactive then
+				tabblock = true
+			else
+				tabblock = false
+			end
+		end
 		-- Inside the combobox_interact function, modify this block
-		if action_id == hash("tab") and action.released and nextcombo ~= nil and dd.prevComboTab == nil then
+		if action_id == hash("tab") and action.released and nextcombo ~= nil and dd.prevComboTab == nil and tabblock == false then
 			-- Handle the current combobox closing
 			gui.set_enabled(mask, false)
 			gui.set_text(selected_text, dd[selectedValue])
@@ -770,7 +779,9 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 			dd.activeNode = nil  -- Deactivate current node
 			dd[inputActive] = false
 			gui.set_enabled(markerNode, false)
-			gui.set_color(textbox, colors.active)
+			if enabled then
+				gui.set_color(textbox, colors.active)
+			end
 
 			-- Open the next combobox
 			local nextTextbox = gui.get_node(nextcombo .. "/textbox")
@@ -800,9 +811,22 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 			dd.prevComboTab = node  -- Mark current node for tabbed action
 			dd.activeNode = nextcombo  -- Switch active node to next combo
 			return dd[selectedValue]
+		elseif action_id == hash("tab") and action.released and nextcombo ~= nil and dd.prevComboTab == nil and tabblock == true then
+			-- Handle the current combobox closing
+			gui.set_enabled(mask, false)
+			gui.set_text(selected_text, dd[selectedValue])
+			dd[isOpen] = false
+			dropdown_del(self, node)
+			dd[init] = false
+			dd.activeNode = nil  -- Deactivate current node
+			dd[inputActive] = false
+			gui.set_enabled(markerNode, false)
+			gui.set_color(textbox, colors.active)
+			dd.prevComboTab = nil  -- Mark current node for tabbed action
+			dd.activeNode = nextcombo  -- Switch active node to next combo
 		end
 		
-		if isActive(node) then
+		if isActive(node) and enabled then
 			-- If left active area close dropdown
 			if gui.pick_node(gui.get_node(dd.activeNode .. "/safearea"), action.x, action.y) == false and gui.pick_node(gui.get_node(dd.activeNode .. "/textbox"), action.x, action.y) == false and action_id == hash("touch") and action.pressed  then
 				gui.set_enabled(mask, false) 
