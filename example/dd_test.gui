@@ -499,8 +499,8 @@ nodes {
 }
 nodes {
   position {
-    x: 908.0
-    y: 219.0
+    x: 910.0
+    y: 530.0
   }
   type: TYPE_TEMPLATE
   id: "comboTre"
@@ -581,8 +581,8 @@ nodes {
 }
 nodes {
   position {
-    x: 1165.0
-    y: 219.0
+    x: 1167.0
+    y: 530.0
   }
   type: TYPE_TEMPLATE
   id: "comboFyra"
@@ -909,6 +909,21 @@ nodes {
   id: "checkTva/txt"
   parent: "checkTva/txtbox"
   template_node_child: true
+}
+nodes {
+  position {
+    x: 1020.0
+    y: 568.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Try using tab to switch"
+  font: "Roboto"
+  id: "text"
+  inherit_alpha: true
 }
 layers {
   name: "bg"
