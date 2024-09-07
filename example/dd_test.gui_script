@@ -48,6 +48,9 @@ function init(self)
 	dropdown_init(self, "comboTva", jedilist, true)
 	dropdown_init(self, "comboTre", jedilist, true)
 	dropdown_init(self, "comboFyra", jedilist, true)
+	dropdown_init(self, "comboFem", jedilist, true)
+	dropdown_init(self, "comboSex", jedilist, true)
+	dropdown_init(self, "comboSju", jedilist, true)
 end
 
 function on_input(self, action_id, action)
@@ -66,7 +69,10 @@ function on_input(self, action_id, action)
 	combobox_interact(self, action_id, action, "comboEtt", jedilist, true)
 	combobox_interact(self, action_id, action, "comboTva", jedilist, true, "comboTre")
 	combobox_interact(self, action_id, action, "comboTre", jedilist, true, "comboFyra")
-	combobox_interact(self, action_id, action, "comboFyra", jedilist, false, "comboTva")
+	combobox_interact(self, action_id, action, "comboFyra", jedilist, false, "comboFem")
+	combobox_interact(self, action_id, action, "comboFem", jedilist, false, "comboSex")
+	combobox_interact(self, action_id, action, "comboSex", jedilist, false, "comboSju")
+	combobox_interact(self, action_id, action, "comboSju", jedilist, false, "comboTva")
 	clearTabCombo(self)
 
 	if button_touch(self, action_id, action, "buttonEtt", true) then

@@ -925,6 +925,252 @@ nodes {
   id: "text"
   inherit_alpha: true
 }
+nodes {
+  position {
+    x: 1167.0
+    y: 460.0
+  }
+  type: TYPE_TEMPLATE
+  id: "comboFem"
+  inherit_alpha: true
+  template: "/dirtydentist/combobox_prefab.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/textbox"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/marker"
+  parent: "comboFem/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboFem/selecttext"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/drop_button"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/mask"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/dddrag"
+  parent: "comboFem/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/button"
+  parent: "comboFem/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboFem/text"
+  parent: "comboFem/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/dragpos"
+  parent: "comboFem/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboFem/safearea"
+  parent: "comboFem/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboFem/ID"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboFem/hiddentext"
+  parent: "comboFem"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 907.0
+    y: 387.0
+  }
+  type: TYPE_TEMPLATE
+  id: "comboSex"
+  inherit_alpha: true
+  template: "/dirtydentist/combobox_prefab.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/textbox"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/marker"
+  parent: "comboSex/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSex/selecttext"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/drop_button"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/mask"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/dddrag"
+  parent: "comboSex/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/button"
+  parent: "comboSex/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSex/text"
+  parent: "comboSex/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/dragpos"
+  parent: "comboSex/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSex/safearea"
+  parent: "comboSex/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSex/ID"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSex/hiddentext"
+  parent: "comboSex"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 1167.0
+    y: 377.0
+  }
+  type: TYPE_TEMPLATE
+  id: "comboSju"
+  inherit_alpha: true
+  template: "/dirtydentist/combobox_prefab.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/textbox"
+  parent: "comboSju"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/marker"
+  parent: "comboSju/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSju/selecttext"
+  parent: "comboSju"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/drop_button"
+  parent: "comboSju"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/mask"
+  parent: "comboSju"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/dddrag"
+  parent: "comboSju/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/button"
+  parent: "comboSju/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSju/text"
+  parent: "comboSju/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/dragpos"
+  parent: "comboSju/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "comboSju/safearea"
+  parent: "comboSju/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSju/ID"
+  parent: "comboSju"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "comboSju/hiddentext"
+  parent: "comboSju"
+  template_node_child: true
+}
 layers {
   name: "bg"
 }
