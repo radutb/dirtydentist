@@ -705,10 +705,12 @@ function dropdown_interact(self, action_id, action, node, list, enabled)
 	return dd[selectedValue]
 end
 function comboClearUpdate(self)
-	for node, info in pairs(dd.combostat) do
-		local textbox = gui.get_node(info.nodename .. "/textbox")
-		if info.enabledstat == false then
-			gui.set_color(textbox, colors.inactive)
+	if dd.combostat ~= nild then
+		for node, info in pairs(dd.combostat) do
+			local textbox = gui.get_node(info.nodename .. "/textbox")
+			if info.enabledstat == false then
+				gui.set_color(textbox, colors.inactive)
+			end
 		end
 	end
 end
