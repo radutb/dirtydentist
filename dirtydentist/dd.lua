@@ -738,8 +738,8 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 
 	-- get selected value for return
 	local selectedValue = node .. "selectedValue"
-	
-	if isActive(node) then
+		
+	if isActive(node) then		
 		-- Values in table
 		local isOpen = node .. "isOpen"
 		local inputActive = node .. "inputActive"
