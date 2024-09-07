@@ -704,6 +704,15 @@ function dropdown_interact(self, action_id, action, node, list, enabled)
 	end
 	return dd[selectedValue]
 end
+function comboClearUpdate(self)
+	for node, info in pairs(dd.combostat) do
+		local textbox = gui.get_node(info.nodename .. "/textbox")
+		if info.enabledstat == false then
+			gui.set_color(textbox, colors.inactive)
+		end
+	end
+end
+
 function clearTabCombo(self)
 	-- Only clear if there was a previous tab interaction
 	if dd.prevComboTab ~= nil then
