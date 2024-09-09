@@ -745,7 +745,9 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 	if dd.combostat == nil then
 		dd.combostat = {}
 	end
-	dd.combostat[node] = {nodename = node, enabledstat = enabled}
+	if gui.get_color(textbox) == colors.active or gui.get_color(textbox) == colors.inactive then
+		dd.combostat[node] = {nodename = node, enabledstat = enabled}
+	end
 
 	-- get selected value for return
 	local selectedValue = node .. "selectedValue"
