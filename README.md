@@ -10,19 +10,19 @@ A basic GUI library for Defold developed for educational softwares. It covers th
 Use included prefabs and name after hearts content. Implement in GUI script under function on_input(self, action_id, action) as described below if not else specified. 
 
 ### Buttons
-Simple button:
+**Simple button:**
 
 *Function returns true or false*
 ```
 button_touch(self, action_id, action, "NodeName", active(boolean))
 ```
-Checkbox:
+**Checkbox:**
 
 *Function returns true or false*
 ```
 checkbox(self, action_id, action, "NodeName", active(boolean))
 ```
-Radiobutton:
+**Radiobutton:**
 
 *Function which button that is selected*
 ```
@@ -49,14 +49,14 @@ function init(self)
 	dropdown_init(self, "NodeName", ListName, Active)
 end
 ```
-Dropdown:
+**Dropdown:**
 
 *Returns selected value*
 ```
 dropdown_interact(self, action_id, action, "NodeName",ListName, active(boolean), "TabToNodeName")
 ```
 
-Combobox:
+**Combobox:**
 
 *Returns selected value*
 ```
@@ -69,14 +69,14 @@ localisationofstrings("Nothing found", "Select")
 ```
 ### Text
 
-Textinput:
+**Textinput:**
 
 *Returns text*
 ```
 text_input(self, action_id, action, "NodeName", active(boolean), "TabToNodeName")
 ```
 
-Textbox:
+**Textbox:**
 
 *Returns text*
 ```
