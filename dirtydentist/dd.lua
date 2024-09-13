@@ -906,6 +906,10 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 				dd[inputActive] = false
 				gui.set_enabled(markerNode, false)
 				gui.set_color(textbox, colors.active)
+				-- Close onscreen keyboard if mobile device
+				if isMobileDevice then
+					gui.hide_keyboard()
+				end
 			end
 		
 			-- active textinput
@@ -1208,7 +1212,6 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 		if isMobileDevice then
 			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
 		end
-		
 		local textNode = gui.get_node(node .. "/text")
 		local hiddenText = gui.get_node(node .. "/hiddentext")
 		local markerNode = gui.get_node(node .. "/marker")
@@ -1398,14 +1401,14 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 				markpos.x = gui.get_text_metrics_from_node(dd[lines][i].hidden).width -- Update marker to be at the end the hiddenstring
 				gui.set_position(dd[lines][i].marker, markpos)
 			elseif action_id == hash("touch") and action.pressed and not gui.pick_node(bgNode, action.x, action.y) then -- If pressed outside of text box deactivate
-				-- Close onscreen keyboard if mobile device
-				if isMobileDevice then
-					gui.hide_keyboard()
-				end
 				gui.set_color(bgNode, colors.active)
 				dd[input] = false
 				gui.set_enabled(dd[lines][i].marker, false)
 				dd.activeNode = nil
+				-- Close onscreen keyboard if mobile device
+				if isMobileDevice then
+					gui.hide_keyboard()
+				end
 			end
 		end
 	
