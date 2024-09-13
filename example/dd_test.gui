@@ -884,8 +884,8 @@ nodes {
 }
 nodes {
   position {
-    x: 647.0
-    y: 418.0
+    x: 557.0
+    y: 347.0
   }
   type: TYPE_TEMPLATE
   id: "checkTva"
@@ -1170,6 +1170,21 @@ nodes {
   id: "comboSju/hiddentext"
   parent: "comboSju"
   template_node_child: true
+}
+nodes {
+  position {
+    x: 645.0
+    y: 347.0
+  }
+  size {
+    x: 200.0
+    y: 100.0
+  }
+  type: TYPE_TEXT
+  text: "Activate combobox"
+  font: "Roboto"
+  id: "text1"
+  inherit_alpha: true
 }
 layers {
   name: "bg"

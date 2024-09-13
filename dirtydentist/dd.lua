@@ -23,6 +23,37 @@ colors.red = vmath.vector4(1,0.1,0.1,1)
 local noentries = "No entries found"
 local selectavalue = "Select a value"
 
+local isMobileDevice = false
+
+function checkDevice(self)
+	local info = sys.get_sys_info()
+	local user_agent = info.user_agent or ""
+	print(user_agent)
+	if info.system_name == "HTML5" then
+		-- Check for Android devices
+		if string.find(user_agent:lower(), "android") then
+			isAndroid = true
+		end
+
+		-- Check for iPhone
+		if string.find(user_agent:lower(), "iphone") then
+			isIphone = true
+		end
+
+		-- Check for iPad
+		if string.find(user_agent:lower(), "ipad") then
+			isIpad = true
+		end
+
+		-- General mobile device check
+		if isAndroid or isIphone or isIpad then
+			isMobileDevice = true
+		end
+	elseif info.system_name == "Android" or info.system_name == "iPhone OS" then 
+		isMobileDevice = true
+	end
+end
+
 function localisationofstrings(nonfound, select)
 	noentries = nonfound
 	selectavalue = select
@@ -264,6 +295,10 @@ function text_input(self, action_id, action, node, enabled, tab_to)
 	end
 	-- Recieve input
 	if dd.activeNode == node then
+		-- Open onscreen keyboard if mobile device
+		if isMobileDevice then
+			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+		end
 		-- Get the other subnodes
 		local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
 		local markerNode = gui.get_node(node .. "/marker")
@@ -297,6 +332,10 @@ function text_input(self, action_id, action, node, enabled, tab_to)
 			markpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
 			gui.set_position(markerNode, markpos)
 		elseif action_id == hash("touch") and action.pressed and not gui.pick_node(bgNode, action.x, action.y) then -- If pressed outside of text box deactivate
+			-- Close onscreen keyboard if mobile device
+			if isMobileDevice then
+				gui.hide_keyboard()
+			end
 			dd[node .. "isActive"] = false
 			gui.set_enabled(markerNode, false)
 			gui.set_color(bgNode, colors.active)
@@ -752,7 +791,11 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 	-- get selected value for return
 	local selectedValue = node .. "selectedValue"
 		
-	if isActive(node) then		
+	if isActive(node) then
+		-- Open onscreen keyboard if mobile device
+		if isMobileDevice then
+			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+		end		
 		-- Values in table
 		local isOpen = node .. "isOpen"
 		local inputActive = node .. "inputActive"
@@ -1161,6 +1204,11 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 	
 	-- Recieve input
 	if dd.activeNode == node then
+		-- Open onscreen keyboard if mobile device
+		if isMobileDevice then
+			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+		end
+		
 		local textNode = gui.get_node(node .. "/text")
 		local hiddenText = gui.get_node(node .. "/hiddentext")
 		local markerNode = gui.get_node(node .. "/marker")
@@ -1350,6 +1398,10 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 				markpos.x = gui.get_text_metrics_from_node(dd[lines][i].hidden).width -- Update marker to be at the end the hiddenstring
 				gui.set_position(dd[lines][i].marker, markpos)
 			elseif action_id == hash("touch") and action.pressed and not gui.pick_node(bgNode, action.x, action.y) then -- If pressed outside of text box deactivate
+				-- Close onscreen keyboard if mobile device
+				if isMobileDevice then
+					gui.hide_keyboard()
+				end
 				gui.set_color(bgNode, colors.active)
 				dd[input] = false
 				gui.set_enabled(dd[lines][i].marker, false)
