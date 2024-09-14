@@ -70,6 +70,7 @@ nodes {
   }
   type: TYPE_BOX
   id: "marker"
+  yanchor: YANCHOR_TOP
   pivot: PIVOT_W
   parent: "innerbox"
   layer: "marker"

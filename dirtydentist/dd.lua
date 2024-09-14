@@ -54,6 +54,32 @@ function checkDevice(self)
 	end
 end
 
+function checkEnter ()
+	-- Check for Enter key
+	if isMobileDevice then
+		local enter_pressed = html5.run("CheckForKey('Enter')")
+		if enter_pressed == "true" then
+			print("Enter key pressed!")
+			return true
+		else
+			return false
+		end
+	end
+end
+
+function checkBackspace()
+	-- Check for Backspace key
+	if isMobileDevice then
+		local backspace_pressed = html5.run("CheckForKey('Backspace')")
+		if backspace_pressed == "true" then
+			print("Backspace key pressed!")
+			return true
+		else
+			return false
+		end
+	end
+end
+
 function localisationofstrings(nonfound, select)
 	noentries = nonfound
 	selectavalue = select
@@ -399,7 +425,7 @@ function text_input(self, action_id, action, node, enabled, tab_to)
 				gui.set_position(markerNode, markerPos)
 			end
 		end
-		if action_id == hash("backspace") and action.repeated and dd[node .. "isActive"] then -- Remove letters
+		if ((action_id == hash("backspace") and action.repeated) or checkBackspace()) and dd[node .. "isActive"] then -- Remove letters
 			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(textNode)) then -- If hidden is shorter remove text from that point
 				local hiddenlength = utf8.len(gui.get_text(hiddenText))
 				local markerPos = gui.get_position(markerNode)
@@ -996,7 +1022,7 @@ function combobox_interact(self, action_id, action, node, list, enabled, nextcom
 				dd[isOpen] = true
 			end
 			
-			if action_id == hash("backspace") and action.repeated then
+			if (action_id == hash("backspace") and action.repeated) or checkBackspace() then
 				dropdown_del(self, node)
 
 				if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(selected_text)) then -- If hidden is shorter remove text from that point
@@ -1445,7 +1471,7 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 			gui.set_enabled(dd[lines][dd[active]].marker, true)
 			gui.set_position(dd[lines][dd[active]].marker, markerPos)
 		end
-		if action_id == hash("backspace") and action.repeated and dd[input] then -- Remove one letter
+		if ((action_id == hash("backspace") and action.repeated) or checkBackspace()) and dd[input] then -- Remove one letter
 			if utf8.len(gui.get_text(dd[lines][dd[active]].hidden)) == 0 and dd[active] > 1 then -- If higher then first line
 				local text = gui.get_text(dd[lines][dd[active]].text)
 				local rowabove = gui.get_text(dd[lines][dd[active] - 1].text)
@@ -1504,7 +1530,7 @@ function textbox_input(self, action_id, action, node, enabled, tab_to)
 				print("nothing to delete")
 			end
 		end
-		if action_id == hash("enter") and action.pressed and dd[input] then -- add new line
+		if ((action_id == hash("enter") and action.pressed) or checkEnter()) and dd[input] then -- add new line
 			if utf8.len(gui.get_text(dd[lines][dd[active]].hidden)) < utf8.len(gui.get_text(dd[lines][dd[active]].text)) then
 				local hiddenlength = utf8.len(gui.get_text(dd[lines][dd[active]].hidden))
 				local text = gui.get_text(dd[lines][dd[active]].hidden)
