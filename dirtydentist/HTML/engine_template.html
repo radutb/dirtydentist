@@ -105,34 +105,5 @@
 			runningFromFileWarning.parentNode.removeChild(runningFromFileWarning);
 		}
 	</script>
-	<script>
-		let pressedKeys = {};
-	
-		document.getElementsByTagName("body")[0].addEventListener("keydown", function(ev) {
-			pressedKeys[ev.code] = true;
-		});
-	
-		function CheckForKey(keycode) {
-			if (pressedKeys[keycode]) {
-				pressedKeys[keycode] = undefined; // Reset key press status after detecting it
-				return true;
-			}
-			return false;
-		}
-	
-		// Example usage: Checking for "Enter" and "Backspace"
-		function checkEnterAndBackspace() {
-			if (CheckForKey("Enter")) {
-				console.log("Enter key pressed!");
-			}
-	
-			if (CheckForKey("Backspace")) {
-				console.log("Backspace key pressed!");
-			}
-		}
-	
-		// Call this function in the game loop or a similar place
-		// checkEnterAndBackspace();
-	</script>
 </body>
 </html>

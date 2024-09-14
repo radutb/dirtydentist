@@ -55,6 +55,9 @@ function init(self)
 
 	checkDevice(self)
 end
+function update(self, dt)
+
+end
 
 function on_input(self, action_id, action)
 	sildervalue = slider(self, action_id, action, "slider") * 100
