@@ -3,6 +3,19 @@
 
 local M = {}
 
+function M.clearCheckbox (self, action_id, action, node)
+	local bgNode = gui.get_node(node .. "/bg")
+	local checkNode = gui.get_node(node .. "/check")
+	local txtBox = gui.get_node(node .. "/txtbox")
+	
+	self.checkbox = self.checkbox or {}
+	self.checkbox[node] = false
+	gui.set_enabled(checkNode, false)
+	gui.set_color(bgNode, D.colors.active)
+	gui.set_enabled(txtBox, false)
+end
+	
+
 function M.checkbox(self, action_id, action, node, enabled, text)
 	-- Load nodes
 	local bgNode = gui.get_node(node .. "/bg")
@@ -13,6 +26,7 @@ function M.checkbox(self, action_id, action, node, enabled, text)
 	-- Check current value
 	self.checkbox = self.checkbox or {}
 	self.selectedNode = D.nodes["active"] or nil
+	
 	
 	-- Check if hovering above
 	if gui.pick_node(bgNode, action.x, action.y) and enabled and (self.selectedNode == nil or self.selectedNode == node) then
