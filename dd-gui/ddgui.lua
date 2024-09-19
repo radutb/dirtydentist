@@ -27,6 +27,7 @@ D.auto_suggestbox = combobox.auto_suggestbox
 
 -- Expose additional functions
 D.clearTextbox = textbox.clearTextbox
+D.initializeCombo = combobox.initialize
 
 -- Shared variables (if needed)
 D.colors = {
