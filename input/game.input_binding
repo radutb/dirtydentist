@@ -54,6 +54,10 @@ mouse_trigger {
   input: MOUSE_WHEEL_DOWN
   action: "wheeldown"
 }
+touch_trigger {
+  input: TOUCH_MULTI
+  action: "right"
+}
 text_trigger {
   input: TEXT
   action: "text"

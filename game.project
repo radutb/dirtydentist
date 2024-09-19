@@ -10,7 +10,7 @@ height = 800
 
 [project]
 title = DD-GUI
-version = 0.3
+version = 0.3.0
 publisher = Skogsheden
 developer = Nils Gustafsson
 bundle_resources = /dirtydentist/, /dd-gui/

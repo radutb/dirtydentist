@@ -37,6 +37,9 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and (self.selectedNode == nil or self.selectedNode == node) then
 			D.nodes["active"] = node
 			D.nodes["tab"] = false
+			if D.isMobileDeviceis then
+				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
+			end
 		end
 	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.selectedNode == node then
 		-- if not hovered but active
@@ -47,6 +50,9 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			D.nodes["tab"] = false
 			gui.set_color(bgNode, D.colors.active)
 			gui.set_enabled(markerNode, false)
+			if D.isMobileDeviceis then
+				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+			end
 		end
 	-- if not active an not hoverd
 	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled then
@@ -211,6 +217,9 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and (self.selectedNode == nil or self.selectedNode == node) then
 			D.nodes["active"], self.selectedNode = node, node
 			D.nodes["tab"] = false
+			if D.isMobileDeviceis then
+				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
+			end
 		end
 	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.selectedNode == node then
 		-- if not hovered but active
@@ -221,6 +230,9 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 			gui.set_color(bgNode, D.colors.active)
 			gui.set_enabled(markerNode, false)
 			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, false)
+			if D.isMobileDeviceis then
+				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+			end
 		end
 		-- if not active an not hoverd
 	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled then

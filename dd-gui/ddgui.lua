@@ -70,6 +70,7 @@ function D.check_device(self)
 	elseif info.system_name == "Android" or info.system_name == "iPhone OS" then
 		D.isMobileDevice = true
 	end
+	pprint(info)
 end
 
 -- Function that limits input values

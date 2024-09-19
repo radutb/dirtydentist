@@ -160,8 +160,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag)
 			self.comboboxData[node].mag = 1
 		end
 		gui.set_scale(selected_text, vmath.vector3(self.comboboxData[node].mag,self.comboboxData[node].mag,1))
-		
-		
+
 		-- Initalize dropdown
 		M.initialize(self, node, list, up, enabled)
 		self.comboboxData[node].initialize = true
@@ -416,6 +415,9 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 				gui.set_text(selected_text, self.comboboxData[node].value)
 				M.createComboboxList(self, node, list, use_mag)
 				self.comboboxData[node].open = true
+				if D.isMobileDeviceis then
+					gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
+				end
 			elseif gui.pick_node(arrow, action.x, action.y) and self.comboboxData[node].open then
 				-- Close dropdown
 				gui.set_color(textbox, D.colors.active)
@@ -426,6 +428,9 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 				self.comboboxData[node].open = false
 				gui.set_enabled(markerNode, false)
 				D.nodes["active"], self.selectedNode = nil, nil
+				if D.isMobileDeviceis then
+					gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+				end
 			end
 		end
 	elseif not (gui.pick_node(mask, action.x, action.y) or gui.pick_node(textbox, action.x, action.y)) and enabled and self.selectedNode == node then
@@ -438,6 +443,9 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			self.comboboxData[node].open = false
 			gui.set_enabled(markerNode, false)
 			D.nodes["active"], self.selectedNode = nil, nil
+			if D.isMobileDeviceis then
+				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+			end
 		end
 	elseif not enabled and D.nodes["tab"] == false then
 		gui.set_color(textbox, D.colors.inactive)
