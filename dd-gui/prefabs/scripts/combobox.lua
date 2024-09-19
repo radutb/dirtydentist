@@ -174,16 +174,28 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 	end
 	
 	-- Hovering and enabled
-	if gui.pick_node(textbox, action.x, action.y) and enabled then
-		gui.set_color(textbox, D.colors.hover)
-		if action_id == hash("touch") and action.pressed then
-			if gui.pick_node(textbox, action.x, action.y) and not self.comboboxData[node].open and self.selectedNode == nil then
-				D.nodes["active"], self.selectedNode = node, node
-				gui.set_enabled(mask, true)
-				gui.set_text(selected_text, self.comboboxData[node].value)
-				self.comboboxData[node].open = true
-			elseif gui.pick_node(textbox, action.x, action.y) and self.comboboxData[node].open then
-				-- Close dropdown
+	if action ~= nil then
+		if gui.pick_node(textbox, action.x, action.y) and enabled then
+			gui.set_color(textbox, D.colors.hover)
+			if action_id == hash("touch") and action.pressed then
+				if gui.pick_node(textbox, action.x, action.y) and not self.comboboxData[node].open and self.selectedNode == nil then
+					D.nodes["active"], self.selectedNode = node, node
+					gui.set_enabled(mask, true)
+					gui.set_text(selected_text, self.comboboxData[node].value)
+					self.comboboxData[node].open = true
+				elseif gui.pick_node(textbox, action.x, action.y) and self.comboboxData[node].open then
+					-- Close dropdown
+					gui.set_color(textbox, D.colors.active)
+					gui.set_enabled(mask, false)
+					gui.set_text(selected_text, self.comboboxData[node].value)
+					M.deleteCombobox(self, node)
+					self.comboboxData[node].init = false
+					self.comboboxData[node].open = false
+					D.nodes["active"], self.selectedNode = nil, nil
+				end
+			end
+		elseif not (gui.pick_node(mask, action.x, action.y) or gui.pick_node(textbox, action.x, action.y)) and enabled and self.selectedNode == node then
+			if action_id == hash("touch") and action.pressed then
 				gui.set_color(textbox, D.colors.active)
 				gui.set_enabled(mask, false)
 				gui.set_text(selected_text, self.comboboxData[node].value)
@@ -192,28 +204,18 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 				self.comboboxData[node].open = false
 				D.nodes["active"], self.selectedNode = nil, nil
 			end
-		end
-	elseif not (gui.pick_node(mask, action.x, action.y) or gui.pick_node(textbox, action.x, action.y)) and enabled and self.selectedNode == node then
-		if action_id == hash("touch") and action.pressed then
+		elseif not enabled then
+			gui.set_color(textbox, D.colors.inactive)
+			gui.set_color(arrow, D.colors.inactive)
+			
+			if self.selectedNode == node then
+				D.nodes["active"], self.selectedNode = nil, nil
+			end
+		elseif not self.comboboxData[node].open then
 			gui.set_color(textbox, D.colors.active)
-			gui.set_enabled(mask, false)
-			gui.set_text(selected_text, self.comboboxData[node].value)
-			M.deleteCombobox(self, node)
-			self.comboboxData[node].init = false
-			self.comboboxData[node].open = false
-			D.nodes["active"], self.selectedNode = nil, nil
+		elseif enabled then
+			gui.set_color(arrow, D.colors.accent)
 		end
-	elseif not enabled then
-		gui.set_color(textbox, D.colors.inactive)
-		gui.set_color(arrow, D.colors.inactive)
-		
-		if self.selectedNode == node then
-			D.nodes["active"], self.selectedNode = nil, nil
-		end
-	elseif not self.comboboxData[node].open then
-		gui.set_color(textbox, D.colors.active)
-	elseif enabled then
-		gui.set_color(arrow, D.colors.white)
 	end
 
 	-- If active start processing input
@@ -413,20 +415,36 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 	end
 
 	-- Hovering and enabled
-	if gui.pick_node(textbox, action.x, action.y) and enabled then
-		gui.set_color(textbox, D.colors.hover)
-		if action_id == hash("touch") and action.pressed then
-			if gui.pick_node(textbox, action.x, action.y) and not self.comboboxData[node].open and self.selectedNode == nil then
-				D.nodes["active"], self.selectedNode = node, node
-				gui.set_enabled(mask, true)
-				gui.set_text(selected_text, self.comboboxData[node].value)
-				M.createComboboxList(self, node, list, use_mag)
-				self.comboboxData[node].open = true
-				if D.isMobileDeviceis then
-					gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
+	if action ~= nil then
+		if gui.pick_node(textbox, action.x, action.y) and enabled then
+			gui.set_color(textbox, D.colors.hover)
+			if action_id == hash("touch") and action.pressed then
+				if gui.pick_node(textbox, action.x, action.y) and not self.comboboxData[node].open and self.selectedNode == nil then
+					D.nodes["active"], self.selectedNode = node, node
+					gui.set_enabled(mask, true)
+					gui.set_text(selected_text, self.comboboxData[node].value)
+					M.createComboboxList(self, node, list, use_mag)
+					self.comboboxData[node].open = true
+					if D.isMobileDeviceis then
+						gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
+					end
+				elseif gui.pick_node(arrow, action.x, action.y) and self.comboboxData[node].open then
+					-- Close dropdown
+					gui.set_color(textbox, D.colors.active)
+					gui.set_enabled(mask, false)
+					gui.set_text(selected_text, self.comboboxData[node].value)
+					M.deleteCombobox(self, node)
+					self.comboboxData[node].init = false
+					self.comboboxData[node].open = false
+					gui.set_enabled(markerNode, false)
+					D.nodes["active"], self.selectedNode = nil, nil
+					if D.isMobileDeviceis then
+						gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+					end
 				end
-			elseif gui.pick_node(arrow, action.x, action.y) and self.comboboxData[node].open then
-				-- Close dropdown
+			end
+		elseif not (gui.pick_node(mask, action.x, action.y) or gui.pick_node(textbox, action.x, action.y)) and enabled and self.selectedNode == node then
+			if action_id == hash("touch") and action.pressed then
 				gui.set_color(textbox, D.colors.active)
 				gui.set_enabled(mask, false)
 				gui.set_text(selected_text, self.comboboxData[node].value)
@@ -439,33 +457,19 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 					gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
 				end
 			end
-		end
-	elseif not (gui.pick_node(mask, action.x, action.y) or gui.pick_node(textbox, action.x, action.y)) and enabled and self.selectedNode == node then
-		if action_id == hash("touch") and action.pressed then
-			gui.set_color(textbox, D.colors.active)
-			gui.set_enabled(mask, false)
-			gui.set_text(selected_text, self.comboboxData[node].value)
-			M.deleteCombobox(self, node)
-			self.comboboxData[node].init = false
-			self.comboboxData[node].open = false
-			gui.set_enabled(markerNode, false)
-			D.nodes["active"], self.selectedNode = nil, nil
-			if D.isMobileDeviceis then
-				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+		elseif not enabled and D.nodes["tab"] == false then
+			gui.set_color(textbox, D.colors.inactive)
+			gui.set_color(arrow, D.colors.inactive)
+			
+			if self.selectedNode == node then
+				gui.set_enabled(markerNode, false)
+				D.nodes["active"], self.selectedNode = nil, nil
 			end
+		elseif not self.comboboxData[node].open and D.nodes["tab"] == false then
+			gui.set_color(textbox, D.colors.active)
+		elseif enabled then
+			gui.set_color(arrow, D.colors.accent)
 		end
-	elseif not enabled and D.nodes["tab"] == false then
-		gui.set_color(textbox, D.colors.inactive)
-		gui.set_color(arrow, D.colors.inactive)
-		
-		if self.selectedNode == node then
-			gui.set_enabled(markerNode, false)
-			D.nodes["active"], self.selectedNode = nil, nil
-		end
-	elseif not self.comboboxData[node].open and D.nodes["tab"] == false then
-		gui.set_color(textbox, D.colors.active)
-	elseif enabled then
-		gui.set_color(arrow, D.colors.white)
 	end
 		
 

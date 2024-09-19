@@ -94,6 +94,7 @@ nodes {
     w: 10.0
   }
   clipping_mode: CLIPPING_MODE_STENCIL
+  enabled: false
 }
 nodes {
   position {

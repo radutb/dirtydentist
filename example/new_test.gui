@@ -602,7 +602,9 @@ nodes {
   type: TYPE_BOX
   id: "ddEtt/bg"
   parent: "ddEtt"
+  overridden_fields: 45
   template_node_child: true
+  enabled: false
 }
 nodes {
   type: TYPE_BOX
@@ -672,7 +674,9 @@ nodes {
   type: TYPE_BOX
   id: "ddTva/bg"
   parent: "ddTva"
+  overridden_fields: 45
   template_node_child: true
+  enabled: false
 }
 nodes {
   type: TYPE_BOX
@@ -942,7 +946,9 @@ nodes {
   type: TYPE_BOX
   id: "autoEtt/bg"
   parent: "autoEtt"
+  overridden_fields: 45
   template_node_child: true
+  enabled: false
 }
 nodes {
   type: TYPE_BOX
@@ -1125,7 +1131,9 @@ nodes {
   type: TYPE_BOX
   id: "autoTva/bg"
   parent: "autoTva"
+  overridden_fields: 45
   template_node_child: true
+  enabled: false
 }
 nodes {
   type: TYPE_BOX
@@ -1213,7 +1221,9 @@ nodes {
   type: TYPE_BOX
   id: "autoTre/bg"
   parent: "autoTre"
+  overridden_fields: 45
   template_node_child: true
+  enabled: false
 }
 nodes {
   type: TYPE_BOX
