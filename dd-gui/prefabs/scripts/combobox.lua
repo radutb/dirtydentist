@@ -169,6 +169,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 			self.comboboxData[node].value = self.comboboxData[node].value
 		else
 			self.comboboxData[node].value = standardValue
+			gui.set_text(selected_text, standardValue)
 		end
 	end
 	
