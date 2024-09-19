@@ -120,7 +120,7 @@ function M.createComboboxList(self, node, list, use_mag)
 	end
 end
 
-function M.combobox(self, action_id, action, node, list, enabled, up, use_mag)
+function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, standardValue)
 	local textbox = gui.get_node(node .. "/textbox")
 	local selected_text = gui.get_node(node .. "/selecttext")
 	local mask = gui.get_node(node .. "/bg")
@@ -164,6 +164,12 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag)
 		-- Initalize dropdown
 		M.initialize(self, node, list, up, enabled)
 		self.comboboxData[node].initialize = true
+
+		if standardValue == nil or standardValue == "" then
+			self.comboboxData[node].value = self.comboboxData[node].value
+		else
+			self.comboboxData[node].value = standardValue
+		end
 	end
 	
 	-- Hovering and enabled
