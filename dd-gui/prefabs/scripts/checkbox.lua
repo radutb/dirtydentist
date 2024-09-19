@@ -3,7 +3,7 @@
 
 local M = {}
 
-function M.clearCheckbox (self, action_id, action, node)
+function M.clearCheckbox (self, node)
 	local bgNode = gui.get_node(node .. "/bg")
 	local checkNode = gui.get_node(node .. "/check")
 	local txtBox = gui.get_node(node .. "/txtbox")
