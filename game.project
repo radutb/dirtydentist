@@ -17,7 +17,7 @@ bundle_resources = /dd-gui/
 dependencies#0 = https://github.com/d954mas/defold-utf8/archive/master.zip
 
 [library]
-include_dirs = dirtydentist
+include_dirs = dirtydentist, dd-gui
 
 [html5]
 htmlfile = /dd-gui/HTML/engine_template.html
