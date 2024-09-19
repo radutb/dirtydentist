@@ -26,7 +26,14 @@ function M.checkbox(self, action_id, action, node, enabled, text)
 	-- Check current value
 	self.checkbox = self.checkbox or {}
 	self.selectedNode = D.nodes["active"] or nil
-	
+
+	if enabled then
+		if self.checkbox[node] then
+			gui.set_color(bgNode, D.colors.active)
+		else
+			gui.set_color(bgNode, D.colors.accent)
+		end
+	end
 	
 	-- Check if hovering above
 	if gui.pick_node(bgNode, action.x, action.y) and enabled and (self.selectedNode == nil or self.selectedNode == node) then
