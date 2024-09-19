@@ -1,0 +1,1341 @@
+script: "/example/new_test.gui_script"
+fonts {
+  name: "Roboto"
+  font: "/dd-gui/fonts/Roboto.font"
+}
+fonts {
+  name: "Robot_PW"
+  font: "/dd-gui/fonts/Robot_PW.font"
+}
+nodes {
+  position {
+    x: 550.0
+    y: 80.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Ettan"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "Ettan/bg"
+  parent: "Ettan"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "Ettan/text"
+  parent: "Ettan/bg"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 400.0
+    y: 80.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Tvan"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "Tvan/bg"
+  parent: "Tvan"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "In editor"
+  id: "Tvan/text"
+  parent: "Tvan/bg"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 250.0
+    y: 80.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Trean"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "Trean/bg"
+  parent: "Trean"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "In editor"
+  id: "Trean/text"
+  parent: "Trean/bg"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 100.0
+    y: 80.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Fyran"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "Fyran/bg"
+  parent: "Fyran"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "Inactive"
+  id: "Fyran/text"
+  parent: "Fyran/bg"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 700.0
+    y: 80.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Femman"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "Femman/bg"
+  parent: "Femman"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "Toggle me"
+  id: "Femman/text"
+  parent: "Femman/bg"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 40.0
+    y: 118.0
+  }
+  type: TYPE_TEMPLATE
+  id: "checkEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/checkbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkEtt/bg"
+  parent: "checkEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkEtt/check"
+  parent: "checkEtt/bg"
+  overridden_fields: 45
+  template_node_child: true
+  enabled: false
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkEtt/txtbox"
+  parent: "checkEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "checkEtt/txt"
+  parent: "checkEtt/txtbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 71.0
+    y: 118.0
+  }
+  type: TYPE_TEMPLATE
+  id: "checkTva"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/checkbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTva/bg"
+  parent: "checkTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTva/check"
+  parent: "checkTva/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTva/txtbox"
+  parent: "checkTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "checkTva/txt"
+  parent: "checkTva/txtbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 102.0
+    y: 118.0
+  }
+  type: TYPE_TEMPLATE
+  id: "checkTre"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/checkbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTre/bg"
+  parent: "checkTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTre/check"
+  parent: "checkTre/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkTre/txtbox"
+  parent: "checkTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "checkTre/txt"
+  parent: "checkTre/txtbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 40.0
+    y: 149.0
+  }
+  type: TYPE_TEMPLATE
+  id: "checkFyra"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/checkbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkFyra/bg"
+  parent: "checkFyra"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkFyra/check"
+  parent: "checkFyra/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "checkFyra/txtbox"
+  parent: "checkFyra"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "checkFyra/txt"
+  parent: "checkFyra/txtbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 62.0
+    y: 151.0
+  }
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Check all"
+  font: "Roboto"
+  id: "text"
+  pivot: PIVOT_W
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 250.0
+    y: 116.0
+  }
+  type: TYPE_TEMPLATE
+  id: "radioEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/radiobutton.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioEtt/bg"
+  parent: "radioEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioEtt/center"
+  parent: "radioEtt/bg"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 285.0
+    y: 116.0
+  }
+  type: TYPE_TEMPLATE
+  id: "radioTva"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/radiobutton.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioTva/bg"
+  parent: "radioTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioTva/center"
+  parent: "radioTva/bg"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 320.0
+    y: 116.0
+  }
+  type: TYPE_TEMPLATE
+  id: "radioTre"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/radiobutton.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioTre/bg"
+  parent: "radioTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "radioTre/center"
+  parent: "radioTre/bg"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 126.0
+    y: 221.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "textEtt/bg"
+  parent: "textEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textEtt/innerbox"
+  parent: "textEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textEtt/text"
+  parent: "textEtt/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textEtt/marker"
+  parent: "textEtt/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textEtt/hiddentext"
+  parent: "textEtt/innerbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 282.0
+    y: 221.0
+  }
+  type: TYPE_TEMPLATE
+  id: "Sexan"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/button.gui"
+}
+nodes {
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_BOX
+  id: "Sexan/bg"
+  parent: "Sexan"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "Toggle me"
+  id: "Sexan/text"
+  parent: "Sexan/bg"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 28.0
+    y: 674.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textTva"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/multi-line_textbox.gui"
+}
+nodes {
+  size {
+    x: 500.0
+    y: 120.0
+  }
+  type: TYPE_BOX
+  id: "textTva/bg"
+  parent: "textTva"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textTva/carrier"
+  parent: "textTva/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textTva/innerbox"
+  parent: "textTva/carrier"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textTva/marker"
+  parent: "textTva/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textTva/text"
+  parent: "textTva/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textTva/hiddentext"
+  parent: "textTva/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textTva/dragpos"
+  parent: "textTva/bg"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 282.0
+    y: 151.0
+  }
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Select one"
+  font: "Roboto"
+  id: "text1"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 31.0
+    y: 686.0
+  }
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Write me a strory"
+  font: "Roboto"
+  id: "text2"
+  pivot: PIVOT_W
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 657.0
+    y: 345.0
+  }
+  type: TYPE_TEMPLATE
+  id: "sliderEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/slider.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/bg"
+  parent: "sliderEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/slider_bg"
+  parent: "sliderEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/slider_level"
+  parent: "sliderEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/handle"
+  parent: "sliderEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/accent"
+  parent: "sliderEtt/handle"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "sliderEtt/txtbox"
+  parent: "sliderEtt/handle"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "sliderEtt/txt"
+  parent: "sliderEtt/txtbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 772.0
+    y: 345.0
+  }
+  size {
+    x: 100.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Show me a number"
+  font: "Roboto"
+  id: "text3"
+  pivot: PIVOT_W
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 1128.0
+    y: 755.0
+  }
+  type: TYPE_TEMPLATE
+  id: "ddEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/combobox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/textbox"
+  parent: "ddEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/arrow"
+  parent: "ddEtt/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "ddEtt/selecttext"
+  parent: "ddEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/bg"
+  parent: "ddEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/mask"
+  parent: "ddEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/dddrag"
+  parent: "ddEtt/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/button"
+  parent: "ddEtt/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "ddEtt/text"
+  parent: "ddEtt/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/selected"
+  parent: "ddEtt/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddEtt/dragpos"
+  parent: "ddEtt/mask"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 1133.0
+    y: 385.0
+  }
+  type: TYPE_TEMPLATE
+  id: "ddTva"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/combobox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/textbox"
+  parent: "ddTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/arrow"
+  parent: "ddTva/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "ddTva/selecttext"
+  parent: "ddTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/bg"
+  parent: "ddTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/mask"
+  parent: "ddTva/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/dddrag"
+  parent: "ddTva/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/button"
+  parent: "ddTva/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "ddTva/text"
+  parent: "ddTva/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/selected"
+  parent: "ddTva/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "ddTva/dragpos"
+  parent: "ddTva/mask"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 770.0
+    y: 287.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textMax"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox.gui"
+}
+nodes {
+  position {
+    x: -51.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_BOX
+  id: "textMax/bg"
+  parent: "textMax"
+  overridden_fields: 1
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  position {
+    x: -27.0
+  }
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_BOX
+  id: "textMax/innerbox"
+  parent: "textMax/bg"
+  overridden_fields: 1
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  id: "textMax/text"
+  parent: "textMax/innerbox"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textMax/marker"
+  parent: "textMax/innerbox"
+  template_node_child: true
+}
+nodes {
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  id: "textMax/hiddentext"
+  parent: "textMax/innerbox"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 596.0
+    y: 287.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textMin"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox.gui"
+}
+nodes {
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_BOX
+  id: "textMin/bg"
+  parent: "textMin"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  position {
+    x: -28.0
+  }
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_BOX
+  id: "textMin/innerbox"
+  parent: "textMin/bg"
+  overridden_fields: 1
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  id: "textMin/text"
+  parent: "textMin/innerbox"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textMin/marker"
+  parent: "textMin/innerbox"
+  template_node_child: true
+}
+nodes {
+  size {
+    x: 55.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  id: "textMin/hiddentext"
+  parent: "textMin/innerbox"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 596.0
+    y: 317.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Min"
+  font: "Roboto"
+  id: "Min"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 719.0
+    y: 318.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Max"
+  font: "Roboto"
+  id: "Max"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 657.0
+    y: 252.0
+  }
+  size {
+    x: 200.0
+    y: 30.0
+  }
+  color {
+    y: 0.0
+    z: 0.0
+  }
+  type: TYPE_TEXT
+  text: "Min"
+  font: "Roboto"
+  id: "error"
+  inherit_alpha: true
+  enabled: false
+}
+nodes {
+  position {
+    x: 865.0
+    y: 756.0
+  }
+  type: TYPE_TEMPLATE
+  id: "autoEtt"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/auto-suggestbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/textbox"
+  parent: "autoEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/marker"
+  parent: "autoEtt/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/arrow"
+  parent: "autoEtt/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoEtt/selecttext"
+  parent: "autoEtt/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoEtt/hiddentext"
+  parent: "autoEtt/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoEtt/ID"
+  parent: "autoEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/bg"
+  parent: "autoEtt"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/mask"
+  parent: "autoEtt/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/dddrag"
+  parent: "autoEtt/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/button"
+  parent: "autoEtt/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoEtt/text"
+  parent: "autoEtt/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/selected"
+  parent: "autoEtt/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoEtt/dragpos"
+  parent: "autoEtt/mask"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 126.0
+    y: 330.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textFyra"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFyra/bg"
+  parent: "textFyra"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFyra/innerbox"
+  parent: "textFyra/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textFyra/text"
+  parent: "textFyra/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFyra/marker"
+  parent: "textFyra/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textFyra/hiddentext"
+  parent: "textFyra/innerbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 126.0
+    y: 367.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textFem"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFem/bg"
+  parent: "textFem"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFem/innerbox"
+  parent: "textFem/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textFem/text"
+  parent: "textFem/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textFem/marker"
+  parent: "textFem/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "textFem/hiddentext"
+  parent: "textFem/innerbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 126.0
+    y: 402.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Tab between us"
+  font: "Roboto"
+  id: "tabetxt"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 865.0
+    y: 710.0
+  }
+  type: TYPE_TEMPLATE
+  id: "autoTva"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/auto-suggestbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/textbox"
+  parent: "autoTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/marker"
+  parent: "autoTva/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/arrow"
+  parent: "autoTva/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTva/selecttext"
+  parent: "autoTva/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTva/hiddentext"
+  parent: "autoTva/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTva/ID"
+  parent: "autoTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/bg"
+  parent: "autoTva"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/mask"
+  parent: "autoTva/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/dddrag"
+  parent: "autoTva/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/button"
+  parent: "autoTva/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTva/text"
+  parent: "autoTva/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/selected"
+  parent: "autoTva/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTva/dragpos"
+  parent: "autoTva/mask"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 865.0
+    y: 668.0
+  }
+  type: TYPE_TEMPLATE
+  id: "autoTre"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/auto-suggestbox.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/textbox"
+  parent: "autoTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/marker"
+  parent: "autoTre/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/arrow"
+  parent: "autoTre/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTre/selecttext"
+  parent: "autoTre/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTre/hiddentext"
+  parent: "autoTre/textbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTre/ID"
+  parent: "autoTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/bg"
+  parent: "autoTre"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/mask"
+  parent: "autoTre/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/dddrag"
+  parent: "autoTre/mask"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/button"
+  parent: "autoTre/dddrag"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "autoTre/text"
+  parent: "autoTre/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/selected"
+  parent: "autoTre/button"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "autoTre/dragpos"
+  parent: "autoTre/mask"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 657.0
+    y: 712.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Tab between us"
+  font: "Roboto"
+  id: "tabetxt1"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: 511.0
+    y: 458.0
+  }
+  type: TYPE_TEMPLATE
+  id: "pw"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textbox_password.gui"
+}
+nodes {
+  type: TYPE_BOX
+  id: "pw/bg"
+  parent: "pw"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "pw/innerbox"
+  parent: "pw/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "pw/text"
+  parent: "pw/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "pw/marker"
+  parent: "pw/innerbox"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  id: "pw/hiddentext"
+  parent: "pw/innerbox"
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 508.0
+    y: 488.0
+  }
+  size {
+    x: 75.0
+    y: 30.0
+  }
+  type: TYPE_TEXT
+  text: "Enter a password"
+  font: "Roboto"
+  id: "pw_txt"
+  inherit_alpha: true
+}
+layers {
+  name: "bg"
+}
+layers {
+  name: "bg_text"
+}
+layers {
+  name: "marker"
+}
+layers {
+  name: "dd"
+}
+layers {
+  name: "dd_text"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT
+max_nodes: 1024

@@ -1,0 +1,132 @@
+local ddgui = require "dd-gui.ddgui"
+set_min = 0
+set_max = 100
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+
+	jedilist = {
+		"Luke Skywalker",
+		"Obi-Wan Kenobi",
+		"Yoda",
+		"Anakin Skywalker",
+		"Mace Windu",
+		"Qui-Gon Jinn",
+		"Rey",
+		"Ahsoka Tano",
+		"Ki-Adi-Mundi",
+		"Plo Koon",
+		"Kit Fisto",
+		"Shaak Ti",
+		"Aayla Secura",
+		"Luminara Unduli",
+		"Ezra Bridger",
+		"Kanan Jarrus",
+		"Cal Kestis",
+		"Jolee Bindo",
+		"Bastila Shan",
+		"Barriss Offee",
+		"Saesee Tiin",
+		"Agen Kolar",
+		"A'Sharad Hett",
+		"Stass Allie",
+		"Quinlan Vos",
+		"Depa Billaba",
+		"Adi Gallia",
+		"Eeth Koth",
+		"Kazdan Paratus",
+		"Yaddle"
+	}
+
+	
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	-- Buttons
+	ddgui.button(self, action_id, action, "Ettan", true, false, "Through script")
+	ddgui.button(self, action_id, action, "Tvan", false, false)
+	ddgui.button(self, action_id, action, "Trean", true, true, "Overwritten")
+	ddgui.button(self, action_id, action, "Fyran", false, true)
+	ddgui.togglebutton(self, action_id, action, "Femman", true)
+	if ddgui.button(self, action_id, action, "Sexan", true, false, "Clear") then
+		ddgui.clearTextbox(self, "textEtt")
+	end
+
+	-- Checkboxes
+	ddgui.checkbox(self, action_id, action, "checkEtt", true, "Förklaring nummer 1")
+	ddgui.checkbox(self, action_id, action, "checkTva", true, "Förklaring nummer 2")
+	ddgui.checkbox(self, action_id, action, "checkTre", true)
+	ddgui.checkboxSelectall(self, action_id, action, "checkFyra", {"checkEtt", "checkTva", "checkTre"}, true, "Markera alla")
+
+	--Radiobuttons
+	ddgui.radiobutton(self, action_id, action, "radioEtt", true, {"radioEtt", "radioTva", "radioTre"})
+	ddgui.radiobutton(self, action_id, action, "radioTva", true, {"radioEtt", "radioTva", "radioTre"})
+	ddgui.radiobutton(self, action_id, action, "radioTre", true, {"radioEtt", "radioTva", "radioTre"})
+
+	--Textfields
+	ddgui.textbox(self, action_id, action, "textEtt", true)
+	ddgui.textboxMultiline(self, action_id, action, "textTva", true)
+	ddgui.textbox(self, action_id, action, "textFem", true, "textFyra")
+	ddgui.textbox(self, action_id, action, "textFyra", true, "textFem")
+	ddgui.textbox(self, action_id, action, "pw", true)
+	
+	--Slider
+	local min = ddgui.textbox(self, action_id, action, "textMin", true)
+	local max = ddgui.textbox(self, action_id, action, "textMax", true)
+	-- Function to check if a string contains an integer
+	local function is_integer(str)
+		return str:match("^%-?%d+$") ~= nil
+	end
+	if min and max then
+		if is_integer(min) and is_integer(max) then
+			-- Both min and max are valid integers
+			local min_value = tonumber(min)
+			local max_value = tonumber(max)
+
+			-- Example: checking if min is less than max
+			if min_value < max_value then
+				set_max = max_value
+				set_min = min_value
+				gui.set_enabled(gui.get_node("error"), false)
+			else
+				gui.set_text(gui.get_node("error"), "Min is not less than Max")
+				gui.set_enabled(gui.get_node("error"), true)
+			end
+		elseif min ~= "" and max ~= "" then
+			-- Handle the case where min or max is not a valid integer
+			gui.set_text(gui.get_node("error"), "One or both of min and max are not valid integers")
+			gui.set_enabled(gui.get_node("error"), true)
+		end
+	end
+	local sliderValue = ddgui.slider(self, action_id, action, "sliderEtt", true, true,set_min,set_max)
+	gui.set_text(gui.get_node("text3"), sliderValue)
+
+	--Combobox
+	ddgui.combobox(self, action_id, action, "ddEtt", jedilist, true, false, true)
+	ddgui.combobox(self, action_id, action, "ddTva", jedilist, true, true)
+	ddgui.auto_suggestbox(self, action_id, action, "autoEtt", jedilist, true, false, true, "1", "autoTva")
+	ddgui.auto_suggestbox(self, action_id, action, "autoTva", jedilist, true, false, true, "2", "autoTre")
+	ddgui.auto_suggestbox(self, action_id, action, "autoTre", jedilist, false, false, true, "3", "autoEtt")
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end

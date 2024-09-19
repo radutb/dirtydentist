@@ -1,7 +1,7 @@
-script: "/example/dd_test.gui_script"
+script: "/old_example/dd_test.gui_script"
 fonts {
   name: "Roboto"
-  font: "/dirtydentist/fonts/Roboto.font"
+  font: "/dd-gui/fonts/Roboto.font"
 }
 textures {
   name: "app_ui"

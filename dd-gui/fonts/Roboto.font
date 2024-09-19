@@ -1,4 +1,4 @@
-font: "/dirtydentist/fonts/Roboto-Regular.ttf"
+font: "/dd-gui/fonts/Roboto-Regular.ttf"
 material: "/builtins/fonts/font-df.material"
 size: 16
 output_format: TYPE_DISTANCE_FIELD

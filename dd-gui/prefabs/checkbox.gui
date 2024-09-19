@@ -4,7 +4,7 @@ fonts {
 }
 textures {
   name: "dropdown"
-  texture: "/dirtydentist/images/UI.atlas"
+  texture: "/dd-gui/images/new_ui.atlas"
 }
 nodes {
   size {
@@ -12,15 +12,33 @@ nodes {
     y: 30.0
   }
   type: TYPE_BOX
-  texture: "dropdown/bg_checkbox"
+  texture: "dropdown/button"
   id: "bg"
   layer: "bg"
   inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+}
+nodes {
+  size {
+    x: 22.0
+    y: 22.0
+  }
+  type: TYPE_BOX
+  texture: "dropdown/check"
+  id: "check"
+  parent: "bg"
+  inherit_alpha: true
+  enabled: false
 }
 nodes {
   position {
     x: 15.0
-    y: 15.0
+    y: 30.0
     z: 1.0
   }
   size {

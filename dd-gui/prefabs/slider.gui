@@ -1,0 +1,118 @@
+fonts {
+  name: "Roboto"
+  font: "/dd-gui/fonts/Roboto.font"
+}
+textures {
+  name: "UI"
+  texture: "/dd-gui/images/new_ui.atlas"
+}
+nodes {
+  size {
+    x: 250.0
+    y: 70.0
+  }
+  type: TYPE_BOX
+  id: "bg"
+  inherit_alpha: true
+  visible: false
+}
+nodes {
+  size {
+    x: 200.0
+    y: 10.0
+  }
+  type: TYPE_BOX
+  id: "slider_bg"
+  parent: "bg"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    x: -100.0
+  }
+  size {
+    x: 100.0
+    y: 10.0
+  }
+  color {
+    x: 0.169
+    y: 0.502
+    z: 0.788
+  }
+  type: TYPE_BOX
+  id: "slider_level"
+  pivot: PIVOT_W
+  parent: "bg"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 25.0
+    y: 25.0
+  }
+  type: TYPE_BOX
+  texture: "UI/radio"
+  id: "handle"
+  parent: "bg"
+  inherit_alpha: true
+}
+nodes {
+  size {
+    x: 10.0
+    y: 10.0
+  }
+  color {
+    x: 0.169
+    y: 0.502
+    z: 0.788
+  }
+  type: TYPE_BOX
+  texture: "UI/radio"
+  id: "accent"
+  parent: "handle"
+  inherit_alpha: true
+}
+nodes {
+  position {
+    y: 37.0
+    z: 1.0
+  }
+  size {
+    x: 200.0
+    y: 30.0
+  }
+  color {
+    x: 0.302
+    y: 0.302
+    z: 0.302
+  }
+  type: TYPE_BOX
+  id: "txtbox"
+  parent: "handle"
+  layer: "marker"
+  inherit_alpha: true
+  enabled: false
+}
+nodes {
+  size {
+    x: 190.0
+    y: 30.0
+  }
+  color {
+    x: 0.902
+    y: 0.902
+    z: 0.902
+  }
+  type: TYPE_TEXT
+  text: "TEST"
+  font: "Roboto"
+  id: "txt"
+  xanchor: XANCHOR_LEFT
+  parent: "txtbox"
+  inherit_alpha: true
+}
+layers {
+  name: "marker"
+}
+material: "/builtins/materials/gui.material"
+adjust_reference: ADJUST_REFERENCE_PARENT

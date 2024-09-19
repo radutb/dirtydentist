@@ -4,7 +4,7 @@ fonts {
 }
 textures {
   name: "dropdown"
-  texture: "/dirtydentist/images/UI.atlas"
+  texture: "/dd-gui/images/new_ui.atlas"
 }
 nodes {
   size {
@@ -12,42 +12,43 @@ nodes {
     y: 30.0
   }
   type: TYPE_BOX
-  texture: "dropdown/bg_dropdown"
+  texture: "dropdown/button"
   id: "textbox"
   layer: "bg"
   inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
 }
 nodes {
   position {
-    x: -90.0
+    x: 80.0
   }
   size {
-    x: 1.0
-    y: 20.0
+    x: 20.0
+    y: -20.0
   }
   color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
+    x: 0.169
+    y: 0.502
+    z: 0.788
   }
   type: TYPE_BOX
-  id: "marker"
-  pivot: PIVOT_W
+  texture: "dropdown/arrow"
+  id: "arrow"
   parent: "textbox"
-  layer: "marker"
-  enabled: false
+  layer: "dd_text"
 }
 nodes {
   position {
     x: -90.0
   }
-  scale {
-    x: 0.75
-    y: 0.75
-  }
   size {
-    x: 210.0
-    y: 35.0
+    x: 180.0
+    y: 30.0
   }
   color {
     x: 0.0
@@ -74,54 +75,52 @@ nodes {
 }
 nodes {
   position {
-    x: 85.0
+    y: -16.0
   }
   size {
-    x: 30.0
-    y: 30.0
-  }
-  color {
-    x: 0.6
-    y: 0.6
-    z: 0.6
-  }
-  type: TYPE_BOX
-  id: "drop_button"
-  layer: "bg_text"
-  inherit_alpha: true
-  clipping_mode: CLIPPING_MODE_STENCIL
-  alpha: 0.0
-}
-nodes {
-  position {
-    y: -15.0
-  }
-  size {
-    x: 195.0
+    x: 180.0
     y: 200.0
   }
-  color {
-    x: 0.902
-    y: 0.902
-    z: 0.902
-  }
   type: TYPE_BOX
-  id: "mask"
+  texture: "dropdown/bg"
+  id: "bg"
   pivot: PIVOT_N
   layer: "dd"
   inherit_alpha: true
   slice9 {
-    x: 30.0
-    y: 30.0
-    z: 30.0
-    w: 30.0
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
+  clipping_mode: CLIPPING_MODE_STENCIL
+}
+nodes {
+  position {
+    y: -7.0
+  }
+  size {
+    x: 160.0
+    y: 180.0
+  }
+  type: TYPE_BOX
+  id: "mask"
+  pivot: PIVOT_N
+  parent: "bg"
+  layer: "dd"
+  inherit_alpha: true
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
   }
   clipping_mode: CLIPPING_MODE_STENCIL
 }
 nodes {
   size {
-    x: 200.0
-    y: 200.0
+    x: 160.0
+    y: 190.0
   }
   type: TYPE_BOX
   id: "dddrag"
@@ -133,26 +132,30 @@ nodes {
 }
 nodes {
   size {
-    x: 200.0
+    x: 160.0
     y: 30.0
   }
   type: TYPE_BOX
+  texture: "dropdown/bg"
   id: "button"
   pivot: PIVOT_N
   parent: "dddrag"
   layer: "dd_text"
+  slice9 {
+    x: 10.0
+    y: 10.0
+    z: 10.0
+    w: 10.0
+  }
 }
 nodes {
   position {
-    y: -7.5
-  }
-  scale {
-    x: 0.75
-    y: 0.75
+    x: -70.0
+    y: -15.0
   }
   size {
-    x: 250.0
-    y: 20.0
+    x: 140.0
+    y: 30.0
   }
   color {
     x: 0.0
@@ -163,7 +166,8 @@ nodes {
   text: "<button>"
   font: "Roboto"
   id: "text"
-  pivot: PIVOT_N
+  yanchor: YANCHOR_TOP
+  pivot: PIVOT_W
   outline {
     x: 1.0
     y: 1.0
@@ -174,13 +178,33 @@ nodes {
     y: 1.0
     z: 1.0
   }
-  adjust_mode: ADJUST_MODE_ZOOM
   parent: "button"
   layer: "dd_text"
 }
 nodes {
   position {
-    x: 100.0
+    x: -72.0
+    y: -15.0
+  }
+  size {
+    x: 3.0
+    y: 12.5
+  }
+  color {
+    x: 0.169
+    y: 0.502
+    z: 0.788
+  }
+  type: TYPE_BOX
+  id: "selected"
+  parent: "button"
+  inherit_alpha: true
+  size_mode: SIZE_MODE_AUTO
+}
+nodes {
+  position {
+    x: 87.0
+    y: -7.0
   }
   size {
     x: 10.0
@@ -197,91 +221,11 @@ nodes {
   parent: "mask"
   layer: "dd_text"
 }
-nodes {
-  position {
-    y: 60.0
-  }
-  size {
-    x: 300.0
-    y: 300.0
-  }
-  type: TYPE_BOX
-  id: "safearea"
-  pivot: PIVOT_N
-  parent: "mask"
-  inherit_alpha: true
-  visible: false
-}
-nodes {
-  position {
-    x: -105.0
-  }
-  size {
-    x: 30.0
-    y: 30.0
-  }
-  type: TYPE_TEXT
-  text: "ID"
-  font: "Roboto"
-  id: "ID"
-  pivot: PIVOT_E
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-  layer: "bg_text"
-  inherit_alpha: true
-}
-nodes {
-  position {
-    x: -90.0
-  }
-  scale {
-    x: 0.75
-    y: 0.75
-  }
-  size {
-    x: 210.0
-    y: 35.0
-  }
-  color {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  type: TYPE_TEXT
-  text: "<placeholder>"
-  font: "Roboto"
-  id: "hiddentext"
-  pivot: PIVOT_W
-  outline {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-  shadow {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-  layer: "bg_text"
-  inherit_alpha: true
-  visible: false
-}
 layers {
   name: "bg"
 }
 layers {
   name: "bg_text"
-}
-layers {
-  name: "marker"
 }
 layers {
   name: "dd"
@@ -291,3 +235,4 @@ layers {
 }
 material: "/builtins/materials/gui.material"
 adjust_reference: ADJUST_REFERENCE_PARENT
+max_nodes: 128

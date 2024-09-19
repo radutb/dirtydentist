@@ -1,0 +1,14 @@
+name: "new_test"
+scale_along_z: 0
+embedded_instances {
+  id: "GUI"
+  data: "components {\n"
+  "  id: \"new_test\"\n"
+  "  component: \"/example/new_test.gui\"\n"
+  "}\n"
+  ""
+  position {
+    x: 144.0
+    y: 126.0
+  }
+}

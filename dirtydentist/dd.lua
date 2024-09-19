@@ -102,7 +102,7 @@ function slider(self, action_id, action, node)
 	
 	-- if active
 	if dd.activeNode == node or dd[node .. "activeslider"]  then
-		widthmod = window.get_size()/1280	
+		local widthmod = window.get_size()/1280	
 		if action_id == hash("touch") and gui.pick_node(handle, action.x, action.y) and not action.released then
 			
 			gui.set_screen_position(handle, vmath.vector3(valuelimit(action.x*widthmod, slider_fillpos.x, slider_fillpos.x + 2*(slider_pos.x-slider_fillpos.x)),handle_start.y, handle_start.z ))
@@ -320,7 +320,7 @@ function text_input(self, action_id, action, node, enabled, tab_to)
 			markpos.y=0 -- Set y position to 0 to keep in middle of box
 			gui.set_position(markerNode, markpos) -- Update
 			gui.set_text(hiddenText, gui.get_text(textNode))
-			if utf8.len(gui.get_text(hiddenText)) >= 2 then -- If two or more letters allow editing
+			if utf8.len(gui.get_text(hiddenText)) > 1 then -- If two or more letters allow editing
 				while gui.get_text_metrics_from_node(hiddenText).width > markpos.x do -- Adjust hidden string to fit hiddenstring
 					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
 					gui.set_text(hiddenText, shortenstring)
@@ -744,7 +744,7 @@ function dropdown_interact(self, action_id, action, node, list, enabled)
 	return dd[selectedValue]
 end
 function comboClearUpdate(self)
-	if dd.combostat ~= nild then
+	if dd.combostat ~= nil then
 		for node, info in pairs(dd.combostat) do
 			local textbox = gui.get_node(info.nodename .. "/textbox")
 			if info.enabledstat == false then

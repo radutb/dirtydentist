@@ -1,0 +1,24 @@
+images {
+  image: "/dd-gui/images/button.png"
+}
+images {
+  image: "/dd-gui/images/check.png"
+}
+images {
+  image: "/dd-gui/images/line.png"
+}
+images {
+  image: "/dd-gui/images/radio.png"
+}
+images {
+  image: "/dd-gui/images/radio_center.png"
+}
+images {
+  image: "/dd-gui/images/arrow.png"
+}
+images {
+  image: "/dd-gui/images/bg.png"
+  sprite_trim_mode: SPRITE_TRIM_MODE_4
+}
+extrude_borders: 1
+inner_padding: 1
