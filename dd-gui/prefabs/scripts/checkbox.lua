@@ -7,14 +7,14 @@ function M.clearCheckbox (self, node)
 	local bgNode = gui.get_node(node .. "/bg")
 	local checkNode = gui.get_node(node .. "/check")
 	local txtBox = gui.get_node(node .. "/txtbox")
-	
+
 	self.checkbox = self.checkbox or {}
 	self.checkbox[node] = false
 	gui.set_enabled(checkNode, false)
 	gui.set_color(bgNode, D.colors.active)
 	gui.set_enabled(txtBox, false)
 end
-	
+
 
 function M.checkbox(self, action_id, action, node, enabled, standard_value, text)
 	-- Load nodes
@@ -30,7 +30,7 @@ function M.checkbox(self, action_id, action, node, enabled, standard_value, text
 	self.checkbox[node].value = self.checkbox[node].value or false
 	self.checkbox[node].enabled = enabled 
 	D.nodes["active"] = D.nodes["active"] or nil
-	
+
 	if not self.checkbox[node].init and enabled then
 		-- Set standrad value
 		if standard_value ~= nil then
@@ -54,11 +54,10 @@ function M.checkbox(self, action_id, action, node, enabled, standard_value, text
 			gui.set_enabled(checkNode, false)
 		end
 	else
-		self.checkbox[node].value = false
 		gui.set_enabled(checkNode, false)
 		gui.set_color(bgNode, D.colors.inactive)
 	end
-	
+
 	-- Check if hovering above
 	if gui.pick_node(bgNode, action.x, action.y) and enabled and (D.nodes["active"]== nil or D.nodes["active"] == node) then
 		-- Set as active node
@@ -101,7 +100,6 @@ function M.checkbox(self, action_id, action, node, enabled, standard_value, text
 			D.nodes["active"] = nil
 		end
 		gui.set_enabled(txtBox, false)
-		self.checkbox[node].init = false
 	end
 	--return value
 	return self.checkbox[node].value
@@ -148,10 +146,8 @@ function M.checkboxSelectall(self, action_id, action, node, othernodes, enabled,
 				end
 			end
 		else
-			self.checkbox[node].value = false
 			gui.set_enabled(checkNode, false)
 			gui.set_color(bgNode, D.colors.inactive)
-			self.checkbox[node].init = false
 		end
 		self.checkbox[node].init = true
 	end
@@ -181,7 +177,7 @@ function M.checkboxSelectall(self, action_id, action, node, othernodes, enabled,
 			gui.set_color(bgNode, D.colors.active)
 		end
 	end
-		
+
 	-- Check if hovering above
 	if gui.pick_node(bgNode, action.x, action.y) and (D.nodes["active"]  == nil or D.nodes["active"]  == node) and enabled then
 		-- Set as active node
