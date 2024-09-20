@@ -101,6 +101,7 @@ function M.checkbox(self, action_id, action, node, enabled, standard_value, text
 			D.nodes["active"] = nil
 		end
 		gui.set_enabled(txtBox, false)
+		self.checkbox[node].init = false
 	end
 	--return value
 	return self.checkbox[node].value
@@ -150,6 +151,7 @@ function M.checkboxSelectall(self, action_id, action, node, othernodes, enabled,
 			self.checkbox[node].value = false
 			gui.set_enabled(checkNode, false)
 			gui.set_color(bgNode, D.colors.inactive)
+			self.checkbox[node].init = false
 		end
 		self.checkbox[node].init = true
 	end
