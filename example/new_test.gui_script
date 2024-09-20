@@ -53,10 +53,10 @@ function on_input(self, action_id, action)
 	end
 
 	-- Checkboxes
-	ddgui.checkbox(self, action_id, action, "checkEtt", true, "Förklaring nummer 1")
-	ddgui.checkbox(self, action_id, action, "checkTva", true, "Förklaring nummer 2")
-	ddgui.checkbox(self, action_id, action, "checkTre", true)
-	ddgui.checkboxSelectall(self, action_id, action, "checkFyra", {"checkEtt", "checkTva", "checkTre"}, true, "Markera alla")
+	ddgui.checkbox(self, action_id, action, "checkEtt", true, false, "Förklaring nummer 1")
+	ddgui.checkbox(self, action_id, action, "checkTva", true, true, "Förklaring nummer 2")
+	ddgui.checkbox(self, action_id, action, "checkTre", true, false)
+	ddgui.checkboxSelectall(self, action_id, action, "checkFyra", {"checkEtt", "checkTva", "checkTre"}, true, false, "Markera alla")
 
 	--Radiobuttons
 	ddgui.radiobutton(self, action_id, action, "radioEtt", true, {"radioEtt", "radioTva", "radioTre"})
