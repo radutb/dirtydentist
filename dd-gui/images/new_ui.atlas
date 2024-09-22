@@ -20,5 +20,8 @@ images {
   image: "/dd-gui/images/bg.png"
   sprite_trim_mode: SPRITE_TRIM_MODE_4
 }
+images {
+  image: "/dd-gui/images/bg_blank.png"
+}
 extrude_borders: 1
 inner_padding: 1

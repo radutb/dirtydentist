@@ -217,7 +217,7 @@ nodes {
     y: 30.0
   }
   type: TYPE_BOX
-  texture: "dropdown/bg"
+  texture: "dropdown/bg_blank"
   id: "button"
   pivot: PIVOT_N
   parent: "dddrag"
