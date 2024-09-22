@@ -3,6 +3,22 @@
 
 local M = {}
 
+function M.setValueAutobox(self, node, value)
+	local textbox = gui.get_node(node .. "/textbox")
+	local selected_text = gui.get_node(node .. "/selecttext")
+	local hiddenText = gui.get_node(node .. "/hiddentext")
+
+	self.selectedNode = D.nodes["active"] or nil
+	self.comboboxData = self.comboboxData or {}
+	self.comboboxData[node] = self.comboboxData[node] or {}
+
+	if value ~= "" then
+		gui.set_text(selected_text, value)
+		gui.set_text(hiddenText, value)
+		self.comboboxData[node].value = value
+	end
+end
+
 function M.initialize(self, node, list, up, enabled)
 	-- get nodes
 	local textbox = gui.get_node(node .. "/textbox")
