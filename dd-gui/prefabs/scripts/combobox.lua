@@ -16,6 +16,10 @@ function M.setValueAutobox(self, node, value)
 		gui.set_text(selected_text, value)
 		gui.set_text(hiddenText, value)
 		self.comboboxData[node].value = value
+	else
+		gui.set_text(selected_text, D.select_a_value)
+		gui.set_text(hiddenText, D.select_a_value)
+		self.comboboxData[node].value = value
 	end
 end
 
