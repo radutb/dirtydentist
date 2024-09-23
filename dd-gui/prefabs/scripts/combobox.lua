@@ -13,15 +13,19 @@ function M.setValueAutobox(self, node, value, active)
 	self.comboboxData = self.comboboxData or {}
 	self.comboboxData[node] = self.comboboxData[node] or {}
 
-	if value ~= "" then
-		gui.set_text(selected_text, value)
-		gui.set_text(hiddenText, value)
-		self.comboboxData[node].value = value
-	else
+	-- Fill with selected value
+	if value == nil or value == "" then
 		gui.set_text(selected_text, D.select_a_value)
 		gui.set_text(hiddenText, D.select_a_value)
 		self.comboboxData[node].value = value
+	else
+		print(value)
+		gui.set_text(selected_text, value)
+		gui.set_text(hiddenText, value)
+		self.comboboxData[node].value = value
 	end
+
+	-- Set color of arrow
 	if active then
 		gui.set_color(arrow, D.colors.accent)
 	else
@@ -197,6 +201,13 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 			self.comboboxData[node].value = standardValue
 			gui.set_text(selected_text, standardValue)
 		end
+	end
+
+	-- Set color of arrow
+	if enabled then
+		gui.set_color(arrow, D.colors.accent)
+	else
+		gui.set_color(arrow, D.colors.inactive)
 	end
 	
 	-- Hovering and enabled
@@ -438,6 +449,13 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 
 	if self.comboboxData[node].value == "" and self.selectedNode ~= node then
 		gui.set_text(selected_text, D.select_a_value)
+	end
+
+	-- Set color of arrow
+	if enabled then
+		gui.set_color(arrow, D.colors.accent)
+	else
+		gui.set_color(arrow, D.colors.inactive)
 	end
 
 	-- Hovering and enabled
