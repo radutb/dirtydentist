@@ -3,6 +3,10 @@
 
 local M = {}
 
+function M.setValueCombobox(self, node, value)
+	self.comboboxData[node].value = value
+end
+
 function M.setValueAutobox(self, node, value, active)
 	local textbox = gui.get_node(node .. "/textbox")
 	local selected_text = gui.get_node(node .. "/selecttext")
