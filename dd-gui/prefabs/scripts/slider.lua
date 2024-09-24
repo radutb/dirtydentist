@@ -3,6 +3,21 @@
 
 local M = {}
 
+function M.resetSlider(self, node)
+	local bgNode = gui.get_node(node .. "/bg")
+	local slidebg = gui.get_node(node .. "/slider_bg")
+	local slidelevel = gui.get_node(node .. "/slider_level")
+	local handle = gui.get_node(node .. "/handle")
+
+	local sliderBgPos = gui.get_screen_position(slidebg)
+	local sliderBgSize = gui.get_size(slidebg)
+	local slider_fillsize = gui.get_size(slidelevel)
+	
+	gui.set_screen_position(handle, vmath.vector3(sliderBgPos.x + (sliderBgSize.x/2), sliderBgPos.y, 0))
+	gui.set_size(slidelevel, vmath.vector3(sliderBgPos.x + (sliderBgSize.x/2), slider_fillsize.y, slider_fillsize.z))
+	self.slider[node].value = (self.slider[node].min + self.slider[node].max)/2
+end
+
 function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 	-- Check if can be activated
 	self.selectedNode = D.nodes["active"] or nil
@@ -22,6 +37,15 @@ function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 		self.slider[node] = {}
 		self.slider[node].value = 0
 		self.slider[node].pressed = false
+
+		-- I values for min max not set	
+		if min == nil or max == nil then
+			min = 0
+			max = 100
+		end
+		self.slider[node].min = min
+		self.slider[node].max = max
+		
 		gui.set_color(slidelevel, D.colors.accent)
 		gui.set_color(handleCenter, D.colors.accent)
 		gui.set_color(slidebg, D.colors.active)
@@ -73,11 +97,6 @@ function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 			end
 		end
 
-		-- I values not set	
-		if min == nil or max == nil then
-			min = 0
-			max = 100
-		end
 		-- Update text if to be shown
 		if showpopup then
 			gui.set_text(text, self.slider[node].value)
@@ -95,7 +114,7 @@ function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 
 	-- Calculate value
 	local currentValue = (gui.get_position(handle).x+slider_size.x/2)/(slider_size.x)
-	local recalculated_value = min + (max - min) * currentValue
+	local recalculated_value = self.slider[node].min + (self.slider[node].max - self.slider[node].min) * currentValue
 	recalculated_value = math.floor(recalculated_value)
 	self.slider[node].value = recalculated_value
 	return self.slider[node].value

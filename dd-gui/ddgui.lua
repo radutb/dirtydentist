@@ -30,6 +30,7 @@ D.clearTextbox = textbox.clearTextbox
 D.initializeCombo = combobox.initialize
 D.clearCheckbox = checkbox.clearCheckbox
 D.setValueAutobox = combobox.setValueAutobox
+D.resetSlider = slider.resetSlider
 
 -- Shared variables (if needed)
 D.colors = {
