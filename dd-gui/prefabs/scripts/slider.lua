@@ -35,19 +35,18 @@ function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 		self.slider[node] = {}
 		self.slider[node].value = 0
 		self.slider[node].pressed = false
-
-		-- I values for min max not set	
-		if min == nil or max == nil then
-			min = 0
-			max = 100
-		end
-		self.slider[node].min = min
-		self.slider[node].max = max
-		
 		gui.set_color(slidelevel, D.colors.accent)
 		gui.set_color(handleCenter, D.colors.accent)
 		gui.set_color(slidebg, D.colors.active)
 	end
+
+	-- I values for min max not set	
+	if min == nil or max == nil then
+		min = 0
+		max = 100
+	end
+	self.slider[node].min = min
+	self.slider[node].max = max
 	
 	if (gui.pick_node(bgNode, action.x, action.y) and enabled and (self.selectedNode == nil or self.selectedNode == node)) or self.slider[node].pressed then
 		-- Get size
