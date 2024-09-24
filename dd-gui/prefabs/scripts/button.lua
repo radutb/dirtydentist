@@ -6,7 +6,7 @@ local M = {}
 function M.toggleActive(self, node, enabled)
 	local bgNode = gui.get_node(node .. "/bg")
 	local textNode = gui.get_node(node .. "/text")
-	if enabled then
+	if not enabled then
 		gui.set_color(bgNode, D.colors.active)
 		gui.set_color(textNode, D.colors.inactive)
 	else
