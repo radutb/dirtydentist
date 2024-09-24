@@ -4,17 +4,15 @@
 local M = {}
 
 function M.resetSlider(self, node)
-	local bgNode = gui.get_node(node .. "/bg")
 	local slidebg = gui.get_node(node .. "/slider_bg")
 	local slidelevel = gui.get_node(node .. "/slider_level")
 	local handle = gui.get_node(node .. "/handle")
 
-	local sliderBgPos = gui.get_screen_position(slidebg)
 	local sliderBgSize = gui.get_size(slidebg)
 	local slider_fillsize = gui.get_size(slidelevel)
 	
-	gui.set_screen_position(handle, vmath.vector3(sliderBgPos.x + (sliderBgSize.x/2), sliderBgPos.y, 0))
-	gui.set_size(slidelevel, vmath.vector3(sliderBgPos.x + (sliderBgSize.x/2), slider_fillsize.y, slider_fillsize.z))
+	gui.set_position(handle, vmath.vector3(0, 0, 0))
+	gui.set_size(slidelevel, vmath.vector3(sliderBgSize.x/2, slider_fillsize.y, slider_fillsize.z))
 	self.slider[node].value = (self.slider[node].min + self.slider[node].max)/2
 end
 

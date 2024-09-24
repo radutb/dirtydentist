@@ -43,7 +43,9 @@ end
 
 function on_input(self, action_id, action)
 	-- Buttons
-	ddgui.button(self, action_id, action, "Ettan", true, false, "Through script")
+	if ddgui.button(self, action_id, action, "Ettan", true, false, "Through script") then
+		ddgui.resetSlider(self, "sliderEtt")
+	end
 	ddgui.button(self, action_id, action, "Tvan", false, false)
 	ddgui.button(self, action_id, action, "Trean", true, true, "Overwritten")
 	ddgui.button(self, action_id, action, "Fyran", false, true)
