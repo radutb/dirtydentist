@@ -3,6 +3,17 @@
 
 local M = {}
 
+function M.toggleActive(self, node, enabled)
+	local bgNode = gui.get_node(node .. "/bg")
+	local textNode = gui.get_node(node .. "/text")
+	if enabled then
+		gui.set_color(bgNode, D.colors.active)
+		gui.set_color(textNode, D.colors.inactive)
+	else
+		gui.set_color(textNode, D.colors.black)
+	end
+end
+
 function M.togglebutton(self, action_id, action, node, enabled, text)
 	-- Get nodes
 	local bgNode = gui.get_node(node .. "/bg")

@@ -32,6 +32,7 @@ D.clearCheckbox = checkbox.clearCheckbox
 D.setValueAutobox = combobox.setValueAutobox
 D.resetSlider = slider.resetSlider
 D.setValueCombobox = combobox.setValueCombobox
+D.toggleActive = button.toggleActive
 
 -- Shared variables (if needed)
 D.colors = {
