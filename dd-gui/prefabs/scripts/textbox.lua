@@ -429,7 +429,7 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 		-- if tabbed to
 		if D.nodes["tab"] then
 			self.textboxData[node].activeline = #self.textboxData[node].lines
-			gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, self.textboxData[node].lines[self.textboxData[node].activeline].text)
+			gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, gui.get_text(self.textboxData[node].lines[self.textboxData[node].activeline].text))
 			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true) -- Enable marker
 			gui.set_screen_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, vmath.vector3(gui.get_position(bgNode).x + gui.get_size(bgNode).x, gui.get_position(self.textboxData[node].lines[self.textboxData[node].activeline].text).y, 0)) -- Set marker at click position
 			self.textboxData[node].makerpos = gui.get_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker) -- Convert to local pos
