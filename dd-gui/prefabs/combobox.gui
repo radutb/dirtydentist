@@ -199,6 +199,7 @@ nodes {
   type: TYPE_BOX
   id: "selected"
   parent: "button"
+  layer: "dd_text"
   inherit_alpha: true
   size_mode: SIZE_MODE_AUTO
 }

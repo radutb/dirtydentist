@@ -105,7 +105,7 @@ function on_input(self, action_id, action)
 
 	--Combobox
 	ddgui.combobox(self, action_id, action, "ddEtt", jedilist, true, false, true)
-	ddgui.combobox(self, action_id, action, "ddTva", jedilist, true, true)
+	ddgui.combobox(self, action_id, action, "ddTva", jedilist, true, true, false)
 	ddgui.auto_suggestbox(self, action_id, action, "autoEtt", jedilist, true, false, true, "1", "autoTva")
 	ddgui.auto_suggestbox(self, action_id, action, "autoTva", jedilist, true, false, true, "2", "autoTre")
 	ddgui.auto_suggestbox(self, action_id, action, "autoTre", jedilist, false, false, true, "3", "autoEtt")
