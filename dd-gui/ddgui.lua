@@ -37,8 +37,8 @@ D.toggleActive = button.toggleActive
 -- Shared variables (if needed)
 D.colors = {
 	active		= vmath.vector4(1, 1, 1, 1),
-	hover		= vmath.vector4(0.9, 0.9, 0.9, 1),
-	select		= vmath.vector4(0.8, 0.8, 0.8, 1),
+	hover		= vmath.vector4(0.85, 0.85, 0.85, 1),
+	select		= vmath.vector4(0.8, 0.8, 0.8, 0.95),
 	inactive	= vmath.vector4(0.3, 0.3, 0.3, 0.5),
 	accent		= vmath.vector4(0.17, 0.50, 0.79, 1),
 	accenthover	= vmath.vector4(0.17, 0.50, 0.79, 0.8),
