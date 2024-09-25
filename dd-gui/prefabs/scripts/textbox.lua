@@ -100,20 +100,8 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 		elseif D.nodes["tab"] then
 			gui.set_text(hiddenText, gui.get_text(textNode))
 			gui.set_enabled(markerNode, true) -- Enable marker
-			gui.set_screen_position(markerNode, vmath.vector3(gui.get_position(bgNode).x + gui.get_size(bgNode).x - 1, gui.get_position(bgNode).y, 0)) -- Set marker at click position
 			self.textboxData[node].makerpos = gui.get_position(markerNode) -- Convert to local pos
 			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
-			gui.set_position(markerNode, self.textboxData[node].makerpos) -- Update
-			gui.set_text(hiddenText, gui.get_text(textNode))
-			if utf8.len(gui.get_text(hiddenText)) > 1 then -- If two or more letters allow editing
-				while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
-					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
-					gui.set_text(hiddenText, shortenstring)
-					if utf8.len(shortenstring) <= 2 then
-						break
-					end
-				end
-			end
 			self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
 			gui.set_position(markerNode, self.textboxData[node].makerpos)
 			D.nodes["tab"] = false -- Reset the tab flag after processing
