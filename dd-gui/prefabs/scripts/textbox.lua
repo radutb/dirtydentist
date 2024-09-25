@@ -301,6 +301,18 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 		end
 		local widthmod = window.get_size()/1280
 
+		-- if tabbed to
+		if D.nodes["tab"] then
+			self.textboxData[node].activeline = #self.textboxData[node].lines
+			gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, gui.get_text(self.textboxData[node].lines[self.textboxData[node].activeline].text))
+			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true) -- Enable marker
+			local markerpos = gui.get_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker)
+			markerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[self.textboxData[node].activeline].hidden).width -- Update marker to be at the end the hiddenstring
+			gui.set_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, markerpos)
+			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true)
+			D.nodes["tab"] = false -- Reset the tab flag after processing
+		end
+
 		--Scrolling
 		if action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
 			for i = 1, #self.textboxData[node].lines do
@@ -425,30 +437,6 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 			elseif action_id == hash("touch") and action.pressed and not gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
 				gui.set_enabled(self.textboxData[node].lines[i].marker, false)
 			end
-		end
-		-- if tabbed to
-		if D.nodes["tab"] then
-			self.textboxData[node].activeline = #self.textboxData[node].lines
-			gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, gui.get_text(self.textboxData[node].lines[self.textboxData[node].activeline].text))
-			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true) -- Enable marker
-			gui.set_screen_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, vmath.vector3(gui.get_position(bgNode).x + gui.get_size(bgNode).x, gui.get_position(self.textboxData[node].lines[self.textboxData[node].activeline].text).y, 0)) -- Set marker at click position
-			self.textboxData[node].makerpos = gui.get_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker) -- Convert to local pos
-			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
-			gui.set_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, self.textboxData[node].makerpos) -- Update
-			gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, gui.get_text(self.textboxData[node].lines[self.textboxData[node].activeline].text))
-			if utf8.len(gui.get_text(hiddenText)) > 1 then -- If two or more letters allow editing
-				while gui.get_text_metrics_from_node(self.textboxData[node].lines[self.textboxData[node].activeline].hidden).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
-					local shortenstring = utf8.sub(gui.get_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden), 1, -2)
-					gui.set_text(self.textboxData[node].lines[self.textboxData[node].activeline].hidden, shortenstring)
-					if utf8.len(shortenstring) <= 2 then
-						break
-					end
-				end
-			end
-			self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[self.textboxData[node].activeline].hidden).width -- Update marker to be at the end the hiddenstring
-			gui.set_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, self.textboxData[node].makerpos)
-			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true)
-			D.nodes["tab"] = false -- Reset the tab flag after processing
 		end
 
 		-- Delete
