@@ -292,7 +292,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -200)
+				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -170)
 				gui.set_position(dd_obj, currentPos)
 			elseif self.comboboxData[node].open and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
@@ -737,7 +737,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			listOfSelect[i+1] = "/selected" .. i
 		end	
 
-		-- Scrolling is enabeled when more than 7 items in dropdown
+		-- Scrolling is enabeled when more than 6 items in dropdown
 		if self.comboboxData[node].count < 6 then
 			gui.set_enabled(dragpos, false)
 		elseif self.comboboxData[node].count > 6 then
@@ -745,7 +745,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -200)
+				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -170)
 				gui.set_position(dd_obj, currentPos)
 			elseif self.comboboxData[node].open and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
