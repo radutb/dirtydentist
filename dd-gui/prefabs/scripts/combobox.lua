@@ -292,11 +292,11 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -170)
+				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -200)
 				gui.set_position(dd_obj, currentPos)
 			elseif self.comboboxData[node].open and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y + D.scrollSpeed),0,self.comboboxData[node].size -170)
+				currentPos.y = D.valuelimit((currentPos.y + D.scrollSpeed),0,self.comboboxData[node].size -200)
 				gui.set_position(dd_obj, currentPos)
 			end
 
@@ -332,13 +332,13 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 		if action_id == hash("up") and action.pressed and self.comboboxData[node].count >= 1 and self.comboboxData[node].previous > 1 and self.comboboxData[node].open then
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous-1]), D.colors.hover)
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous]), D.colors.active)
-			if self.comboboxData[node].count > 7 then
+			if self.comboboxData[node].count > 6 then
 				gui.set_position(dd_obj, vmath.vector3(0,(self.comboboxData[node].previous-1)*30-30,0))
 			end
 		elseif action_id == hash("down") and action.pressed and self.comboboxData[node].count >= 1 and self.comboboxData[node].previous < #listOfButton and self.comboboxData[node].open then
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous+1]), D.colors.hover)
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous]), D.colors.active)
-			if self.comboboxData[node].count > 7 then
+			if self.comboboxData[node].count > 6 then
 				gui.set_position(dd_obj, vmath.vector3(0,(self.comboboxData[node].previous+1)*30-30,0))
 			end
 		end
@@ -745,11 +745,11 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -170)
+				currentPos.y = D.valuelimit((currentPos.y - D.scrollSpeed),0,self.comboboxData[node].size -200)
 				gui.set_position(dd_obj, currentPos)
 			elseif self.comboboxData[node].open and action_id == hash("wheeldown") and gui.pick_node(dd_obj, action.x, action.y) then
 				local currentPos = gui.get_position(dd_obj)
-				currentPos.y = D.valuelimit((currentPos.y + D.scrollSpeed),0,self.comboboxData[node].size -170)
+				currentPos.y = D.valuelimit((currentPos.y + D.scrollSpeed),0,self.comboboxData[node].size -200)
 				gui.set_position(dd_obj, currentPos)
 			end
 
@@ -785,13 +785,13 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 		if action_id == hash("up") and action.pressed and self.comboboxData[node].count >= 1 and self.comboboxData[node].previous > 1 and self.comboboxData[node].open then
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous-1]), D.colors.hover)
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous]), D.colors.active)
-			if self.comboboxData[node].count > 7 then
+			if self.comboboxData[node].count > 6 then
 				gui.set_position(dd_obj, vmath.vector3(0,(self.comboboxData[node].previous-1)*30-30,0))
 			end
 		elseif action_id == hash("down") and action.pressed and self.comboboxData[node].count >= 1 and self.comboboxData[node].previous < #listOfButton and self.comboboxData[node].open then
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous+1]), D.colors.hover)
 			gui.set_color(gui.get_node(node .. listOfButton[self.comboboxData[node].previous]), D.colors.active)
-			if self.comboboxData[node].count > 7 then
+			if self.comboboxData[node].count > 6 then
 				gui.set_position(dd_obj, vmath.vector3(0,(self.comboboxData[node].previous+1)*30-30,0))
 			end
 		end
