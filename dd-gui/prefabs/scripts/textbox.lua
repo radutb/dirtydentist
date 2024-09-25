@@ -447,7 +447,7 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 			self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[self.textboxData[node].activeline].hidden).width -- Update marker to be at the end the hiddenstring
 			gui.set_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, self.textboxData[node].makerpos)
 			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true)
-			D.nodes["tab"] = nil -- Reset the tab flag after processing
+			D.nodes["tab"] = false -- Reset the tab flag after processing
 		end
 
 		-- Delete
