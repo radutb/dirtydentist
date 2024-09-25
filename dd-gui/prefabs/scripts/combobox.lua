@@ -287,7 +287,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 		-- Scrolling is enabeled when more than 7 items in dropdown
 		if self.comboboxData[node].count < 6 then
 			gui.set_enabled(dragpos, false)
-		elseif self.comboboxData[node].count > 6 then
+		elseif self.comboboxData[node].count >= 6 then
 			gui.set_enabled(dragpos, true)
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
@@ -740,7 +740,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 		-- Scrolling is enabeled when more than 6 items in dropdown
 		if self.comboboxData[node].count < 6 then
 			gui.set_enabled(dragpos, false)
-		elseif self.comboboxData[node].count > 6 then
+		elseif self.comboboxData[node].count >= 6 then
 			gui.set_enabled(dragpos, true)
 			-- Scrollwheel
 			if self.comboboxData[node].open and action_id == hash("wheelup") and gui.pick_node(dd_obj, action.x, action.y) then
