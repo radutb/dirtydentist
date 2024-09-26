@@ -17,15 +17,13 @@ function M.setTextbox(self, node, text)
 	local bgNode = gui.get_node(node .. "/bg")
 	local textNode = gui.get_node(node .. "/text")
 	local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
-	local markerNode = gui.get_node(node .. "/marker")
 
 	-- Check current value
 	self.textboxData = self.textboxData or {}
 	self.textboxData[node] = self.textboxData[node] or {}
 	self.textboxData[node].text = text
 	gui.set_text(textNode, self.textboxData[node].text)
-	gui.set_text(hiddenText, self.textboxData[node].text)
-	
+	gui.set_text(hiddenText, self.textboxData[node].text)	
 end
 
 
@@ -91,10 +89,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 	end
 
 	if D.nodes["active"] == node then
-		print("Node: " .. D.nodes["active"])
-		local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparison
 		local widthmod = window.get_size() / 1280
-		gui.set_enabled(markerNode, true)
 		if action_id == hash("touch") and action.pressed then
 			gui.set_enabled(markerNode, true) -- Enable marker
 			gui.set_screen_position(markerNode, vmath.vector3(action.x * widthmod, action.y, 0)) -- Set marker at click position
@@ -102,12 +97,14 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
 			gui.set_position(markerNode, self.textboxData[node].makerpos) -- Update
 			gui.set_text(hiddenText, gui.get_text(textNode))
-			if utf8.len(gui.get_text(hiddenText)) > 1 then -- If two or more letters allow editing
-				while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
-					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
-					gui.set_text(hiddenText, shortenstring)
-					if utf8.len(shortenstring) <= 2 then
-						break
+			if gui.get_text_metrics_from_node(textNode).width > self.textboxData[node].makerpos.x then
+				if utf8.len(gui.get_text(hiddenText)) > 1 and gui.get_text_metrics_from_node(hiddenText).width < self.textboxData[node].makerpos.x then
+					while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
+						local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
+						gui.set_text(hiddenText, shortenstring)
+						if utf8.len(shortenstring) <= 2 then
+							break
+						end
 					end
 				end
 			end
