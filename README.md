@@ -1,5 +1,7 @@
 # DirtyDentist-GUI (DD-GUI)
-A basic GUI library for Defold developed for educational softwares. It covers the essentials including; drop-downs, comboboxes, simple buttons, checkboxes, radio buttons, text fields and text boxes. Notably, the text components allow for mid-string editing and navigation using arrow keys.
+A basic GUI library for Defold developed for a educational software. It covers the essentials including; comboboxes, auto-suggestbox, simple buttons, checkboxes, radio buttons, text fields and text boxes. Notably, the text components allow for mid-string editing and navigation using arrow keys.
+
+Since rebuild in 0.3.0 functions and implementations have changed but old codebase is included for compability. 
 
 [HTML5 Example](https://skogsheden.se/dirtydentist)
 
@@ -14,42 +16,54 @@ Use included prefabs and name after hearts content. Implement in GUI script unde
 
 *Function returns true or false*
 ```
-button_touch(self, action_id, action, "NodeName", active(boolean))
+button(self, action_id, action, node, enabled, accent, text)
 ```
+*Turn button on and of not trough input method*
+```
+toggleActive(self, node, enabled)
+```
+**Toggle button:**
+*Toggle button - turns on and off*
+```
+togglebutton(self, action_id, action, node, enabled, text)
+```
+
 **Checkbox:**
 
 *Function returns true or false*
 ```
-checkbox(self, action_id, action, "NodeName", active(boolean))
+checkbox(self, action_id, action, node, enabled, standard_value, text)
+```
+*Clear checkboxs trough script*
+```
+clearCheckbox (self, node)
+```
+*Select all/three state checkbox*
+```
+checkboxSelectall(self, action_id, action, node, othernodes, enabled, standard_value, text)
 ```
 **Radiobutton:**
 
 *Function which button that is selected*
 ```
-radio(self, action_id, action, group(int), {"NodeName1", "NodeName2", "NodeName3"}, active(boolean))
+radiobutton(self, action_id, action, node, enabled, group)
 ```
 
 ### Slider
-*Function returns value between -1 and 1*
+*Function returns value between min and max*
 
 ```
-slider(self, action_id, action, "NodeName")
+slider(self, action_id, action, node, enabled, showpopup, min, max)
+```
+*Reset values*
+
+```
+resetSlider(self, node)
 ```
 
-### Dropdowns
+### Combobox
 
-*Dropdowns need to be initialised*
-```
-function init(self)
-	ListName = {
-		"Luke Skywalker",
-		"Obi-Wan Kenobi",
-		"Yoda",
-	}
-	dropdown_init(self, "NodeName", ListName, Active)
-end
-```
-**Dropdown:**
+**Simple dropdown:**
 
 *Returns selected value*
 ```
@@ -60,30 +74,53 @@ dropdown_interact(self, action_id, action, "NodeName",ListName, active(boolean),
 
 *Returns selected value*
 ```
-combobox_interact(self, action_id, action, "NodeName",ListName, active(boolean), "TabToNodeName")
+combobox(self, action_id, action, node, list, enabled, up, use_mag, standardValue)
 ```
+*Set values trough script*
+```
+setValueCombobox(self, node, value)
+```
+**Auto suggestbox:**
 
+*Returns selected value and takes text input for search*
+```
+auto_suggestbox(self, action_id, action, node, list, enabled, up, use_mag, id, tab_to)
+```
+*Set values trough script*
+```
+setValueAutobox(self, node, value, active)
+```
 *Localise standard values*
 ```
-localisationofstrings("Nothing found", "Select")
+localisation_of_strings("Nothing found", "Select")
 ```
+
 ### Text
-
-**Textinput:**
-
-*Returns text*
-```
-text_input(self, action_id, action, "NodeName", active(boolean), "TabToNodeName")
-```
 
 **Textbox:**
 
 *Returns text*
 ```
-textbox_input(self, action_id, action, "NodeName", active(boolean), "TabToNodeName")
+textbox(self, action_id, action, node, enabled, tab_to)
+```
+
+*Clear textbox*
+```
+clearTextbox(self, node)
+```
+*Set textbox*
+```
+setTextbox(self, node, text)
+```
+
+**Multi-line textbox:**
+
+*Returns text*
+```
+textboxMultiline(self, action_id, action, node, enabled, tab_to)
 ```
 *Clear textbox and input trough script*
 ```
-textbox_clear("box")
+clearTextbox(self, node)
 ```
 
