@@ -13,6 +13,22 @@ function M.clearTextbox(self, node)
 	gui.set_text(textNode, self.textboxData[node].text)
 end
 
+function M.setTextbox(self, node, text)
+	local bgNode = gui.get_node(node .. "/bg")
+	local textNode = gui.get_node(node .. "/text")
+	local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
+	local markerNode = gui.get_node(node .. "/marker")
+
+	-- Check current value
+	self.textboxData = self.textboxData or {}
+	self.textboxData[node] = self.textboxData[node] or {}
+	self.textboxData[node].text = text
+	gui.set_text(textNode, self.textboxData[node].text)
+	gui.set_text(hiddenText, self.textboxData[node].text)
+	
+end
+
+
 function M.textbox(self, action_id, action, node, enabled, tab_to)
 	-- Load nodes
 	local bgNode = gui.get_node(node .. "/bg")

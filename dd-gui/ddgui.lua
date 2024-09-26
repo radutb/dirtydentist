@@ -33,6 +33,7 @@ D.setValueAutobox = combobox.setValueAutobox
 D.resetSlider = slider.resetSlider
 D.setValueCombobox = combobox.setValueCombobox
 D.toggleActive = button.toggleActive
+D.setTextbox = textbox.setTextbox
 
 -- Shared variables (if needed)
 D.colors = {
