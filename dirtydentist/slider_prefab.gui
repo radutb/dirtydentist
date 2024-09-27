@@ -1,7 +1,6 @@
-script: ""
 textures {
   name: "UI"
-  texture: "/dirtydentist/images/UI.atlas"
+  texture: "/dirtydentist/images/old_UI.atlas"
 }
 nodes {
   size {

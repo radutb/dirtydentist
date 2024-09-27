@@ -4,7 +4,7 @@ fonts {
 }
 textures {
   name: "UI"
-  texture: "/dd-gui/images/new_ui.atlas"
+  texture: "/dd-gui/images/UI.atlas"
 }
 nodes {
   size {

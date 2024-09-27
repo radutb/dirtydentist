@@ -10,7 +10,7 @@ height = 800
 
 [project]
 title = DD-GUI
-version = 0.3.0
+version = 0.3.1
 publisher = Skogsheden
 developer = Nils Gustafsson
 bundle_resources = /dd-gui/
@@ -21,6 +21,7 @@ include_dirs = dirtydentist, dd-gui
 
 [html5]
 htmlfile = /dd-gui/HTML/engine_template.html
+splash_image = /logo.png
 
 [graphics]
 max_font_batches = 256

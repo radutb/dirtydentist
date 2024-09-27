@@ -475,7 +475,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 					gui.set_text(selected_text, self.comboboxData[node].value)
 					M.createComboboxList(self, node, list, use_mag)
 					self.comboboxData[node].open = true
-					if D.isMobileDeviceis then
+					if D.isMobileDevice then
 						gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
 					end
 				elseif gui.pick_node(arrow, action.x, action.y) and self.comboboxData[node].open then
@@ -488,7 +488,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 					self.comboboxData[node].open = false
 					gui.set_enabled(markerNode, false)
 					D.nodes["active"], self.selectedNode = nil, nil
-					if D.isMobileDeviceis then
+					if D.isMobileDevice then
 						gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
 					end
 				end

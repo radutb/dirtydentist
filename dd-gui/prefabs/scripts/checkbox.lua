@@ -3,6 +3,33 @@
 
 local M = {}
 
+function M.initializeCheckbox (self, node, value, enabled)
+	-- Load nodes
+	local bgNode = gui.get_node(node .. "/bg")
+	local checkNode = gui.get_node(node .. "/check")
+	
+	-- Check current value
+	self.checkbox = self.checkbox or {}
+	self.checkbox[node] = self.checkbox[node] or {}
+	self.checkbox[node].value = value
+	self.checkbox[node].enabled = enabled 
+
+	if enabled then 
+		if self.checkbox[node].value then
+			gui.set_enabled(checkNode, true)
+			gui.set_color(bgNode, D.colors.accent)
+		else
+			gui.set_enabled(checkNode, false)
+			gui.set_color(bgNode, D.colors.active)
+		end
+	else
+		gui.set_enabled(checkNode, false)
+		gui.set_color(bgNode, D.colors.inactive)
+		self.checkbox[node].enabled = false
+	end	
+end
+
+
 function M.clearCheckbox (self, node)
 	local bgNode = gui.get_node(node .. "/bg")
 	local checkNode = gui.get_node(node .. "/check")

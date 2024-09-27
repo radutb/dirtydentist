@@ -5,7 +5,7 @@ fonts {
 }
 textures {
   name: "app_ui"
-  texture: "/dirtydentist/images/UI.atlas"
+  texture: "/dirtydentist/images/old_UI.atlas"
 }
 nodes {
   position {
