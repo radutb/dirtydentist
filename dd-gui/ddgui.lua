@@ -27,13 +27,14 @@ D.auto_suggestbox = combobox.auto_suggestbox
 
 -- Expose additional functions
 D.clearTextbox = textbox.clearTextbox
+D.setTextbox = textbox.setTextbox
+D.toggleActive = button.toggleActive
 D.initializeCombo = combobox.initialize
-D.clearCheckbox = checkbox.clearCheckbox
+D.setValueCombobox = combobox.setValueCombobox
 D.setValueAutobox = combobox.setValueAutobox
 D.resetSlider = slider.resetSlider
-D.setValueCombobox = combobox.setValueCombobox
-D.toggleActive = button.toggleActive
-D.setTextbox = textbox.setTextbox
+D.initializeCheckbox = checkbox.initializeCheckbox
+D.clearCheckbox = checkbox.clearCheckbox
 
 -- Shared variables (if needed)
 D.colors = {
