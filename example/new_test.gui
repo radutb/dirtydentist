@@ -7,6 +7,10 @@ fonts {
   name: "Robot_PW"
   font: "/dd-gui/fonts/Robot_PW.font"
 }
+fonts {
+  name: "default"
+  font: "/builtins/fonts/default.font"
+}
 nodes {
   position {
     x: 550.0
@@ -369,8 +373,10 @@ nodes {
 }
 nodes {
   type: TYPE_TEXT
+  font: "default"
   id: "textEtt/text"
   parent: "textEtt/innerbox"
+  overridden_fields: 10
   template_node_child: true
 }
 nodes {
@@ -381,8 +387,10 @@ nodes {
 }
 nodes {
   type: TYPE_TEXT
+  font: "default"
   id: "textEtt/hiddentext"
   parent: "textEtt/innerbox"
+  overridden_fields: 10
   template_node_child: true
 }
 nodes {

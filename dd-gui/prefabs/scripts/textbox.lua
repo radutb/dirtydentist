@@ -14,16 +14,17 @@ function M.clearTextbox(self, node)
 end
 
 function M.setTextbox(self, node, text)
-	local bgNode = gui.get_node(node .. "/bg")
 	local textNode = gui.get_node(node .. "/text")
 	local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
-
+	local markerNode = gui.get_node(node .. "/marker")
+	
 	-- Check current value
 	self.textboxData = self.textboxData or {}
 	self.textboxData[node] = self.textboxData[node] or {}
 	self.textboxData[node].text = text
 	gui.set_text(textNode, self.textboxData[node].text)
 	gui.set_text(hiddenText, self.textboxData[node].text)	
+	gui.set_enabled(markerNode, false)
 end
 
 
@@ -42,24 +43,25 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 	D.nodes["active"] = D.nodes["active"] or nil
 	D.nodes["tab"] = D.nodes["tab"] or false
 	gui.set_text(textNode, self.textboxData[node].text)
-	
+
 	-- Hovering and enabled
 	if gui.pick_node(bgNode, action.x, action.y) and enabled then
 		-- Set hover color
 		gui.set_color(bgNode, D.colors.hover)
 		-- If pressed set active
-		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and (self.selectedNode == nil or self.selectedNode == node) then
+		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and D.nodes["active"] == nil then
 			D.nodes["active"] = node
 			D.nodes["tab"] = false
 			if D.isMobileDevice then
 				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
 			end
 		end
-	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.selectedNode == node then
+	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and D.nodes["active"] == node then
 		-- if not hovered but active
 		gui.set_color(bgNode, D.colors.hover)
 		-- if preseed utside of field deactivate
 		if action_id == hash("touch") and action.pressed then
+			print("stop")
 			D.nodes["active"] = nil
 			D.nodes["tab"] = false
 			gui.set_color(bgNode, D.colors.active)
@@ -68,10 +70,10 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
 			end
 		end
-	-- if not active an not hoverd
-	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled then
+		-- if not active an not hoverd
+	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and D.nodes["active"] ~= node then
 		gui.set_color(bgNode, D.colors.active)
-	-- disabled
+		-- disabled
 	elseif not enabled then
 		gui.set_color(bgNode, D.colors.inactive)
 		if D.nodes["active"] == node then
@@ -85,43 +87,41 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 		gui.set_color(bgNode, D.colors.active)
 		gui.set_enabled(markerNode, false)
 		D.nodes["tab"] = true
-		print("Tab presed")
 	end
 
 	if D.nodes["active"] == node then
 		local widthmod = window.get_size() / 1280
-		if action_id == hash("touch") and action.pressed then
+		if action_id == hash("touch") and action.released and gui.pick_node(bgNode, action.x, action.y) then
 			gui.set_text(hiddenText, gui.get_text(textNode))
-			gui.set_enabled(markerNode, true) -- Enable marker
-			gui.set_screen_position(markerNode, vmath.vector3(action.x * widthmod, action.y, 0)) -- Set marker at click position
+			gui.set_screen_position(markerNode, vmath.vector3(action.x*widthmod,action.y,0)) -- Set marker at click position
 			self.textboxData[node].makerpos = gui.get_position(markerNode) -- Convert to local pos
 			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
-			gui.set_position(markerNode, self.textboxData[node].makerpos) -- Update
-			if gui.get_text_metrics_from_node(hiddenText).width >= self.textboxData[node].makerpos.x then
-				if utf8.len(gui.get_text(hiddenText)) > 1 and gui.get_text_metrics_from_node(hiddenText).width < self.textboxData[node].makerpos.x then
-					while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
-						local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
-						gui.set_text(hiddenText, shortenstring)
-						if utf8.len(shortenstring) <= 2 then
-							break
-						end
+			gui.set_position(markerNode, self.textboxData[node].makerpos)
+			if gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x and utf8.len(gui.get_text(hiddenText)) > 1 then
+				while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
+					local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
+					gui.set_text(hiddenText, shortenstring)
+					if utf8.len(shortenstring) <= 2 then
+						break
 					end
 				end
+				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
+				gui.set_position(markerNode, self.textboxData[node].makerpos)
+			else
+				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
+				gui.set_position(markerNode, self.textboxData[node].makerpos)
 			end
-			self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
-			gui.set_position(markerNode, self.textboxData[node].makerpos)
-		elseif D.nodes["tab"] then
-			gui.set_text(hiddenText, gui.get_text(textNode))
 			gui.set_enabled(markerNode, true) -- Enable marker
+		elseif D.nodes["tab"] then	
+			gui.set_text(hiddenText, gui.get_text(textNode))
 			self.textboxData[node].makerpos = gui.get_position(markerNode) -- Convert to local pos
 			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
 			self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width -- Update marker to be at the end the hiddenstring
 			gui.set_position(markerNode, self.textboxData[node].makerpos)
 			D.nodes["tab"] = false -- Reset the tab flag after processing
-		end
-
-		-- Input text
-		if action_id == hash("text") and gui.get_text_metrics_from_node(textNode).width < (gui.get_size(bgNode).x-25) then
+			gui.set_enabled(markerNode, true) -- Enable marker
+			-- Input text
+		elseif action_id == hash("text") and gui.get_text_metrics_from_node(textNode).width < (gui.get_size(bgNode).x-25) then
 			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(textNode)) then -- Hidden is shorter add text for that point
 				local hiddenlength = utf8.len(gui.get_text(hiddenText))
 				self.textboxData[node].makerpos = gui.get_position(markerNode)
@@ -141,11 +141,8 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width
 				gui.set_position(markerNode, self.textboxData[node].makerpos)
 			end
-		end
-
 		-- Erase using backspace
-		if action_id == hash("backspace") and action.repeated then -- Remove letters
-			print("backspace")
+		elseif action_id == hash("backspace") and action.repeated then -- Remove letters
 			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(textNode)) then -- If hidden is shorter remove text from that point
 				local hiddenlength = utf8.len(gui.get_text(hiddenText))
 				self.textboxData[node].makerpos = gui.get_position(markerNode)
@@ -165,8 +162,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width
 				gui.set_position(markerNode, self.textboxData[node].makerpos)
 			end
-		end
-		if action_id == hash("delete") and action.repeated then -- Same as above but delete
+		elseif action_id == hash("delete") and action.repeated then -- Same as above but delete
 			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(textNode)) then
 				local hiddenlength = utf8.len(gui.get_text(hiddenText))
 				self.textboxData[node].makerpos = gui.get_position(markerNode)
@@ -177,10 +173,9 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(hiddenText).width
 				gui.set_position(markerNode, self.textboxData[node].makerpos)
 			elseif utf8.len(gui.get_text(hiddenText)) == utf8.len(gui.get_text(textNode)) then -- If marker at end there is nothing to delete
-			print("nothing to delete")
+				print("nothing to delete")
 			end
-		end
-		if action_id == hash("left") and action.pressed and utf8.len(gui.get_text(hiddenText)) > 0 then
+		elseif action_id == hash("left") and action.pressed and utf8.len(gui.get_text(hiddenText)) > 0 then
 			local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
 			gui.set_text(hiddenText, shortenstring)
 			self.textboxData[node].makerpos = gui.get_position(markerNode)
@@ -201,52 +196,52 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 end
 
 function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
-	-- Load nodes
-	local bgNode = gui.get_node(node .. "/bg")
-	local markerNode = gui.get_node(node .. "/marker")
-	
-	-- Check current value
-	self.textboxData = self.textboxData or {}
-	self.textboxData[node] = self.textboxData[node] or {}
-	self.selectedNode = D.nodes["active"] or nil
-	
-	-- Hovering and enabled
-	if gui.pick_node(bgNode, action.x, action.y) and enabled then
-		-- Set hover color
-		gui.set_color(bgNode, D.colors.hover)
-		-- If pressed set active
-		if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and (self.selectedNode == nil or self.selectedNode == node) then
-			D.nodes["active"], self.selectedNode = node, node
-			D.nodes["tab"] = false
-			if D.isMobileDevice then
-				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
-			end
-		end
-	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.selectedNode == node then
-		-- if not hovered but active
-		gui.set_color(bgNode, D.colors.hover)
-		-- if preseed utside of field deactivate
-		if action_id == hash("touch") and action.pressed then
-			D.nodes["active"], self.selectedNode = nil, nil
-			gui.set_color(bgNode, D.colors.active)
-			gui.set_enabled(markerNode, false)
-			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, false)
-			if D.isMobileDevice then
-				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
-			end
-		end
-		-- if not active an not hoverd
-	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled then
-		gui.set_color(bgNode, D.colors.active)
-		-- disabled
-	elseif not enabled then
-		gui.set_color(bgNode, D.colors.inactive)
-		if self.selectedNode == node then
-			D.nodes["active"], self.selectedNode = nil, nil
+-- Load nodes
+local bgNode = gui.get_node(node .. "/bg")
+local markerNode = gui.get_node(node .. "/marker")
+
+-- Check current value
+self.textboxData = self.textboxData or {}
+self.textboxData[node] = self.textboxData[node] or {}
+self.selectedNode = D.nodes["active"] or nil
+
+-- Hovering and enabled
+if gui.pick_node(bgNode, action.x, action.y) and enabled then
+	-- Set hover color
+	gui.set_color(bgNode, D.colors.hover)
+	-- If pressed set active
+	if action_id == hash("touch") and action.pressed and gui.pick_node(bgNode, action.x, action.y) and (self.selectedNode == nil or self.selectedNode == node) then
+		D.nodes["active"], self.selectedNode = node, node
+		D.nodes["tab"] = false
+		if D.isMobileDevice then
+			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
 		end
 	end
+elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.selectedNode == node then
+	-- if not hovered but active
+	gui.set_color(bgNode, D.colors.hover)
+	-- if preseed utside of field deactivate
+	if action_id == hash("touch") and action.pressed then
+		D.nodes["active"], self.selectedNode = nil, nil
+		gui.set_color(bgNode, D.colors.active)
+		gui.set_enabled(markerNode, false)
+		gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, false)
+		if D.isMobileDevice then
+			gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+		end
+	end
+	-- if not active an not hoverd
+elseif not gui.pick_node(bgNode, action.x, action.y) and enabled then
+	gui.set_color(bgNode, D.colors.active)
+	-- disabled
+elseif not enabled then
+	gui.set_color(bgNode, D.colors.inactive)
+	if self.selectedNode == node then
+		D.nodes["active"], self.selectedNode = nil, nil
+	end
+end
 
-	-- If tab to
+-- If tab to
 	if action_id == hash("tab") and action.pressed and tab_to ~= nil and D.nodes["tab"] == false and D.nodes["active"] == node then
 		D.nodes["active"] = tab_to
 		gui.set_color(bgNode, D.colors.active)
@@ -417,7 +412,7 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 
 		-- Touch
 		for i = 1, #self.textboxData[node].lines do 
-			if action_id == hash("touch") and action.pressed and gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
+			if action_id == hash("touch") and action.released and gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
 				gui.set_text(self.textboxData[node].lines[i].hidden, gui.get_text(self.textboxData[node].lines[i].text))
 				self.textboxData[node].activeline = i -- Set active to current
 				gui.set_enabled(self.textboxData[node].lines[i].marker, true) -- Enable marker

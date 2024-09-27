@@ -40,7 +40,7 @@ mouse_trigger {
 }
 mouse_trigger {
   input: MOUSE_BUTTON_LEFT
-  action: "left"
+  action: "touch"
 }
 mouse_trigger {
   input: MOUSE_BUTTON_RIGHT

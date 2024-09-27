@@ -7,6 +7,10 @@ shared_state = 1
 [display]
 width = 1280
 height = 800
+update_frequency = 60
+display_device_info = 1
+fullscreen = 0
+high_dpi = 1
 
 [project]
 title = DD-GUI
@@ -22,6 +26,7 @@ include_dirs = dirtydentist, dd-gui
 [html5]
 htmlfile = /dd-gui/HTML/engine_template.html
 splash_image = /logo.png
+scale_mode = downscale_fit
 
 [graphics]
 max_font_batches = 256
