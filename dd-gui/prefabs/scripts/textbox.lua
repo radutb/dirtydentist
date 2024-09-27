@@ -91,13 +91,13 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 	if D.nodes["active"] == node then
 		local widthmod = window.get_size() / 1280
 		if action_id == hash("touch") and action.pressed then
+			gui.set_text(hiddenText, gui.get_text(textNode))
 			gui.set_enabled(markerNode, true) -- Enable marker
 			gui.set_screen_position(markerNode, vmath.vector3(action.x * widthmod, action.y, 0)) -- Set marker at click position
 			self.textboxData[node].makerpos = gui.get_position(markerNode) -- Convert to local pos
 			self.textboxData[node].makerpos.y = 0 -- Set y position to 0 to keep in middle of box
 			gui.set_position(markerNode, self.textboxData[node].makerpos) -- Update
-			gui.set_text(hiddenText, gui.get_text(textNode))
-			if gui.get_text_metrics_from_node(textNode).width > self.textboxData[node].makerpos.x then
+			if gui.get_text_metrics_from_node(hiddenText).width >= self.textboxData[node].makerpos.x then
 				if utf8.len(gui.get_text(hiddenText)) > 1 and gui.get_text_metrics_from_node(hiddenText).width < self.textboxData[node].makerpos.x then
 					while gui.get_text_metrics_from_node(hiddenText).width > self.textboxData[node].makerpos.x do -- Adjust hidden string to fit hiddenstring
 						local shortenstring = utf8.sub(gui.get_text(hiddenText), 1, -2)
