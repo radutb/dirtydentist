@@ -489,7 +489,8 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 					gui.set_enabled(markerNode, false)
 					D.nodes["active"], self.selectedNode = nil, nil
 					if D.isMobileDevice then
-						gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+						gui.reset_keyboard()
+						gui.hide_keyboard()
 					end
 				end
 			end
@@ -504,7 +505,8 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 				gui.set_enabled(markerNode, false)
 				D.nodes["active"], self.selectedNode = nil, nil
 				if D.isMobileDeviceis then
-					gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, false)
+					gui.reset_keyboard()
+					gui.hide_keyboard()
 				end
 			end
 		elseif not enabled and D.nodes["tab"] == false then
