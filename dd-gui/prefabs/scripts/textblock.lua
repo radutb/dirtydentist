@@ -64,9 +64,12 @@ function M.textBlock(self, action_id, action, node, enabled)
 		D.nodes["active"] = nil
 	elseif not self.textboxData[node].active then
 		gui.set_color(bgNode, D.colors.inactive)
+	else
+		gui.set_color(bgNode, D.colors.active)
 	end
 	-- Init if not done yet
 	if not self.textboxData[node].init then
+		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x, gui.get_size(bgNode).y, 0))	
 		local textMetrics = gui.get_text_metrics_from_node(text)
 		gui.set_position(dragpos, vmath.vector3(gui.get_size(bgNode).x-8, 10, 0))
 		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x, textMetrics.height+20, 0))
