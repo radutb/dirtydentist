@@ -75,7 +75,7 @@ function M.textBlock(self, action_id, action, node, enabled)
 		gui.set_position(dragpos, vmath.vector3(gui.get_size(bgNode).x-8, 10, 0))
 		--Adjust text and carrier blocks to fit all text
 		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-10, textMetrics.height+20, 0))
-		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x, textMetrics.height+20, 0))
+		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x-10, textMetrics.height+20, 0))
 		if textMetrics.height > gui.get_size(bgNode).y then
 			self.textboxData[node].marker = true
 		end
