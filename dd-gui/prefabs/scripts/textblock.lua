@@ -24,11 +24,11 @@ function M.setTextblock(self, node, text)
 	-- Init if not done yet
 	if not self.textboxData[node].init then
 		-- Atelast same size as bg
-		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
+		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
 		local textMetrics = gui.get_text_metrics_from_node(text)
 		gui.set_position(dragpos, vmath.vector3(gui.get_size(bgNode).x-8, 10, 0))
 		--Adjust text and carrier blocks to fit all text
-		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
+		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		if textMetrics.height > gui.get_size(bgNode).y then
 			self.textboxData[node].marker = true
