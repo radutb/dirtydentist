@@ -25,7 +25,6 @@ function M.setValueAutobox(self, node, value, active)
 		gui.set_text(hiddenText, D.select_a_value)
 		self.comboboxData[node].value = value
 	else
-		print(value)
 		gui.set_text(selected_text, value)
 		gui.set_text(hiddenText, value)
 		self.comboboxData[node].value = value
@@ -518,7 +517,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 				self.comboboxData[node].open = false
 				gui.set_enabled(markerNode, false)
 				D.nodes["active"], self.selectedNode = nil, nil
-				if D.isMobileDeviceis then
+				if D.isMobileDevice then
 					gui.hide_keyboard()
 				end
 			end
@@ -529,7 +528,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			if self.selectedNode == node then
 				gui.set_enabled(markerNode, false)
 				D.nodes["active"], self.selectedNode = nil, nil
-				if D.isMobileDeviceis then
+				if D.isMobileDevice then
 					gui.hide_keyboard()
 				end
 			end

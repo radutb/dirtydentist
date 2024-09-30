@@ -1,8 +1,7 @@
 -- textblock.lua
--- textblock component for DD-GUI
+-- Textblock component for DD-GUI
 
 local M = {}
-
 
 function M.setTextblock(self, node, text)
 	local bgNode = gui.get_node(node .. "/bg")
