@@ -22,12 +22,6 @@ function M.setTextblock(self, node, text)
 
 	-- Init if not done yet
 	if not self.textboxData[node].init then
-		-- Check if active
-		if self.textboxData[node].active then
-			gui.set_color(bgNode, D.colors.active)
-		elseif not self.textboxData[node].active then
-			gui.set_color(bgNode, D.colors.inactive)
-		end
 		-- Atelast same size as bg
 		gui.set_position(carrier, vmath.vector3(0,0,0))
 		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
