@@ -17,15 +17,21 @@ function M.setTextblock(self, node, text)
 	self.textboxData[node].init = false
 	self.textboxData[node].marker = self.textboxData[node].marker or false
 	self.textboxData[node].scroll = self.textboxData[node].scroll or {}
-
-	gui.set_text(textNode, text)
 	self.textboxData[node].text = text
-	
+	gui.set_text(textNode, text)
+
 	-- Init if not done yet
 	if not self.textboxData[node].init then
+		-- Check if active
+		if self.textboxData[node].active then
+			gui.set_color(bgNode, D.colors.active)
+		elseif not self.textboxData[node].active then
+			gui.set_color(bgNode, D.colors.inactive)
+		end
 		-- Atelast same size as bg
+		gui.set_position(carrier, vmath.vector3(0,0,0))
 		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
-		local textMetrics = gui.get_text_metrics_from_node(text)
+		local textMetrics = gui.get_text_metrics_from_node(textNode)
 		gui.set_position(dragpos, vmath.vector3(gui.get_size(bgNode).x-8, 10, 0))
 		--Adjust text and carrier blocks to fit all text
 		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
@@ -42,8 +48,8 @@ function M.textBlock(self, action_id, action, node, enabled)
 	local bgNode = gui.get_node(node .. "/bg")
 	local carrier = gui.get_node(node .. "/carrier")
 	local dragpos = gui.get_node(node .. "/dragpos")
-	local text = gui.get_node(node .. "/text")
-	
+	local textNode = gui.get_node(node .. "/text")
+
 	-- Check current value
 	self.textboxData = self.textboxData or {}
 	self.textboxData[node] = self.textboxData[node] or {}
@@ -63,7 +69,7 @@ function M.textBlock(self, action_id, action, node, enabled)
 	elseif not self.textboxData[node].active then
 		gui.set_color(bgNode, D.colors.inactive)
 	end
-	
+
 	-- Init if not done yet
 	if not self.textboxData[node].init then
 		-- Check if active
@@ -74,18 +80,18 @@ function M.textBlock(self, action_id, action, node, enabled)
 		end
 
 		-- Atelast same size as bg
-		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
-		local textMetrics = gui.get_text_metrics_from_node(text)
+		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
+		local textMetrics = gui.get_text_metrics_from_node(textNode)
 		gui.set_position(dragpos, vmath.vector3(gui.get_size(bgNode).x-8, 10, 0))
 		--Adjust text and carrier blocks to fit all text
-		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
+		gui.set_size(textNode, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		if textMetrics.height > gui.get_size(bgNode).y then
 			self.textboxData[node].marker = true
 		end
 		self.textboxData[node].init = true
 	end
-	
+
 	if D.nodes["active"] == node then
 		-- Check if marker should bw shown
 		if self.textboxData[node].marker then
@@ -104,32 +110,34 @@ function M.textBlock(self, action_id, action, node, enabled)
 				end
 			end
 			--Scrolling
-			if self.textboxData[node].scroll.active then
-				local currentPos = gui.get_position(carrier)
-				self.textboxData[node].scroll.delta = self.textboxData[node].scroll.pos - vmath.vector3(action.x, action.y, 0)
-				self.textboxData[node].scroll.pos = vmath.vector3(action.x, action.y, 0)
-				currentPos.y =  D.valuelimit(currentPos.y - self.textboxData[node].scroll.delta.y, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
-				gui.set_position(carrier, currentPos)
-				local dragPos = gui.get_position(dragpos)
-				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
-				gui.set_position(dragpos, dragPos)
-			elseif action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
-				local currentPos = gui.get_position(carrier)
-				currentPos.y =  D.valuelimit(currentPos.y - D.scrollSpeed/3, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
-				gui.set_position(carrier, currentPos)
-				local dragPos = gui.get_position(dragpos)
-				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
-				gui.set_position(dragpos, dragPos)
-			elseif action_id == hash("wheeldown") and gui.pick_node(bgNode, action.x, action.y) then
-				local currentPos = gui.get_position(carrier)
-				currentPos.y = D.valuelimit(currentPos.y + D.scrollSpeed/3, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
-				gui.set_position(carrier, currentPos)
-				local dragPos = gui.get_position(dragpos)
-				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y-10)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
-				gui.set_position(dragpos, dragPos)
+			if  (gui.get_size(carrier).y - gui.get_size(bgNode).y) > 0 then 
+				if self.textboxData[node].scroll.active then
+					local currentPos = gui.get_position(carrier)
+					self.textboxData[node].scroll.delta = self.textboxData[node].scroll.pos - vmath.vector3(action.x, action.y, 0)
+					self.textboxData[node].scroll.pos = vmath.vector3(action.x, action.y, 0)
+					currentPos.y =  D.valuelimit(currentPos.y - self.textboxData[node].scroll.delta.y, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
+					gui.set_position(carrier, currentPos)
+					local dragPos = gui.get_position(dragpos)
+					local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
+					dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
+					gui.set_position(dragpos, dragPos)
+				elseif action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
+					local currentPos = gui.get_position(carrier)
+					currentPos.y =  D.valuelimit(currentPos.y - D.scrollSpeed/3, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
+					gui.set_position(carrier, currentPos)
+					local dragPos = gui.get_position(dragpos)
+					local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
+					dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
+					gui.set_position(dragpos, dragPos)
+				elseif action_id == hash("wheeldown") and gui.pick_node(bgNode, action.x, action.y) then
+					local currentPos = gui.get_position(carrier)
+					currentPos.y = D.valuelimit(currentPos.y + D.scrollSpeed/3, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y)
+					gui.set_position(carrier, currentPos)
+					local dragPos = gui.get_position(dragpos)
+					local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y-10)
+					dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
+					gui.set_position(dragpos, dragPos)
+				end
 			end
 		else
 			gui.set_enabled(dragpos, false)
