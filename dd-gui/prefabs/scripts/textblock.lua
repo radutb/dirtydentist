@@ -55,13 +55,15 @@ function M.textBlock(self, action_id, action, node, enabled)
 
 	-- Hovering and enabled
 	if gui.pick_node(bgNode, action.x, action.y) and self.textboxData[node].active and D.nodes["active"] == nil then
-		gui.set_color(bgNode, D.colors.hover)
+		gui.set_color(bgNode, D.colors.active)
 		D.nodes["active"] = node
 	elseif not self.textboxData[node].scroll.active and not gui.pick_node(bgNode, action.x, action.y) and self.textboxData[node].active and D.nodes["active"] == node then
 		gui.set_color(bgNode, D.colors.active)
 		D.nodes["active"] = nil
 	elseif not self.textboxData[node].active then
 		gui.set_color(bgNode, D.colors.inactive)
+	else
+		gui.set_color(bgNode, D.colors.active)
 	end
 
 	-- Init if not done yet
