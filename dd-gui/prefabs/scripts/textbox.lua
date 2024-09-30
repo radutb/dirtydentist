@@ -269,6 +269,8 @@ end
 		self.textboxData[node].activeline = self.textboxData[node].activeline or 0
 		self.textboxData[node].lines = self.textboxData[node].lines or {}
 		self.textboxData[node].sizeFix = self.textboxData[node].sizeFix or false
+		self.textboxData[node].scroll = self.textboxData[node].scroll or {}	
+		
 
 		-- Fix if size changed
 		if not self.textboxData[node].sizeFix then
@@ -312,26 +314,54 @@ end
 		end
 
 		--Scrolling
-		if action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
-			for i = 1, #self.textboxData[node].lines do
-				local currentPos = gui.get_position(carrier)
-				currentPos.y =  D.valuelimit(currentPos.y - D.scrollSpeed/5, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y+10)
-				gui.set_position(carrier, currentPos)
+		if action_id == hash("touch") and action.pressed then
+			self.textboxData[node].scroll.active = true
+			self.textboxData[node].scroll.pos = vmath.vector3(action.x, action.y, 0)
+		elseif action_id == hash("touch") and action.released then
+			self.textboxData[node].scroll.active = false
+			self.textboxData[node].scroll.pos = vmath.vector3(action.x, action.y, 0)
+			-- Reset if outside node
+			if not gui.pick_node(bgNode, action.x, action.y) then
+				gui.set_color(bgNode, D.colors.active)
+				for i = 1, #self.textboxData[node].lines do 
+					gui.set_enabled(self.textboxData[node].lines[i].marker, false)
+				end
+				D.nodes["active"] = nil
 			end
-			local dragPos = gui.get_position(dragpos)
-			local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-			dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
-			gui.set_position(dragpos, dragPos)
-		elseif action_id == hash("wheeldown") and gui.pick_node(bgNode, action.x, action.y) then
-			for i = 1, #self.textboxData[node].lines do
+		end
+		--Scrolling
+		if  (gui.get_size(carrier).y - gui.get_size(bgNode).y) > 0 then 
+			if self.textboxData[node].scroll.active then
 				local currentPos = gui.get_position(carrier)
-				currentPos.y = D.valuelimit(currentPos.y + D.scrollSpeed/5, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y+10)
+				self.textboxData[node].scroll.delta = self.textboxData[node].scroll.pos - vmath.vector3(action.x, action.y, 0)
+				self.textboxData[node].scroll.pos = vmath.vector3(action.x, action.y, 0)
+				currentPos.y =  D.valuelimit(currentPos.y - self.textboxData[node].scroll.delta.y, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y+10)
 				gui.set_position(carrier, currentPos)
+				local dragPos = gui.get_position(dragpos)
+				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -1)
+				gui.set_position(dragpos, dragPos)
+			elseif action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
+				for i = 1, #self.textboxData[node].lines do
+					local currentPos = gui.get_position(carrier)
+					currentPos.y =  D.valuelimit(currentPos.y - D.scrollSpeed/5, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y+10)
+					gui.set_position(carrier, currentPos)
+				end
+				local dragPos = gui.get_position(dragpos)
+				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
+				gui.set_position(dragpos, dragPos)
+			elseif action_id == hash("wheeldown") and gui.pick_node(bgNode, action.x, action.y) then
+				for i = 1, #self.textboxData[node].lines do
+					local currentPos = gui.get_position(carrier)
+					currentPos.y = D.valuelimit(currentPos.y + D.scrollSpeed/5, 0, gui.get_size(carrier).y-gui.get_size(bgNode).y+10)
+					gui.set_position(carrier, currentPos)
+				end
+				local dragPos = gui.get_position(dragpos)
+				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
+				gui.set_position(dragpos, dragPos)
 			end
-			local dragPos = gui.get_position(dragpos)
-			local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-			dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
-			gui.set_position(dragpos, dragPos)
 		end
 
 		--Key movment
@@ -432,7 +462,7 @@ end
 				end
 				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[i].hidden).width -- Update marker to be at the end the hiddenstring
 				gui.set_position(self.textboxData[node].lines[i].marker, self.textboxData[node].makerpos)
-			elseif action_id == hash("touch") and action.pressed and not gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
+			elseif action_id == hash("touch") and action.released and not gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
 				gui.set_enabled(self.textboxData[node].lines[i].marker, false)
 			end
 		end
