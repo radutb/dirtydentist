@@ -67,7 +67,6 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			gui.set_color(bgNode, D.colors.active)
 			gui.set_enabled(markerNode, false)
 			if D.isMobileDevice then
-				gui.reset_keyboard()
 				gui.hide_keyboard()
 			end
 		end
@@ -228,7 +227,6 @@ elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and self.select
 		gui.set_enabled(markerNode, false)
 		gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, false)
 		if D.isMobileDevice then
-			gui.reset_keyboard()
 			gui.hide_keyboard()
 		end
 	end
