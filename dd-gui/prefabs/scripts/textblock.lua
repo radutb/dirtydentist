@@ -51,7 +51,7 @@ function M.textBlock(self, action_id, action, node, enabled)
 	self.textboxData[node].init = self.textboxData[node].init or false
 	self.textboxData[node].marker = self.textboxData[node].marker or false
 	self.textboxData[node].scroll = self.textboxData[node].scroll or {}	
-	self.textboxData[node].active = self.textboxData[node].active or enabled	 
+	self.textboxData[node].active = enabled 
 
 	-- Hovering and enabled
 	if gui.pick_node(bgNode, action.x, action.y) and self.textboxData[node].active and D.nodes["active"] == nil then
