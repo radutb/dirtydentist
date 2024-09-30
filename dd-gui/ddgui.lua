@@ -10,8 +10,7 @@ local radiobutton = require "dd-gui.prefabs.scripts.radiobutton"
 local textbox = require "dd-gui.prefabs.scripts.textbox"
 local slider = require "dd-gui.prefabs.scripts.slider"
 local combobox = require "dd-gui.prefabs.scripts.combobox"
-
--- Add more requires as you create additional submodules (e.g., combobox, radio, etc.)
+local textblock = require "dd-gui.prefabs.scripts.textblock"
 
 -- Expose input methods
 D.button = button.button
@@ -25,6 +24,9 @@ D.slider = slider.slider
 D.combobox = combobox.combobox
 D.auto_suggestbox = combobox.auto_suggestbox
 
+-- Expose display methods
+D.textblock = textblock.textBlock
+
 -- Expose additional functions
 D.clearTextbox = textbox.clearTextbox
 D.setTextbox = textbox.setTextbox
@@ -35,6 +37,8 @@ D.setValueAutobox = combobox.setValueAutobox
 D.resetSlider = slider.resetSlider
 D.initializeCheckbox = checkbox.initializeCheckbox
 D.clearCheckbox = checkbox.clearCheckbox
+D.setTextblock = textblock.setTextblock
+
 
 -- Shared variables (if needed)
 D.colors = {

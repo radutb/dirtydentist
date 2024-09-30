@@ -1339,6 +1339,63 @@ nodes {
   id: "pw_txt"
   inherit_alpha: true
 }
+nodes {
+  position {
+    x: 702.0
+    y: 597.0
+  }
+  type: TYPE_TEMPLATE
+  id: "textBlock"
+  inherit_alpha: true
+  template: "/dd-gui/prefabs/textblock.gui"
+}
+nodes {
+  size {
+    x: 300.0
+    y: 160.0
+  }
+  type: TYPE_BOX
+  id: "textBlock/bg"
+  parent: "textBlock"
+  overridden_fields: 4
+  template_node_child: true
+}
+nodes {
+  type: TYPE_BOX
+  id: "textBlock/carrier"
+  parent: "textBlock/bg"
+  template_node_child: true
+}
+nodes {
+  type: TYPE_TEXT
+  text: "akmdjksaaaaa\303\226\303\226\303\226\303\226\303\226\303\226\303\226\303\226\303\226aaaaaaaaa mmaskjndkjas aajksjkasn jasndjkasn ajksndkjansjk kajsnjkdnkas ajksndjkan\n"
+  "as\n"
+  "as\n"
+  "as\n"
+  "\n"
+  "as\n"
+  "a\n"
+  "s\n"
+  "a\n"
+  "sssss\n"
+  ""
+  id: "textBlock/text"
+  parent: "textBlock/carrier"
+  overridden_fields: 8
+  template_node_child: true
+}
+nodes {
+  position {
+    x: 192.0
+    y: -15.0
+  }
+  type: TYPE_BOX
+  id: "textBlock/dragpos"
+  parent: "textBlock/bg"
+  overridden_fields: 1
+  overridden_fields: 46
+  template_node_child: true
+}
 layers {
   name: "bg"
 }
