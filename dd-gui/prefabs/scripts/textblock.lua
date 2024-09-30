@@ -62,11 +62,17 @@ function M.textBlock(self, action_id, action, node, enabled)
 		D.nodes["active"] = nil
 	elseif not self.textboxData[node].active then
 		gui.set_color(bgNode, D.colors.inactive)
-	else
-		gui.set_color(bgNode, D.colors.active)
 	end
+	
 	-- Init if not done yet
 	if not self.textboxData[node].init then
+		-- Check if active
+		if self.textboxData[node].active then
+			gui.set_color(bgNode, D.colors.active)
+		elseif not self.textboxData[node].active then
+			gui.set_color(bgNode, D.colors.inactive)
+		end
+
 		-- Atelast same size as bg
 		gui.set_size(text, vmath.vector3(gui.get_size(bgNode).x-20, gui.get_size(bgNode).y, 0))	
 		local textMetrics = gui.get_text_metrics_from_node(text)
@@ -81,7 +87,6 @@ function M.textBlock(self, action_id, action, node, enabled)
 	end
 	
 	if D.nodes["active"] == node then
-		
 		-- Check if marker should bw shown
 		if self.textboxData[node].marker then
 			gui.set_enabled(dragpos, true)
