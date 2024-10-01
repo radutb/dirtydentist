@@ -31,7 +31,12 @@ function M.setTextblock(self, node, text)
 		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		if textMetrics.height > gui.get_size(bgNode).y then
 			self.textboxData[node].marker = true
+			gui.set_enabled(dragpos, true)
+		else
+			self.textboxData[node].marker = false
+			gui.set_enabled(dragpos, false)
 		end
+		
 		self.textboxData[node].init = true
 	end
 end
@@ -83,6 +88,10 @@ function M.textBlock(self, action_id, action, node, enabled)
 		gui.set_size(carrier, vmath.vector3(gui.get_size(bgNode).x-20, textMetrics.height+20, 0))
 		if textMetrics.height > gui.get_size(bgNode).y then
 			self.textboxData[node].marker = true
+			gui.set_enabled(dragpos, true)
+		else
+			self.textboxData[node].marker = false
+			gui.set_enabled(dragpos, false)
 		end
 		self.textboxData[node].init = true
 	end

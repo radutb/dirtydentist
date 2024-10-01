@@ -204,11 +204,38 @@ function M.textboxMultiline(self, action_id, action, node, enabled, tab_to)
 -- Load nodes
 local bgNode = gui.get_node(node .. "/bg")
 local markerNode = gui.get_node(node .. "/marker")
+local textNode = gui.get_node(node .. "/text")
+local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
+local markerNode = gui.get_node(node .. "/marker")
+local scrollpos = gui.get_node(node .. "/dragpos")
+local carrier = gui.get_node(node .. "/carrier")
+local innerbox = gui.get_node(node .. "/innerbox")
+local dragpos = gui.get_node(node .. "/dragpos")
 
--- Check current value
+
 self.textboxData = self.textboxData or {}
 self.textboxData[node] = self.textboxData[node] or {}
 self.selectedNode = D.nodes["active"] or nil
+self.textboxData[node].text = self.textboxData[node].text or ""
+self.textboxData[node].linecount = self.textboxData[node].linecount or 0
+self.textboxData[node].activeline = self.textboxData[node].activeline or 0
+self.textboxData[node].lines = self.textboxData[node].lines or {}
+self.textboxData[node].sizeFix = self.textboxData[node].sizeFix or false
+self.textboxData[node].scroll = self.textboxData[node].scroll or {}	
+
+-- Fix if size changed
+if not self.textboxData[node].sizeFix then
+	local bgSize = gui.get_size(bgNode)
+	local textboxSize = gui.get_size(innerbox)
+	textboxSize.x = bgSize.x -18 
+	gui.set_size(carrier, bgSize)
+	gui.set_size(innerbox, textboxSize)
+	gui.set_size(hiddenText, textboxSize)
+	gui.set_size(textNode, textboxSize)
+	bgSize.x = bgSize.x - 7
+	gui.set_position(dragpos, bgSize)
+	self.textboxData[node].sizeFix = true
+end
 
 -- Hovering and enabled
 if gui.pick_node(bgNode, action.x, action.y) and enabled then
@@ -257,38 +284,6 @@ end
 	
 
 	if D.nodes["active"] == node then
-		
-		-- Load remaining nodes when active
-		local textNode = gui.get_node(node .. "/text")
-		local hiddenText = gui.get_node(node .. "/hiddentext") -- Hidden text for comparision
-		local markerNode = gui.get_node(node .. "/marker")
-		local scrollpos = gui.get_node(node .. "/dragpos")
-		local carrier = gui.get_node(node .. "/carrier")
-		local innerbox = gui.get_node(node .. "/innerbox")
-		local dragpos = gui.get_node(node .. "/dragpos")
-		
-		self.textboxData[node].text = self.textboxData[node].text or ""
-		self.textboxData[node].linecount = self.textboxData[node].linecount or 0
-		self.textboxData[node].activeline = self.textboxData[node].activeline or 0
-		self.textboxData[node].lines = self.textboxData[node].lines or {}
-		self.textboxData[node].sizeFix = self.textboxData[node].sizeFix or false
-		self.textboxData[node].scroll = self.textboxData[node].scroll or {}	
-		
-
-		-- Fix if size changed
-		if not self.textboxData[node].sizeFix then
-			local bgSize = gui.get_size(bgNode)
-			local textboxSize = gui.get_size(innerbox)
-			textboxSize.x = bgSize.x -18 
-			gui.set_size(carrier, bgSize)
-			gui.set_size(innerbox, textboxSize)
-			gui.set_size(hiddenText, textboxSize)
-			gui.set_size(textNode, textboxSize)
-			bgSize.x = bgSize.x - 7
-			gui.set_position(dragpos, bgSize)
-			self.textboxData[node].sizeFix = true
-		end
-
 		-- Create first line if not created
 		if self.textboxData[node].linecount == 0 then
 			self.textboxData[node].lines[1] = {text = textNode, hidden = hiddenText, marker = markerNode, innerbox = innerbox, id = 1}
@@ -343,7 +338,7 @@ end
 				gui.set_position(carrier, currentPos)
 				local dragPos = gui.get_position(dragpos)
 				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -1)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
 				gui.set_position(dragpos, dragPos)
 			elseif action_id == hash("wheelup") and gui.pick_node(bgNode, action.x, action.y) then
 				for i = 1, #self.textboxData[node].lines do
@@ -353,7 +348,7 @@ end
 				end
 				local dragPos = gui.get_position(dragpos)
 				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
 				gui.set_position(dragpos, dragPos)
 			elseif action_id == hash("wheeldown") and gui.pick_node(bgNode, action.x, action.y) then
 				for i = 1, #self.textboxData[node].lines do
@@ -363,7 +358,7 @@ end
 				end
 				local dragPos = gui.get_position(dragpos)
 				local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
-				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+10, -5)
+				dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -15)
 				gui.set_position(dragpos, dragPos)
 			end
 		end

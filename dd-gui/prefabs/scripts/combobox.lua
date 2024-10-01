@@ -317,7 +317,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 			local currentPos = gui.get_position(dd_obj)
 			local amountcomplete = currentPos.y / (self.comboboxData[node].size -170)
 			local dragposCurrent = gui.get_position(dragpos)
-			dragposCurrent.y = -170 * amountcomplete
+			dragposCurrent.y = D.valuelimit(-170 * amountcomplete, -gui.get_size(dd_obj).y, -10)
 			gui.set_position(dragpos, dragposCurrent)
 		end
 
@@ -797,7 +797,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			local currentPos = gui.get_position(dd_obj)
 			local amountcomplete = currentPos.y / (self.comboboxData[node].size -170)
 			local dragposCurrent = gui.get_position(dragpos)
-			dragposCurrent.y = -170 * amountcomplete
+			dragposCurrent.y = D.valuelimit(-170 * amountcomplete, -gui.get_size(dd_obj).y, -10)
 			gui.set_position(dragpos, dragposCurrent)
 		end
 

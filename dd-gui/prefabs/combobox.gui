@@ -205,11 +205,11 @@ nodes {
 }
 nodes {
   position {
-    x: 87.0
-    y: -7.0
+    x: 80.0
+    y: -5.0
   }
   size {
-    x: 10.0
+    x: 2.0
     y: 10.0
   }
   color {
@@ -219,7 +219,7 @@ nodes {
   }
   type: TYPE_BOX
   id: "dragpos"
-  pivot: PIVOT_NE
+  pivot: PIVOT_E
   parent: "mask"
   layer: "dd_text"
 }

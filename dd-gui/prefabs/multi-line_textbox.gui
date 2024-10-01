@@ -128,11 +128,11 @@ nodes {
 }
 nodes {
   position {
-    x: 198.0
-    y: -5.0
+    x: 194.0
+    y: -15.0
   }
   size {
-    x: 5.0
+    x: 2.0
     y: 10.0
   }
   color {
@@ -142,10 +142,9 @@ nodes {
   }
   type: TYPE_BOX
   id: "dragpos"
-  pivot: PIVOT_NE
+  pivot: PIVOT_E
   parent: "bg"
   layer: "marker"
-  visible: false
 }
 layers {
   name: "bg"
