@@ -29,6 +29,7 @@ Use included prefabs and name after hearts content. Implement in GUI script unde
 ### Buttons
 
 **Simple button:**
+
 *Function returns true or false*
 
 ```lua
@@ -42,6 +43,7 @@ toggleActive(self, node, enabled)
 ```
 
 **Toggle button:**
+
 *Toggle button - turns on and off*
 
 ```lua
@@ -49,6 +51,7 @@ togglebutton(self, action_id, action, node, enabled, text)
 ```
 
 **Checkbox:**
+
 *Function returns true or false*
 
 ```lua
@@ -74,6 +77,7 @@ initializeCheckbox(self, node, value, enabled)
 ```
 
 **Radiobutton:**
+
 *Function which button that is selected*
 
 ```lua
@@ -81,6 +85,7 @@ radiobutton(self, action_id, action, node, enabled, group)
 ```
 
 ### Slider
+
 *Function returns value between min and max*
 
 ```lua
@@ -96,6 +101,7 @@ resetSlider(self, node)
 ### Combobox
 
 **Simple dropdown:**
+
 *Returns selected value*
 
 ```lua
@@ -103,6 +109,7 @@ dropdown_interact(self, action_id, action, "NodeName",ListName, active(boolean),
 ```
 
 **Combobox:**
+
 *Returns selected value*
 
 ```lua
@@ -116,6 +123,7 @@ setValueCombobox(self, node, value)
 ```
 
 **Auto suggestbox:**
+
 *Returns selected value and takes text input for search*
 
 ```lua
@@ -137,6 +145,7 @@ localisation_of_strings("Nothing found", "Select")
 ### Text
 
 **Textbox:**
+
 *Returns text*
 
 ```lua
@@ -155,6 +164,7 @@ setTextbox(self, node, text)
 ```
 
 **Multi-line textbox:**
+
 *Returns text*
 
 ```lua
@@ -168,6 +178,7 @@ clearTextbox(self, node)
 ```
 
 **Textblock:**
+
 *Change text in textblock*
 
 ```lua
