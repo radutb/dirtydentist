@@ -1,4 +1,4 @@
-![Logo](/logo.png)
+![Logo](/logo.png){ width="40" height="40" style="display: block; margin: 0 auto" }
 # DirtyDentist-GUI (DD-GUI)
 A basic GUI library for Defold developed for use in a educational software. It covers the essentials including; comboboxes, auto-suggestbox, simple buttons, checkboxes, radio buttons, text fields, text boxes and text blocks. Notably, the text components allow for mid-string editing and navigation using arrow keys.
 
