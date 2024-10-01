@@ -79,7 +79,9 @@ function D.check_device(self)
 		if user_agent_lower:find("android") or user_agent_lower:find("iphone") or user_agent_lower:find("ipad") then
 			D.isMobileDevice = true
 		end
-	elseif info.system_name == "Android" or info.system_name == "iPhone OS" then
+	elseif info.system_name == "Android" then 
+		D.isMobileDevice = true
+	elseif  info.system_name == "iPhone OS" then
 		D.isMobileDevice = true
 	end
 end
