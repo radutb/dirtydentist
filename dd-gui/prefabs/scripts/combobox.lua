@@ -501,6 +501,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 					self.comboboxData[node].init = false
 					self.comboboxData[node].open = false
 					gui.set_enabled(markerNode, false)
+					D.stop_pulsate(markerNode)
 					D.nodes["active"], self.selectedNode = nil, nil
 					if D.isMobileDevice then
 						gui.reset_keyboard()
@@ -517,6 +518,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 				self.comboboxData[node].init = false
 				self.comboboxData[node].open = false
 				gui.set_enabled(markerNode, false)
+				D.stop_pulsate(markerNode)
 				D.nodes["active"], self.selectedNode = nil, nil
 				if D.isMobileDevice then
 					gui.reset_keyboard()
@@ -529,6 +531,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			
 			if self.selectedNode == node then
 				gui.set_enabled(markerNode, false)
+				D.stop_pulsate(markerNode)
 				D.nodes["active"], self.selectedNode = nil, nil
 				if D.isMobileDevice then
 					gui.reset_keyboard()
@@ -578,6 +581,8 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 		-- active textinput
 		if action_id == hash("touch") and action.pressed and gui.pick_node(selected_text, action.x, action.y) then
 			gui.set_enabled(markerNode, true)
+			D.pulsate(markerNode)
+			
 			gui.set_color(textbox, D.colors.hover)
 			if gui.get_text(selected_text) == D.select_a_value or gui.get_text(selected_text) == D.no_entries then
 				gui.set_text(selected_text, "")
@@ -606,6 +611,8 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 			M.createComboboxList(self, node, list, use_mag)
 			self.comboboxData[node].open = true
 			gui.set_enabled(markerNode, true)
+			D.pulsate(markerNode)
+			
 			gui.set_color(textbox, D.colors.hover)
 			if gui.get_text(selected_text) == D.select_a_value or gui.get_text(selected_text) == D.no_entries then
 				gui.set_text(selected_text, "")

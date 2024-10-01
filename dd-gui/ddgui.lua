@@ -12,6 +12,10 @@ local slider = require "dd-gui.prefabs.scripts.slider"
 local combobox = require "dd-gui.prefabs.scripts.combobox"
 local textblock = require "dd-gui.prefabs.scripts.textblock"
 
+-- Pulsate functions for markers
+local pulsate_duration = 0.8 -- Duration for one full fade cycle
+local max_alpha = 1.0 -- Maximum alpha value
+
 -- Expose input methods
 D.button = button.button
 D.togglebutton = button.togglebutton
@@ -96,5 +100,16 @@ function D.valuelimit(v, min, max)
 	return v
 end
 
+function D.pulsate(node)
+	-- Animate the node's alpha to fade in and out
+	local color = D.colors.hover
+	color.w = max_alpha
+	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_INOUTSINE, pulsate_duration, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+end
+
+function D.stop_pulsate(node)
+	-- Function to stop the pulsating effect
+	gui.cancel_animation(node, gui.PROP_SCALE)
+end
 
 return D

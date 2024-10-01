@@ -55,6 +55,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			if D.isMobileDevice then
 				gui.show_keyboard(gui.KEYBOARD_TYPE_DEFAULT, true)
 			end
+			D.pulsate(markerNode)
 		end
 	elseif not gui.pick_node(bgNode, action.x, action.y) and enabled and D.nodes["active"] == node then
 		-- if not hovered but active
@@ -66,6 +67,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			D.nodes["tab"] = false
 			gui.set_color(bgNode, D.colors.active)
 			gui.set_enabled(markerNode, false)
+			D.stop_pulsate(markerNode)
 			if D.isMobileDevice then
 				gui.hide_keyboard()
 			end
@@ -78,6 +80,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 		gui.set_color(bgNode, D.colors.inactive)
 		if D.nodes["active"] == node then
 			D.nodes["active"] = nil
+			D.stop_pulsate(markerNode)
 		end
 	end
 
@@ -86,6 +89,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 		D.nodes["active"] = tab_to
 		gui.set_color(bgNode, D.colors.active)
 		gui.set_enabled(markerNode, false)
+		D.stop_pulsate(markerNode)
 		D.nodes["tab"] = true
 	end
 
@@ -120,6 +124,7 @@ function M.textbox(self, action_id, action, node, enabled, tab_to)
 			gui.set_position(markerNode, self.textboxData[node].makerpos)
 			D.nodes["tab"] = false -- Reset the tab flag after processing
 			gui.set_enabled(markerNode, true) -- Enable marker
+			D.pulsate(markerNode)
 			-- Input text
 		elseif action_id == hash("text") and gui.get_text_metrics_from_node(textNode).width < (gui.get_size(bgNode).x-25) then
 			if utf8.len(gui.get_text(hiddenText)) < utf8.len(gui.get_text(textNode)) then -- Hidden is shorter add text for that point
@@ -308,6 +313,7 @@ end
 			markerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[self.textboxData[node].activeline].hidden).width -- Update marker to be at the end the hiddenstring
 			gui.set_position(self.textboxData[node].lines[self.textboxData[node].activeline].marker, markerpos)
 			gui.set_enabled(self.textboxData[node].lines[self.textboxData[node].activeline].marker, true)
+			D.pulsate(self.textboxData[node].lines[self.textboxData[node].activeline].marker)
 			D.nodes["tab"] = false -- Reset the tab flag after processing
 		end
 
@@ -382,9 +388,11 @@ end
 		if action_id == hash("up") and action.pressed and self.textboxData[node].activeline > 1 then
 			local lengthstring = utf8.len(gui.get_text(currentline.hidden))
 			gui.set_enabled(currentline.marker, false)
+			D.stop_pulsate(currentline.marker)
 			self.textboxData[node].activeline = self.textboxData[node].activeline - 1
 			currentline = self.textboxData[node].lines[self.textboxData[node].activeline]
 			gui.set_enabled(currentline.marker, true)
+			D.pulsate(currentline.marker)
 			local lenDiff = utf8.len(gui.get_text(currentline.text)) + 1 - lengthstring
 			if lenDiff > 0 then
 				local shortenstring = utf8.sub(gui.get_text(currentline.text), 1, -lenDiff)
@@ -414,6 +422,7 @@ end
 		elseif action_id == hash("down") and action.pressed and self.textboxData[node].activeline < #self.textboxData[node].lines then
 			local lengthstring = utf8.len(gui.get_text(currentline.hidden))
 			gui.set_enabled(currentline.marker, false)
+			D.stop_pulsate(currentline.marker)
 			self.textboxData[node].activeline = self.textboxData[node].activeline + 1
 			currentline = self.textboxData[node].lines[self.textboxData[node].activeline]
 			gui.set_enabled(currentline.marker, true)
@@ -438,6 +447,7 @@ end
 			local posDelta = -gui.get_position(carrier).y / (gui.get_size(carrier).y - gui.get_size(bgNode).y)
 			dragPos.y = D.valuelimit(gui.get_size(bgNode).y * posDelta, -gui.get_size(bgNode).y+15, -5)
 			gui.set_position(dragpos, dragPos)
+			D.pulsate(currentline.marker)
 		end
 
 		-- Touch
@@ -460,8 +470,10 @@ end
 				end
 				self.textboxData[node].makerpos.x = gui.get_text_metrics_from_node(self.textboxData[node].lines[i].hidden).width -- Update marker to be at the end the hiddenstring
 				gui.set_position(self.textboxData[node].lines[i].marker, self.textboxData[node].makerpos)
+				D.pulsate(self.textboxData[node].lines[i].marker)
 			elseif action_id == hash("touch") and action.released and not gui.pick_node(self.textboxData[node].lines[i].innerbox, action.x, action.y) then
 				gui.set_enabled(self.textboxData[node].lines[i].marker, false)
+				D.stop_pulsate(self.textboxData[node].lines[i].marker)
 			end
 		end
 
@@ -483,6 +495,7 @@ end
 				markerPos.x = gui.get_text_metrics_from_node(currentline.hidden).width
 				gui.set_position(currentline.marker, markerPos)
 				gui.set_enabled(currentline.marker, true)
+				D.pulsate(currentline.marker)
 				if gui.get_screen_position(currentline.innerbox).y >= gui.get_screen_position(bgNode).y then
 					local carrierpos = gui.get_position(carrier)
 					carrierpos.y = carrierpos.y - 20
@@ -537,6 +550,7 @@ end
 				local textfornextline = utf8.sub(gui.get_text(currentline.text), hiddenlength+1, -1)
 				gui.set_text(currentline.text, text)
 				gui.set_enabled(currentline.marker, false)
+				D.stop_pulsate(currentline.marker)
 				self.textboxData[node].linecount = self.textboxData[node].linecount + 1
 				self.textboxData[node].activeline = self.textboxData[node].activeline + 1
 				table.insert(self.textboxData[node].lines, self.textboxData[node].activeline, M.addline(node, self.textboxData[node].linecount))
@@ -548,6 +562,7 @@ end
 				markerPos.x = 0
 				gui.set_position(currentline.marker, markerPos)
 				gui.set_enabled(currentline.marker, true)
+				D.pulsate(currentline.marker)
 
 				if gui.get_position(currentline.innerbox).y < -(gui.get_size(bgNode).y-20) then
 					local carrierpos = gui.get_position(carrier)
@@ -560,6 +575,7 @@ end
 				gui.set_position(dragpos, dragPos)
 			elseif utf8.len(gui.get_text(currentline.hidden)) == utf8.len(gui.get_text(currentline.text)) and self.textboxData[node].activeline <= #self.textboxData[node].lines then -- If marker at end there is nothing to delete
 				gui.set_enabled(currentline.marker, false)
+				D.stop_pulsate(currentline.marker)
 				self.textboxData[node].linecount = self.textboxData[node].linecount + 1
 				self.textboxData[node].activeline = self.textboxData[node].activeline + 1
 				table.insert(self.textboxData[node].lines, self.textboxData[node].activeline, M.addline(node, self.textboxData[node].linecount))
@@ -571,6 +587,7 @@ end
 				markerPos.x = 0
 				gui.set_enabled(currentline.marker, true)
 				gui.set_position(currentline.marker, markerPos)
+				D.pulsate(currentline.marker)
 
 				if gui.get_position(currentline.innerbox).y < -(gui.get_size(bgNode).y-20)  then
 					local carrierpos = gui.get_position(carrier)
