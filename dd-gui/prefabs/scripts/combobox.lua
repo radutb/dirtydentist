@@ -869,10 +869,6 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 						self.comboboxData[node].open = false
 						D.nodes["active"], self.selectedNode = nil, nil
 						gui.set_enabled(markerNode, false)
-						if D.isMobileDevice then
-							gui.reset_keyboard()
-							gui.hide_keyboard()
-						end
 						break
 					end
 				elseif self.comboboxData[node].open and gui.pick_node(gui.get_node(node .. listOfButton[k]), action.x, action.y) and self.comboboxData[node].value ~= gui.get_text(gui.get_node(node .. listOfText[k])) then
