@@ -14,7 +14,6 @@ local textblock = require "dd-gui.prefabs.scripts.textblock"
 
 -- Pulsate functions for markers
 local pulsate_duration = 0.8 -- Duration for one full fade cycle
-local max_alpha = 1.0 -- Maximum alpha value
 
 -- Expose input methods
 D.button = button.button
@@ -101,15 +100,15 @@ function D.valuelimit(v, min, max)
 end
 
 function D.pulsate(node)
-	-- Animate the node's alpha to fade in and out
-	local color = D.colors.hover
-	color.w = max_alpha
-	gui.animate(node, gui.PROP_COLOR, color, gui.EASING_INOUTSINE, pulsate_duration, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
+	local current_color = D.colors.hover
+	local target_color = vmath.vector4(current_color.x, current_color.y, current_color.z, 1)
+	gui.set_color(node, D.colors.black)
+	gui.animate(node, gui.PROP_COLOR, target_color, gui.EASING_INOUTSINE, pulsate_duration, 0, nil, gui.PLAYBACK_LOOP_PINGPONG)
 end
 
 function D.stop_pulsate(node)
 	-- Function to stop the pulsating effect
-	gui.cancel_animation(node, gui.PROP_SCALE)
+	gui.cancel_animation(node, gui.PROP_COLOR) -- Cancel all animations on color, not just loop
 end
 
 return D
