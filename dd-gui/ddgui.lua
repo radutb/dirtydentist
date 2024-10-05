@@ -99,6 +99,7 @@ function D.valuelimit(v, min, max)
 	return v
 end
 
+-- Pulsation of markers
 function D.pulsate(node)
 	local current_color = D.colors.hover
 	local target_color = vmath.vector4(current_color.x, current_color.y, current_color.z, 1)

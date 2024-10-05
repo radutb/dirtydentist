@@ -60,6 +60,7 @@ function M.initialize(self, node, list, up, enabled)
 		gui.set_color(textbox, D.colors.inactive)
 	end
 	gui.set_enabled(mask, false)
+	self.comboboxData[node].initialize = true
 end
 
 function M.deleteCombobox(self,node)
@@ -160,8 +161,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 	local selected_text = gui.get_node(node .. "/selecttext")
 	local mask = gui.get_node(node .. "/bg")
 	local arrow = gui.get_node(node .. "/arrow")
-	
-	
+
 	self.selectedNode = D.nodes["active"] or nil
 	self.comboboxData = self.comboboxData or {}
 	self.comboboxData[node] = self.comboboxData[node] or {}
@@ -183,11 +183,13 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 		end
 		gui.set_text(selected_text, self.comboboxData[node].value)
 		gui.set_color(arrow, D.colors.accent)
+
 		if up then
 			gui.set_size(arrow, vmath.vector3(20,20,0))
 		else
 			gui.set_size(arrow, vmath.vector3(20,-20,0))
 		end
+		
 		-- Use magnification options
 		if use_mag then
 			self.comboboxData[node].mag = D.textMagnification
@@ -199,7 +201,6 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 
 		-- Initalize dropdown
 		M.initialize(self, node, list, up, enabled)
-		self.comboboxData[node].initialize = true
 
 		if standardValue == nil or standardValue == "" then
 			self.comboboxData[node].value = self.comboboxData[node].value
@@ -262,7 +263,7 @@ function M.combobox(self, action_id, action, node, list, enabled, up, use_mag, s
 	end
 
 	-- If active start processing input
-	if self.selectedNode == node then
+	if D.nodes["active"] == node then
 		-- get nodes to use
 		local dragpos = gui.get_node(node .. "/dragpos")
 		local dd_obj = gui.get_node(node .. "/dddrag")
@@ -464,7 +465,6 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 		
 		-- Initalize dropdown
 		M.initialize(self, node, list, up, enabled)
-		self.comboboxData[node].initialize = true
 	end
 
 	if self.comboboxData[node].value == "" and self.selectedNode ~= node then
@@ -576,7 +576,7 @@ function M.auto_suggestbox(self, action_id, action, node, list, enabled, up, use
 		local foundInList = {}
 
 		-- Calculate width modifier
-		widthmod = window.get_size()/1280
+		widthmod = window.get_size()/sys.get_config_int("display.width")
 
 		-- active textinput
 		if action_id == hash("touch") and action.pressed and gui.pick_node(selected_text, action.x, action.y) then

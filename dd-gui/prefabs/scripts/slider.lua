@@ -55,7 +55,7 @@ function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 		local slider_fillpos = gui.get_screen_position(slidelevel)
 		local handle_start = gui.get_screen_position(handle)	
 		D.nodes["active"], self.selectedNode = node, node
-		local widthmod = window.get_size()/1280	
+		local widthmod = window.get_size()/sys.get_config_int("display.width")
 
 		-- Handle input
 		if action_id == hash("touch") and gui.pick_node(handle, action.x, action.y) and action.pressed and self.slider[node].pressed == false then
