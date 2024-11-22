@@ -25,7 +25,7 @@ function M.setvalueSlider(self, node, value, min, max)
 		self.slider[node].max = max
 		self.slider[node].min = min
 	end
-	
+
 	local slidebg = gui.get_node(node .. "/slider_bg")
 	local slidelevel = gui.get_node(node .. "/slider_level")
 	local handle = gui.get_node(node .. "/handle")
@@ -33,10 +33,15 @@ function M.setvalueSlider(self, node, value, min, max)
 	local sliderBgSize = gui.get_size(slidebg)
 	local slider_fillsize = gui.get_size(slidelevel)
 
-	local value_precent = value / self.slider[node].max
-	local length = value_precent * sliderBgSize.x
-	gui.set_position(handle, vmath.vector3(sliderBgSize.x/2 + length-sliderBgSize.x, 0, 0))
-	gui.set_size(slidelevel, vmath.vector3(sliderBgSize.x * value_precent, slider_fillsize.y, slider_fillsize.z))
+	-- Normalisera värdet till intervallet [min, max]
+	local range = max - min
+	local normalized_value = (value - min) / range
+
+	-- Justera position och storlek baserat på det normaliserade värdet
+	local length = normalized_value * sliderBgSize.x
+	gui.set_position(handle, vmath.vector3(sliderBgSize.x / 2 + length - sliderBgSize.x / 2, 0, 0))
+	gui.set_size(slidelevel, vmath.vector3(sliderBgSize.x * normalized_value, slider_fillsize.y, slider_fillsize.z))
+
 	self.slider[node].value = value
 end
 
