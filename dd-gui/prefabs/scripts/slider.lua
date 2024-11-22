@@ -16,6 +16,21 @@ function M.resetSlider(self, node)
 	self.slider[node].value = (self.slider[node].min + self.slider[node].max)/2
 end
 
+function M.setvalueSlider(self, node, value)
+	local slidebg = gui.get_node(node .. "/slider_bg")
+	local slidelevel = gui.get_node(node .. "/slider_level")
+	local handle = gui.get_node(node .. "/handle")
+
+	local sliderBgSize = gui.get_size(slidebg)
+	local slider_fillsize = gui.get_size(slidelevel)
+
+	local value_precent = value / self.slider[node].max
+	local length = value_precent * sliderBgSize.x
+	gui.set_position(handle, vmath.vector3(sliderBgSize.x/2 + length-sliderBgSize.x, 0, 0))
+	gui.set_size(slidelevel, vmath.vector3(sliderBgSize.x * value_precent, slider_fillsize.y, slider_fillsize.z))
+	self.slider[node].value = value
+end
+
 function M.slider(self, action_id, action, node, enabled, showpopup, min, max)
 	-- Check if can be activated
 	self.selectedNode = D.nodes["active"] or nil
