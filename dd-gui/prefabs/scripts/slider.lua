@@ -16,7 +16,16 @@ function M.resetSlider(self, node)
 	self.slider[node].value = (self.slider[node].min + self.slider[node].max)/2
 end
 
-function M.setvalueSlider(self, node, value)
+function M.setvalueSlider(self, node, value, min, max)
+	self.slider = self.slider or {}
+	if self.slider[node] == nil then
+		self.slider[node] = {}
+		self.slider[node].value = 0
+		self.slider[node].pressed = false
+		self.slider[node].max = max
+		self.slider[node].min = min
+	end
+	
 	local slidebg = gui.get_node(node .. "/slider_bg")
 	local slidelevel = gui.get_node(node .. "/slider_level")
 	local handle = gui.get_node(node .. "/handle")
