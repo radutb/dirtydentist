@@ -1,5 +1,5 @@
 local ddgui = require "dd-gui.ddgui"
-local set_min = tonumber(0)
+local set_min = tonumber(-100)
 local set_max = tonumber(100)
 local jedilist = {
 	"Luke Skywalker",
@@ -39,7 +39,7 @@ function init(self)
 	ddgui.setTextbox(self, "textEtt", "Test text")
 	ddgui.check_device(self)
 
-	ddgui.setvalueSlider(self, "sliderEtt", 14, set_min, set_max)
+	ddgui.setvalueSlider(self, "sliderEtt", -34, set_min, set_max)
 end
 
 function on_input(self, action_id, action)
